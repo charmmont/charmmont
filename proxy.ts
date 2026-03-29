@@ -27,9 +27,12 @@ export async function proxy(request: NextRequest) {
 
   const isPortalRoute = request.nextUrl.pathname.startsWith('/portal')
   const isLoginRoute = request.nextUrl.pathname === '/portal/login'
+  const isPublicPortalRoute =
+    request.nextUrl.pathname === '/portal/set-password' ||
+    request.nextUrl.pathname === '/portal/reset-password'
 
   // Redirect unauthenticated users to login
-  if (isPortalRoute && !isLoginRoute && !user) {
+  if (isPortalRoute && !isLoginRoute && !isPublicPortalRoute && !user) {
     const url = request.nextUrl.clone()
     url.pathname = '/portal/login'
     return NextResponse.redirect(url)
