@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Script from 'next/script'
 
 export const metadata: Metadata = {
   title: 'The First Root — Free Discovery Call',
@@ -9,12 +10,17 @@ export const metadata: Metadata = {
 export default function FirstRootPage() {
   return (
     <>
+      <Script
+        src="https://assets.calendly.com/assets/external/widget.js"
+        strategy="lazyOnload"
+      />
+
       {/* Header */}
       <section className="py-24 px-6">
         <div className="max-w-2xl mx-auto text-center">
           <h1
             className="text-4xl md:text-5xl font-semibold text-[#1C1C1A] mb-4"
-            style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
             The First Root
           </h1>
@@ -37,7 +43,7 @@ export default function FirstRootPage() {
           <div className="bg-white rounded-2xl p-8 mb-12">
             <h2
               className="text-xl font-semibold text-[#1C1C1A] mb-6"
-              style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
+              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
               What to expect
             </h2>
@@ -57,21 +63,11 @@ export default function FirstRootPage() {
           </div>
 
           {/* Calendly embed */}
-          <div className="bg-white rounded-2xl p-8 min-h-[400px] flex items-center justify-center border border-[#2D4A3E]/10">
-            <div className="text-center">
-              <div className="w-12 h-12 rounded-full bg-[#2D4A3E]/10 flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-[#2D4A3E]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <p className="text-[#6B6B65] text-sm">
-                [Embed Calendly booking widget here]
-              </p>
-              <p className="text-[#6B6B65] text-xs mt-2 max-w-xs mx-auto">
-                Add your Calendly URL to replace this placeholder with a live booking calendar.
-              </p>
-            </div>
-          </div>
+          <div
+            className="calendly-inline-widget rounded-2xl overflow-hidden"
+            data-url="https://calendly.com/deepbloom/first-root?hide_gdpr_banner=1&primary_color=2D4A3E"
+            style={{ minWidth: '320px', height: '700px' }}
+          />
 
           {/* Reassurance */}
           <p className="text-center text-[#6B6B65] text-sm mt-8 italic">
