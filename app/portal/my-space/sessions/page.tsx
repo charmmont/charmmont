@@ -45,12 +45,17 @@ export default async function MySessionsPage() {
             {sessions.map((s: any) => (
               <div key={s.id} className="p-6">
                 <div className="flex items-start justify-between mb-3">
-                  <p className="font-medium text-sm text-[#1C1C1A]">
-                    {new Date(s.session_date).toLocaleDateString('en-GB', {
-                      day: 'numeric', month: 'long', year: 'numeric'
-                    })}
-                  </p>
-                  <span className="text-xs text-[#6B6B65]">{s.duration_minutes} min</span>
+                  <div>
+                    <p className="font-medium text-sm text-[#1C1C1A]">
+                      {new Date(s.session_date).toLocaleDateString('en-GB', {
+                        day: 'numeric', month: 'long', year: 'numeric'
+                      })}
+                    </p>
+                    <p className="text-xs text-[#6B6B65] mt-0.5">
+                      {s.duration_minutes} min
+                      {s.session_type && ` · ${s.session_type.replace('_', '-')}`}
+                    </p>
+                  </div>
                 </div>
                 {s.notes_shared ? (
                   <p className="text-sm text-[#6B6B65] leading-relaxed">{s.notes_shared}</p>
@@ -61,6 +66,12 @@ export default async function MySessionsPage() {
                   <div className="mt-3 p-3 bg-[#FAF7F2] rounded-lg">
                     <p className="text-xs font-medium text-[#2D4A3E] mb-1">Next steps</p>
                     <p className="text-xs text-[#6B6B65]">{s.next_steps}</p>
+                  </div>
+                )}
+                {s.homework && (
+                  <div className="mt-2 p-3 bg-[#FAF7F2] rounded-lg">
+                    <p className="text-xs font-medium text-[#2D4A3E] mb-1">Homework</p>
+                    <p className="text-xs text-[#6B6B65]">{s.homework}</p>
                   </div>
                 )}
               </div>

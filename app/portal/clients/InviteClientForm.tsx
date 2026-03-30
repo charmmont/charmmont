@@ -1,44 +1,69 @@
 'use client'
 
 import { useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
+
+const PROGRAMMES = ['The Becoming', 'The First Root', 'Other']
 
 export default function InviteClientForm() {
   const [open, setOpen] = useState(false)
-  const [email, setEmail] = useState('')
-  const [name, setName] = useState('')
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [form, setForm] = useState({
+    email: '',
+    name: '',
+    programme: 'The Becoming',
+    programme_other: '',
+    start_date: new Date().toISOString().split('T')[0],
+    welcome_note: '',
+  })
+  const [inviteStatus, setInviteStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errMsg, setErrMsg] = useState('')
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
+    setForm({ ...form, [e.target.name]: e.target.value })
+  }
 
   async function handleInvite(e: React.FormEvent) {
     e.preventDefault()
-    setStatus('loading')
+    setInviteStatus('loading')
     setErrMsg('')
+
+    const programme = form.programme === 'Other' ? form.programme_other : form.programme
 
     try {
       const res = await fetch('/api/portal/invite', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, name }),
+        body: JSON.stringify({
+          email: form.email,
+          name: form.name,
+          programme,
+          start_date: form.start_date,
+          welcome_note: form.welcome_note,
+        }),
       })
       const data = await res.json()
       if (!res.ok) {
         setErrMsg(data.error ?? 'Something went wrong.')
-        setStatus('error')
+        setInviteStatus('error')
         return
       }
-      setStatus('success')
+      setInviteStatus('success')
     } catch {
       setErrMsg('Network error. Please try again.')
-      setStatus('error')
+      setInviteStatus('error')
     }
   }
 
   function reset() {
     setOpen(false)
-    setEmail('')
-    setName('')
-    setStatus('idle')
+    setForm({
+      email: '',
+      name: '',
+      programme: 'The Becoming',
+      programme_other: '',
+      start_date: new Date().toISOString().split('T')[0],
+      welcome_note: '',
+    })
+    setInviteStatus('idle')
     setErrMsg('')
   }
 
@@ -52,8 +77,8 @@ export default function InviteClientForm() {
       </button>
 
       {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/20">
-          <div className="bg-white rounded-2xl p-8 w-full max-w-md">
+        <div className="fixed inset-0 z-50 flex items-start justify-center px-4 bg-black/20 overflow-y-auto py-8">
+          <div className="bg-white rounded-2xl p-8 w-full max-w-md my-auto">
             <div className="flex items-center justify-between mb-6">
               <h2
                 className="text-lg font-semibold text-[#1C1C1A]"
@@ -68,11 +93,14 @@ export default function InviteClientForm() {
               </button>
             </div>
 
-            {status === 'success' ? (
+            {inviteStatus === 'success' ? (
               <div className="text-center py-6">
+                <div className="w-12 h-12 bg-[#2D4A3E]/10 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                  ✓
+                </div>
                 <p className="text-[#2D4A3E] font-medium mb-2">Invite sent.</p>
                 <p className="text-[#6B6B65] text-sm mb-6">
-                  {name} will receive an email to set their password and access the portal.
+                  {form.name} will receive an email to set their password and access their space.
                 </p>
                 <button
                   onClick={reset}
@@ -87,31 +115,82 @@ export default function InviteClientForm() {
                   <label className="block text-sm font-medium text-[#1C1C1A] mb-1.5">Full name</label>
                   <input
                     type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    name="name"
+                    value={form.name}
+                    onChange={handleChange}
                     required
-                    className="w-full border border-[#2D4A3E]/20 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#2D4A3E] transition-colors"
-                    placeholder="Client name"
+                    className="w-full border border-[#2D4A3E]/20 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#2D4A3E]"
+                    placeholder="Client's full name"
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-[#1C1C1A] mb-1.5">Email address</label>
                   <input
                     type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
                     required
-                    className="w-full border border-[#2D4A3E]/20 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#2D4A3E] transition-colors"
+                    className="w-full border border-[#2D4A3E]/20 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#2D4A3E]"
                     placeholder="client@email.com"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1C1C1A] mb-1.5">Programme</label>
+                  <select
+                    name="programme"
+                    value={form.programme}
+                    onChange={handleChange}
+                    className="w-full border border-[#2D4A3E]/20 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#2D4A3E] bg-white"
+                  >
+                    {PROGRAMMES.map((p) => (
+                      <option key={p} value={p}>{p}</option>
+                    ))}
+                  </select>
+                </div>
+                {form.programme === 'Other' && (
+                  <div>
+                    <label className="block text-sm font-medium text-[#1C1C1A] mb-1.5">Programme name</label>
+                    <input
+                      type="text"
+                      name="programme_other"
+                      value={form.programme_other}
+                      onChange={handleChange}
+                      className="w-full border border-[#2D4A3E]/20 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#2D4A3E]"
+                      placeholder="Enter programme name"
+                    />
+                  </div>
+                )}
+                <div>
+                  <label className="block text-sm font-medium text-[#1C1C1A] mb-1.5">Start date</label>
+                  <input
+                    type="date"
+                    name="start_date"
+                    value={form.start_date}
+                    onChange={handleChange}
+                    className="w-full border border-[#2D4A3E]/20 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#2D4A3E]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1C1C1A] mb-1.5">
+                    Welcome note <span className="text-[#6B6B65] font-normal">(optional)</span>
+                  </label>
+                  <textarea
+                    name="welcome_note"
+                    value={form.welcome_note}
+                    onChange={handleChange}
+                    rows={3}
+                    className="w-full border border-[#2D4A3E]/20 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#2D4A3E] resize-none"
+                    placeholder="A personal message to include in the invite email…"
                   />
                 </div>
                 {errMsg && <p className="text-red-500 text-sm">{errMsg}</p>}
                 <button
                   type="submit"
-                  disabled={status === 'loading'}
+                  disabled={inviteStatus === 'loading'}
                   className="w-full bg-[#2D4A3E] text-white py-3 rounded-full text-sm hover:bg-[#7A9E8E] transition-colors disabled:opacity-60"
                 >
-                  {status === 'loading' ? 'Sending invite...' : 'Send invite'}
+                  {inviteStatus === 'loading' ? 'Sending invite…' : 'Send invite'}
                 </button>
               </form>
             )}

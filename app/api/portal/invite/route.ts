@@ -4,7 +4,7 @@ import { cookies } from 'next/headers'
 
 export async function POST(request: Request) {
   try {
-    const { email, name } = await request.json()
+    const { email, name, programme, start_date, welcome_note } = await request.json()
     if (!email || !name) {
       return NextResponse.json({ error: 'Email and name are required.' }, { status: 400 })
     }
@@ -21,7 +21,6 @@ export async function POST(request: Request) {
       }
     )
 
-    // Check requesting user is practitioner
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
@@ -30,7 +29,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
     }
 
-    // Use service role to invite the user
     const { createClient: createAdminClient } = await import('@supabase/supabase-js')
     const admin = createAdminClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -38,7 +36,6 @@ export async function POST(request: Request) {
       { auth: { autoRefreshToken: false, persistSession: false } }
     )
 
-    // Invite user
     const { data: inviteData, error: inviteError } = await admin.auth.admin.inviteUserByEmail(email, {
       data: { full_name: name, role: 'client' },
     })
@@ -52,7 +49,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Failed to create user.' }, { status: 500 })
     }
 
-    // Create profile
     await admin.from('profiles').upsert({
       id: newUserId,
       full_name: name,
@@ -60,10 +56,12 @@ export async function POST(request: Request) {
       role: 'client',
     })
 
-    // Create client record
     await admin.from('clients').insert({
       profile_id: newUserId,
       status: 'active',
+      programme: programme ?? null,
+      start_date: start_date ?? null,
+      invited_at: new Date().toISOString(),
     })
 
     return NextResponse.json({ ok: true })
