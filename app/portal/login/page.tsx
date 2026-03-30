@@ -33,8 +33,7 @@ export default function LoginPage() {
       .eq('id', data.user.id)
       .single()
 
-    router.push(profile?.role === 'practitioner' ? '/portal/dashboard' : '/portal/my-space')
-    router.refresh()
+    window.location.href = profile?.role === 'practitioner' ? '/portal/dashboard' : '/portal/my-space'
   }
 
   return (
