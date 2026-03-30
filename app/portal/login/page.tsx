@@ -1,40 +1,11 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useActionState } from 'react'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/client'
+import { signInAction } from './actions'
 
 export default function LoginPage() {
-  const router = useRouter()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setError('')
-    setLoading(true)
-
-    const supabase = createClient()
-    const { data, error: authError } = await supabase.auth.signInWithPassword({ email, password })
-
-    if (authError || !data.user) {
-      setError('Incorrect email or password.')
-      setLoading(false)
-      return
-    }
-
-    // Fetch role
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', data.user.id)
-      .single()
-
-    window.location.href = profile?.role === 'practitioner' ? '/portal/dashboard' : '/portal/my-space'
-  }
+  const [state, formAction, pending] = useActionState(signInAction, null)
 
   return (
     <div className="min-h-screen flex items-center justify-center px-6">
@@ -60,16 +31,15 @@ export default function LoginPage() {
             Sign in
           </h1>
 
-          <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+          <form action={formAction} className="space-y-4">
             <div>
               <label className="block text-sm text-[#1C1C1A] mb-1.5 font-medium" htmlFor="email">
                 Email
               </label>
               <input
                 id="email"
+                name="email"
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
                 required
                 autoComplete="email"
                 className="w-full border border-[#2D4A3E]/20 rounded-xl px-4 py-3 text-[#1C1C1A] text-sm outline-none focus:border-[#2D4A3E] transition-colors"
@@ -83,9 +53,8 @@ export default function LoginPage() {
               </label>
               <input
                 id="password"
+                name="password"
                 type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
                 required
                 autoComplete="current-password"
                 className="w-full border border-[#2D4A3E]/20 rounded-xl px-4 py-3 text-[#1C1C1A] text-sm outline-none focus:border-[#2D4A3E] transition-colors"
@@ -93,16 +62,16 @@ export default function LoginPage() {
               />
             </div>
 
-            {error && (
-              <p className="text-red-500 text-sm text-center">{error}</p>
+            {state?.error && (
+              <p className="text-red-500 text-sm text-center">{state.error}</p>
             )}
 
             <button
               type="submit"
-              disabled={loading}
+              disabled={pending}
               className="w-full bg-[#2D4A3E] text-white py-3 rounded-full text-sm hover:bg-[#7A9E8E] transition-colors disabled:opacity-60 mt-2"
             >
-              {loading ? 'Signing in...' : 'Sign in'}
+              {pending ? 'Signing in…' : 'Sign in'}
             </button>
           </form>
 
