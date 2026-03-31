@@ -36,7 +36,7 @@ export default async function ClientProfilePage({ params }: Props) {
 
   const { data: assignments } = await supabase
     .from('tool_assignments')
-    .select('*, tools(name, type, description)')
+    .select('*, tools(name, type, description, content, questions)')
     .eq('client_id', id)
     .order('assigned_at', { ascending: false })
 

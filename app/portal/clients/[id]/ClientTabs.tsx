@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import NotesEditor from './NotesEditor'
 import LogSessionForm from '@/app/portal/sessions/LogSessionForm'
+import ToolResponseViewer from './ToolResponseViewer'
 import Link from 'next/link'
 
 const TABS = ['Overview', 'Sessions', 'Onboarding', 'Toolbox', 'Documents', 'Invoices', 'Notes'] as const
@@ -369,24 +370,27 @@ export default function ClientTabs({ client, sessions, assignments }: Props) {
             {assignments.length > 0 ? (
               <div className="divide-y divide-[#2D4A3E]/10">
                 {assignments.map((a: any) => (
-                  <div key={a.id} className="p-6 flex items-center justify-between">
-                    <div>
-                      <p className="font-medium text-sm text-[#1C1C1A]">{a.tools?.name}</p>
-                      <div className="flex items-center gap-2 mt-0.5">
-                        <span className="text-xs text-[#6B6B65] capitalize">
-                          {a.tools?.type?.replace(/_/g, ' ')}
-                        </span>
-                        <span className="text-xs text-[#6B6B65]">
-                          · Assigned {new Date(a.assigned_at).toLocaleDateString('en-GB')}
-                        </span>
-                        {a.due_date && (
-                          <span className="text-xs text-[#6B6B65]">
-                            · Due {new Date(a.due_date).toLocaleDateString('en-GB')}
+                  <div key={a.id} className="p-6">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-sm text-[#1C1C1A]">{a.tools?.name}</p>
+                        <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                          <span className="text-xs text-[#6B6B65] capitalize">
+                            {a.tools?.type?.replace(/_/g, ' ')}
                           </span>
-                        )}
+                          <span className="text-xs text-[#6B6B65]">
+                            · Assigned {new Date(a.assigned_at).toLocaleDateString('en-GB')}
+                          </span>
+                          {a.due_date && (
+                            <span className="text-xs text-[#6B6B65]">
+                              · Due {new Date(a.due_date).toLocaleDateString('en-GB')}
+                            </span>
+                          )}
+                        </div>
+                        <ToolResponseViewer assignment={a} />
                       </div>
+                      <AssignmentStatusBadge status={a.status} />
                     </div>
-                    <AssignmentStatusBadge status={a.status} />
                   </div>
                 ))}
               </div>

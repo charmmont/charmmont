@@ -20,7 +20,7 @@ export default async function MyToolsPage() {
 
   const { data: assignments } = await supabase
     .from('tool_assignments')
-    .select('*, tools(id, name, description, type, questions)')
+    .select('*, tools(id, name, description, type, content, questions)')
     .eq('client_id', clientRecord?.id)
     .order('assigned_at', { ascending: false })
 
