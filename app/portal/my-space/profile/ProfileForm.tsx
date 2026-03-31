@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 
 interface Props {
@@ -97,6 +98,25 @@ export default function ProfileForm({ profile, userId }: Props) {
           {saving ? 'Saving...' : 'Save changes'}
         </button>
       </form>
+
+      {/* GDPR / Data & Privacy */}
+      <div className="bg-white rounded-2xl p-6">
+        <h2
+          className="font-semibold text-[#1C1C1A] mb-1"
+          style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
+        >
+          Data & privacy
+        </h2>
+        <p className="text-sm text-[#6B6B65] mb-4">
+          You can export your data or request account deletion under GDPR.
+        </p>
+        <Link
+          href="/portal/my-space/gdpr"
+          className="text-sm text-[#2D4A3E] underline underline-offset-2 hover:text-[#7A9E8E] transition-colors"
+        >
+          Manage your data →
+        </Link>
+      </div>
 
       {/* Password change */}
       <form onSubmit={changePassword} className="bg-white rounded-2xl p-6 space-y-4">

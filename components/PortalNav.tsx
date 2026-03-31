@@ -24,6 +24,7 @@ const clientLinks = [
   { href: '/portal/my-space', label: 'My Space' },
   { href: '/portal/my-space/sessions', label: 'Sessions' },
   { href: '/portal/my-space/tools', label: 'My Tools' },
+  { href: '/portal/my-space/invoices', label: 'Invoices' },
   { href: '/portal/my-space/documents', label: 'Documents' },
   { href: '/portal/my-space/profile', label: 'Profile' },
 ]

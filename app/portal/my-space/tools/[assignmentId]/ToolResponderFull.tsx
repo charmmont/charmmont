@@ -16,9 +16,25 @@ import type {
 interface Props {
   assignment: any
   clientId: string
+  clientName: string
   existingResponse: any | null
   moodEntries: MoodEntry[]
   journalEntries: JournalEntry[]
+}
+
+function notifyCompleted(assignment: any, clientName: string) {
+  fetch('/api/portal/notify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      type:       'tool_completed',
+      clientName,
+      toolName:   assignment.tools?.name ?? 'Tool',
+      toolType:   assignment.tools?.type ?? '',
+      clientId:   assignment.client_id,
+      assignmentId: assignment.id,
+    }),
+  }).catch(() => {})
 }
 
 // ── Shared ────────────────────────────────────────────────────────────────────
@@ -38,10 +54,11 @@ function SectionHeader({ title, description }: { title: string; description?: st
 
 // ── 1 & 2: Questionnaire responder ────────────────────────────────────────────
 function QuestionnaireResponder({
-  assignment, clientId, existingResponse, content,
+  assignment, clientId, clientName, existingResponse, content,
 }: {
   assignment: any
   clientId: string
+  clientName: string
   existingResponse: any
   content: QuestionnaireContent
 }) {
@@ -59,6 +76,7 @@ function QuestionnaireResponder({
     const supabase = createClient()
     await supabase.from('tool_responses').insert({ assignment_id: assignment.id, client_id: clientId, responses })
     await supabase.from('tool_assignments').update({ status: 'completed' }).eq('id', assignment.id)
+    notifyCompleted(assignment, clientName)
     router.push('/portal/my-space/tools')
     router.refresh()
   }
@@ -129,10 +147,11 @@ function QuestionnaireResponder({
 
 // ── 3: Values Exercise ─────────────────────────────────────────────────────────
 function ValuesResponder({
-  assignment, clientId, existingResponse, content,
+  assignment, clientId, clientName, existingResponse, content,
 }: {
   assignment: any
   clientId: string
+  clientName: string
   existingResponse: any
   content: ValuesExerciseContent
 }) {
@@ -184,6 +203,7 @@ function ValuesResponder({
     const responses = { selected, ranked, reflections }
     await supabase.from('tool_responses').insert({ assignment_id: assignment.id, client_id: clientId, responses })
     await supabase.from('tool_assignments').update({ status: 'completed' }).eq('id', assignment.id)
+    notifyCompleted(assignment, clientName)
     router.push('/portal/my-space/tools')
     router.refresh()
   }
@@ -325,10 +345,11 @@ function ValuesResponder({
 
 // ── 4: Wheel of Life ──────────────────────────────────────────────────────────
 function WheelResponder({
-  assignment, clientId, existingResponse, content,
+  assignment, clientId, clientName, existingResponse, content,
 }: {
   assignment: any
   clientId: string
+  clientName: string
   existingResponse: any
   content: WheelOfLifeContent
 }) {
@@ -347,6 +368,7 @@ function WheelResponder({
     const supabase = createClient()
     await supabase.from('tool_responses').insert({ assignment_id: assignment.id, client_id: clientId, responses: { scores, notes } })
     await supabase.from('tool_assignments').update({ status: 'completed' }).eq('id', assignment.id)
+    notifyCompleted(assignment, clientName)
     router.push('/portal/my-space/tools')
     router.refresh()
   }
@@ -417,10 +439,11 @@ function WheelResponder({
 
 // ── 5: Belief Mapping ─────────────────────────────────────────────────────────
 function BeliefResponder({
-  assignment, clientId, existingResponse, content,
+  assignment, clientId, clientName, existingResponse, content,
 }: {
   assignment: any
   clientId: string
+  clientName: string
   existingResponse: any
   content: BeliefMappingContent
 }) {
@@ -435,6 +458,7 @@ function BeliefResponder({
     const supabase = createClient()
     await supabase.from('tool_responses').insert({ assignment_id: assignment.id, client_id: clientId, responses: { answers } })
     await supabase.from('tool_assignments').update({ status: 'completed' }).eq('id', assignment.id)
+    notifyCompleted(assignment, clientName)
     router.push('/portal/my-space/tools')
     router.refresh()
   }
@@ -667,10 +691,11 @@ function JournalResponder({
 
 // ── 8: Gamified Challenge ─────────────────────────────────────────────────────
 function ChallengeResponder({
-  assignment, clientId, existingResponse, content,
+  assignment, clientId, clientName, existingResponse, content,
 }: {
   assignment: any
   clientId: string
+  clientName: string
   existingResponse: any
   content: GamifiedChallengeContent
 }) {
@@ -702,6 +727,7 @@ function ChallengeResponder({
 
     const newStatus = allDone ? 'completed' : completedDays.length > 0 ? 'in_progress' : 'assigned'
     await supabase.from('tool_assignments').update({ status: newStatus }).eq('id', assignment.id)
+    if (allDone) notifyCompleted(assignment, clientName)
 
     router.refresh()
     setSaving(false)
@@ -776,7 +802,7 @@ function ChallengeResponder({
 
 // ── Main router ───────────────────────────────────────────────────────────────
 export default function ToolResponderFull({
-  assignment, clientId, existingResponse, moodEntries, journalEntries,
+  assignment, clientId, clientName, existingResponse, moodEntries, journalEntries,
 }: Props) {
   const tool = assignment.tools
   // Prefer content field; fall back to questions for legacy tools
@@ -797,16 +823,16 @@ export default function ToolResponderFull({
       )}
 
       {(toolType === 'onboarding_questionnaire' || toolType === 'self_discovery_questionnaire') && (
-        <QuestionnaireResponder assignment={assignment} clientId={clientId} existingResponse={existingResponse} content={content ?? { questions: [] }} />
+        <QuestionnaireResponder assignment={assignment} clientId={clientId} clientName={clientName} existingResponse={existingResponse} content={content ?? { questions: [] }} />
       )}
       {toolType === 'values_exercise' && content && (
-        <ValuesResponder assignment={assignment} clientId={clientId} existingResponse={existingResponse} content={content as ValuesExerciseContent} />
+        <ValuesResponder assignment={assignment} clientId={clientId} clientName={clientName} existingResponse={existingResponse} content={content as ValuesExerciseContent} />
       )}
       {toolType === 'wheel_of_life' && content && (
-        <WheelResponder assignment={assignment} clientId={clientId} existingResponse={existingResponse} content={content as WheelOfLifeContent} />
+        <WheelResponder assignment={assignment} clientId={clientId} clientName={clientName} existingResponse={existingResponse} content={content as WheelOfLifeContent} />
       )}
       {toolType === 'belief_mapping' && content && (
-        <BeliefResponder assignment={assignment} clientId={clientId} existingResponse={existingResponse} content={content as BeliefMappingContent} />
+        <BeliefResponder assignment={assignment} clientId={clientId} clientName={clientName} existingResponse={existingResponse} content={content as BeliefMappingContent} />
       )}
       {toolType === 'mood_tracker' && content && (
         <MoodResponder assignment={assignment} clientId={clientId} moodEntries={moodEntries} content={content as MoodTrackerContent} />
@@ -815,7 +841,7 @@ export default function ToolResponderFull({
         <JournalResponder assignment={assignment} clientId={clientId} journalEntries={journalEntries} content={content as ReflectionJournalContent} />
       )}
       {toolType === 'gamified_challenge' && content && (
-        <ChallengeResponder assignment={assignment} clientId={clientId} existingResponse={existingResponse} content={content as GamifiedChallengeContent} />
+        <ChallengeResponder assignment={assignment} clientId={clientId} clientName={clientName} existingResponse={existingResponse} content={content as GamifiedChallengeContent} />
       )}
     </div>
   )

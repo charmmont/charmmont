@@ -45,6 +45,25 @@ export default function InvoiceDetailClient({ invoice, clients, practitionerName
     if (newStatus === 'paid') updates.paid_at = new Date().toISOString()
     await supabase.from('invoices').update(updates).eq('id', invoice.id)
     setStatus(newStatus)
+
+    // Notify client when invoice is sent
+    if (newStatus === 'sent') {
+      fetch('/api/portal/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type:          'invoice_sent',
+          clientEmail:   clientEmail,
+          clientName:    clientName,
+          invoiceNumber: invoice.invoice_number,
+          total:         Number(invoice.total),
+          dueDate:       invoice.due_date ?? null,
+          invoiceId:     invoice.id,
+          clientId:      invoice.client_id,
+        }),
+      }).catch(() => {})
+    }
+
     setUpdating(false)
     router.refresh()
   }
@@ -89,6 +108,15 @@ export default function InvoiceDetailClient({ invoice, clients, practitionerName
         >
           Print / Save PDF
         </button>
+
+        <a
+          href={`/portal/invoices/${invoice.id}/print`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm border border-[#2D4A3E]/20 text-[#2D4A3E] px-4 py-2 rounded-full hover:bg-[#2D4A3E]/5 transition-colors"
+        >
+          Download PDF
+        </a>
 
         <Link
           href={`/portal/invoices/${invoice.id}/edit`}

@@ -69,6 +69,7 @@ export default async function ToolPage({ params }: Props) {
       <ToolResponderFull
         assignment={assignment}
         clientId={clientRecord?.id ?? ''}
+        clientName={profile?.full_name ?? ''}
         existingResponse={existingResponse ?? null}
         moodEntries={moodEntries ?? []}
         journalEntries={journalEntries ?? []}

@@ -44,8 +44,32 @@ export default function AssignToolForm({ tool, clients, practitionerId }: Props)
       status: 'assigned',
     }))
 
-    const { error: err } = await supabase.from('tool_assignments').insert(assignments)
+    const { data: inserted, error: err } = await supabase
+      .from('tool_assignments')
+      .insert(assignments)
+      .select('id, client_id')
     if (err) { setError(err.message); setStatus('error'); return }
+
+    // Send notification emails (fire-and-forget, never blocks UI)
+    for (const row of inserted ?? []) {
+      const client = clients.find((c: any) => c.id === row.client_id)
+      if (client?.profiles?.email) {
+        fetch('/api/portal/notify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: 'tool_assigned',
+            clientEmail:  client.profiles.email,
+            clientName:   client.profiles.full_name ?? 'there',
+            toolName:     tool.name,
+            note:         note || null,
+            assignmentId: row.id,
+            clientId:     row.client_id,
+          }),
+        }).catch(() => {})
+      }
+    }
+
     setStatus('success')
   }
 
