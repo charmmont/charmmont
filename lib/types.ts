@@ -138,16 +138,20 @@ export interface MoodEntry {
   id: string
   assignment_id: string
   client_id: string
-  score: number
-  note: string | null
-  logged_at: string
+  mood_rating: number
+  energy_rating: number | null
+  one_word: string | null
+  reflection: string | null
+  custom_response: string | null
+  entry_date: string
+  created_at: string
 }
 
 export interface JournalEntry {
   id: string
   assignment_id: string
   client_id: string
-  body: string
+  content: string
   is_private: boolean
   created_at: string
 }

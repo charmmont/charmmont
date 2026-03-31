@@ -40,6 +40,19 @@ export default async function ClientProfilePage({ params }: Props) {
     .eq('client_id', id)
     .order('assigned_at', { ascending: false })
 
+  const [{ data: invoices }, { data: documents }] = await Promise.all([
+    supabase
+      .from('invoices')
+      .select('*')
+      .eq('client_id', id)
+      .order('invoice_date', { ascending: false }),
+    supabase
+      .from('documents')
+      .select('*')
+      .eq('client_id', id)
+      .order('created_at', { ascending: false }),
+  ])
+
   return (
     <PortalShell role="practitioner" name={profile?.full_name ?? user.email ?? ''}>
       {/* Back */}
@@ -74,6 +87,8 @@ export default async function ClientProfilePage({ params }: Props) {
         client={client}
         sessions={sessions ?? []}
         assignments={assignments ?? []}
+        invoices={invoices ?? []}
+        documents={documents ?? []}
       />
     </PortalShell>
   )

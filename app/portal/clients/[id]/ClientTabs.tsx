@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/client'
 import NotesEditor from './NotesEditor'
 import LogSessionForm from '@/app/portal/sessions/LogSessionForm'
 import ToolResponseViewer from './ToolResponseViewer'
+import DocumentUpload from '@/app/portal/documents/DocumentUpload'
 import Link from 'next/link'
 
 const TABS = ['Overview', 'Sessions', 'Onboarding', 'Toolbox', 'Documents', 'Invoices', 'Notes'] as const
@@ -15,6 +16,8 @@ interface Props {
   client: any
   sessions: any[]
   assignments: any[]
+  invoices: any[]
+  documents: any[]
 }
 
 function StatusBadge({ status }: { status: string }) {
@@ -34,7 +37,21 @@ function AssignmentStatusBadge({ status }: { status: string }) {
   return <span className={`text-xs px-2 py-0.5 rounded-full ${cls}`}>{status.replace('_', ' ')}</span>
 }
 
-export default function ClientTabs({ client, sessions, assignments }: Props) {
+const STATUS_STYLES_INV: Record<string, string> = {
+  draft:   'bg-[#6B6B65]/10 text-[#6B6B65]',
+  sent:    'bg-blue-100 text-blue-700',
+  paid:    'bg-[#2D4A3E]/10 text-[#2D4A3E]',
+  overdue: 'bg-red-100 text-red-600',
+}
+
+const FILE_ICONS: Record<string, string> = {
+  'application/pdf': '📄',
+  'application/msword': '📝',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': '📝',
+  'image/jpeg': '🖼', 'image/png': '🖼',
+}
+
+export default function ClientTabs({ client, sessions, assignments, invoices, documents }: Props) {
   const router = useRouter()
   const [activeTab, setActiveTab] = useState<Tab>('Overview')
 
@@ -411,27 +428,93 @@ export default function ClientTabs({ client, sessions, assignments }: Props) {
 
       {/* ── Documents ────────────────────────────────────────── */}
       {activeTab === 'Documents' && (
-        <div className="bg-white rounded-2xl p-12 text-center">
-          <div className="w-12 h-12 bg-[#FAF7F2] rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl">
-            📎
+        <div className="space-y-4">
+          <div className="flex justify-end">
+            <DocumentUpload clientId={client.id} />
           </div>
-          <p className="font-semibold text-[#1C1C1A] text-sm mb-2">Documents — Phase 4</p>
-          <p className="text-sm text-[#6B6B65] max-w-sm mx-auto">
-            Secure file storage for consent forms, programme agreements, and client resources will be available in the next build phase.
-          </p>
+          {documents.length > 0 ? (
+            <div className="bg-white rounded-2xl overflow-hidden">
+              <div className="divide-y divide-[#2D4A3E]/10">
+                {documents.map((doc: any) => (
+                  <div key={doc.id} className="flex items-center gap-4 p-5">
+                    <span className="text-xl shrink-0">{FILE_ICONS[doc.file_type ?? ''] ?? '📎'}</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-[#1C1C1A]">{doc.label ?? doc.file_name}</p>
+                      <p className="text-xs text-[#6B6B65] mt-0.5">
+                        {new Date(doc.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                        {doc.is_shared
+                          ? <span className="ml-2 text-[#7A9E8E]">Visible to client</span>
+                          : <span className="ml-2">Internal only</span>
+                        }
+                      </p>
+                    </div>
+                    <a
+                      href={doc.file_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-[#2D4A3E] hover:text-[#7A9E8E] transition-colors"
+                    >
+                      Download
+                    </a>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="bg-white rounded-2xl p-12 text-center">
+              <p className="text-sm text-[#6B6B65] italic">No documents for this client yet. Upload using the button above.</p>
+            </div>
+          )}
         </div>
       )}
 
       {/* ── Invoices ─────────────────────────────────────────── */}
       {activeTab === 'Invoices' && (
-        <div className="bg-white rounded-2xl p-12 text-center">
-          <div className="w-12 h-12 bg-[#FAF7F2] rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl">
-            🧾
+        <div className="space-y-4">
+          <div className="flex justify-end">
+            <Link
+              href={`/portal/invoices/new?client=${client.id}`}
+              className="text-xs bg-[#2D4A3E] text-white px-4 py-2 rounded-full hover:bg-[#7A9E8E] transition-colors"
+            >
+              + New invoice
+            </Link>
           </div>
-          <p className="font-semibold text-[#1C1C1A] text-sm mb-2">Invoicing — Phase 4</p>
-          <p className="text-sm text-[#6B6B65] max-w-sm mx-auto">
-            Invoice creation, PDF delivery, and payment tracking will be available in the next build phase.
-          </p>
+          {invoices.length > 0 ? (
+            <div className="bg-white rounded-2xl overflow-hidden">
+              <div className="divide-y divide-[#2D4A3E]/10">
+                {invoices.map((inv: any) => (
+                  <Link
+                    key={inv.id}
+                    href={`/portal/invoices/${inv.id}`}
+                    className="flex items-center justify-between p-5 hover:bg-[#FAF7F2] transition-colors group"
+                  >
+                    <div>
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <span className="text-sm font-medium text-[#1C1C1A] font-mono">{inv.invoice_number}</span>
+                        <span className={`text-xs px-2 py-0.5 rounded-full ${STATUS_STYLES_INV[inv.status] ?? STATUS_STYLES_INV.draft}`}>
+                          {inv.status}
+                        </span>
+                      </div>
+                      <p className="text-xs text-[#6B6B65]">
+                        {new Date(inv.invoice_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                        {inv.due_date && inv.status !== 'paid' && (
+                          <> · Due {new Date(inv.due_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</>
+                        )}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-semibold text-[#1C1C1A]">£{Number(inv.total).toFixed(2)}</p>
+                      <p className="text-xs text-[#6B6B65] group-hover:text-[#2D4A3E] transition-colors">View →</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="bg-white rounded-2xl p-12 text-center">
+              <p className="text-sm text-[#6B6B65] italic">No invoices for this client yet.</p>
+            </div>
+          )}
         </div>
       )}
 

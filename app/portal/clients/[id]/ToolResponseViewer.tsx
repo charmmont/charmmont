@@ -165,29 +165,29 @@ export default function ToolResponseViewer({ assignment }: Props) {
                 {data.moodEntries.length > 0 && (
                   <p className="text-xs text-[#6B6B65]">
                     Avg: <span className="font-medium text-[#2D4A3E]">
-                      {(data.moodEntries.reduce((sum, e) => sum + e.score, 0) / data.moodEntries.length).toFixed(1)}
+                      {(data.moodEntries.reduce((sum, e) => sum + e.mood_rating, 0) / data.moodEntries.length).toFixed(1)}
                     </span>
                   </p>
                 )}
               </div>
               <ResponsiveContainer width="100%" height={180}>
                 <LineChart data={data.moodEntries.map((e) => ({
-                  date: new Date(e.logged_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }),
-                  score: e.score,
+                  date: new Date(e.entry_date ?? e.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }),
+                  score: e.mood_rating,
                 }))}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#2D4A3E10" />
                   <XAxis dataKey="date" tick={{ fontSize: 10, fill: '#6B6B65' }} />
                   <YAxis domain={[1, 10]} tick={{ fontSize: 10, fill: '#6B6B65' }} />
                   <Tooltip contentStyle={{ borderRadius: 12, border: '1px solid #2D4A3E20', fontSize: 11 }} />
-                  <Line type="monotone" dataKey="score" stroke="#2D4A3E" strokeWidth={2} dot={{ r: 3, fill: '#2D4A3E' }} />
+                  <Line type="monotone" dataKey="score" stroke="#2D4A3E" strokeWidth={2} dot={{ r: 3, fill: '#2D4A3E' }} name="Mood" />
                 </LineChart>
               </ResponsiveContainer>
-              {data.moodEntries.some((e) => e.note) && (
+              {data.moodEntries.some((e) => e.reflection) && (
                 <div className="space-y-2 max-h-40 overflow-y-auto">
-                  {data.moodEntries.filter((e) => e.note).slice(0, 5).map((e) => (
+                  {data.moodEntries.filter((e) => e.reflection).slice(0, 5).map((e) => (
                     <div key={e.id} className="text-xs text-[#6B6B65]">
-                      <span className="font-medium text-[#2D4A3E]">{new Date(e.logged_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span>
-                      {' · '}Score {e.score}{' · '}{e.note}
+                      <span className="font-medium text-[#2D4A3E]">{new Date(e.entry_date ?? e.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span>
+                      {' · '}Score {e.mood_rating}{' · '}{e.reflection}
                     </div>
                   ))}
                 </div>
@@ -207,7 +207,7 @@ export default function ToolResponseViewer({ assignment }: Props) {
                       <p className="text-xs text-[#6B6B65] mb-1">
                         {new Date(entry.created_at).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })}
                       </p>
-                      <p className="text-sm text-[#1C1C1A] whitespace-pre-wrap leading-relaxed">{entry.body}</p>
+                      <p className="text-sm text-[#1C1C1A] whitespace-pre-wrap leading-relaxed">{entry.content}</p>
                     </div>
                   ))}
                 </div>

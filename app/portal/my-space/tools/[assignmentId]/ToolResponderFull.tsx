@@ -483,11 +483,11 @@ function MoodResponder({
 
   // Check if already logged today
   const today = new Date().toISOString().slice(0, 10)
-  const alreadyLoggedToday = moodEntries.some((e) => e.logged_at.slice(0, 10) === today)
+  const alreadyLoggedToday = moodEntries.some((e) => (e.entry_date ?? e.created_at?.slice(0, 10)) === today)
 
   const chartData = moodEntries.map((e) => ({
-    date: new Date(e.logged_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }),
-    score: e.score,
+    date: new Date(e.entry_date ?? e.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }),
+    score: e.mood_rating,
   }))
 
   async function handleLog() {
@@ -496,9 +496,9 @@ function MoodResponder({
     await supabase.from('mood_entries').insert({
       assignment_id: assignment.id,
       client_id: clientId,
-      score,
-      note: note.trim() || null,
-      logged_at: new Date().toISOString(),
+      mood_rating: score,
+      reflection: note.trim() || null,
+      entry_date: today,
     })
     // Mark in-progress if first entry
     if (assignment.status === 'assigned') {
@@ -525,7 +525,7 @@ function MoodResponder({
               <Tooltip
                 contentStyle={{ borderRadius: 12, border: '1px solid #2D4A3E20', fontSize: 12 }}
               />
-              <Line type="monotone" dataKey="score" stroke="#2D4A3E" strokeWidth={2} dot={{ r: 4, fill: '#2D4A3E' }} />
+              <Line type="monotone" dataKey="score" stroke="#2D4A3E" strokeWidth={2} dot={{ r: 4, fill: '#2D4A3E' }} name="Mood" />
             </LineChart>
           </ResponsiveContainer>
           <p className="text-xs text-[#6B6B65] mt-2 text-center">{moodEntries.length} entries logged</p>
@@ -597,24 +597,24 @@ function JournalResponder({
   content: ReflectionJournalContent
 }) {
   const router = useRouter()
-  const [body, setBody] = useState('')
+  const [entryContent, setEntryContent] = useState('')
   const [saving, setSaving] = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!body.trim()) return
+    if (!entryContent.trim()) return
     setSaving(true)
     const supabase = createClient()
     await supabase.from('journal_entries').insert({
       assignment_id: assignment.id,
       client_id: clientId,
-      body: body.trim(),
+      content: entryContent.trim(),
       is_private: content.is_private,
     })
     if (assignment.status === 'assigned') {
       await supabase.from('tool_assignments').update({ status: 'in_progress' }).eq('id', assignment.id)
     }
-    setBody('')
+    setEntryContent('')
     router.refresh()
     setSaving(false)
   }
@@ -629,15 +629,15 @@ function JournalResponder({
         )}
         <textarea
           rows={8}
-          value={body}
-          onChange={(e) => setBody(e.target.value)}
+          value={entryContent}
+          onChange={(e) => setEntryContent(e.target.value)}
           className={`${inputCls} resize-none`}
           placeholder="Begin writing…"
         />
         {content.is_private && (
           <p className="text-xs text-[#6B6B65]">This is a private journal — entries are only visible to you.</p>
         )}
-        <button type="submit" disabled={saving || !body.trim()} className={`w-full ${btnPrimary}`}>
+        <button type="submit" disabled={saving || !entryContent.trim()} className={`w-full ${btnPrimary}`}>
           {saving ? 'Saving…' : 'Save entry'}
         </button>
       </form>
@@ -650,7 +650,7 @@ function JournalResponder({
               <p className="text-xs text-[#6B6B65] mb-2">
                 {new Date(entry.created_at).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })}
               </p>
-              <p className="text-sm text-[#1C1C1A] whitespace-pre-wrap">{entry.body}</p>
+              <p className="text-sm text-[#1C1C1A] whitespace-pre-wrap">{entry.content}</p>
             </div>
           ))}
         </div>

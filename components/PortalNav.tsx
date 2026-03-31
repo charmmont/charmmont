@@ -16,12 +16,15 @@ const practitionerLinks = [
   { href: '/portal/clients', label: 'Clients' },
   { href: '/portal/sessions', label: 'Sessions' },
   { href: '/portal/toolbox', label: 'Toolbox' },
+  { href: '/portal/invoices', label: 'Invoices' },
+  { href: '/portal/documents', label: 'Documents' },
 ]
 
 const clientLinks = [
   { href: '/portal/my-space', label: 'My Space' },
   { href: '/portal/my-space/sessions', label: 'Sessions' },
   { href: '/portal/my-space/tools', label: 'My Tools' },
+  { href: '/portal/my-space/documents', label: 'Documents' },
   { href: '/portal/my-space/profile', label: 'Profile' },
 ]
 
