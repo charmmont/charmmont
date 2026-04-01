@@ -8,7 +8,6 @@ export const metadata: Metadata = {
 }
 
 // ── Full-page botanical background ─────────────────────────────────────────
-// Positioned absolute on the page wrapper; viewBox spans full page height.
 
 function BotanicalBg() {
   return (
@@ -154,39 +153,41 @@ export default function HomePage() {
 
       {/* ── Hero ── */}
       <section style={{ minHeight: '88vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '80px 60px 0', position: 'relative', zIndex: 5 }}>
-        <div style={{ maxWidth: 720, animation: 'fadeUp 0.9s ease both' }}>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(38px, 5vw, 62px)', fontWeight: 900, color: 'var(--color-text-primary)', lineHeight: 1.08, letterSpacing: '-0.03em', marginBottom: 28 }}>
-            The space where the real work of{' '}
-            <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>becoming yourself</em>{' '}
-            begins.
-          </h1>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: 17, fontWeight: 300, color: 'var(--color-text-secondary)', maxWidth: 520, lineHeight: 1.88, marginBottom: 40 }}>
-            Deepbloom is a therapeutic coaching practice for people ready to go beneath the surface.
-          </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
-            <Link
-              href="/first-root"
-              className="hover:-translate-y-0.5 transition-transform"
-              style={{
-                padding: '13px 32px', borderRadius: 'var(--radius-full)',
-                background: 'var(--color-pine)', color: 'var(--color-text-inverse)',
-                fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 600,
-                textDecoration: 'none', boxShadow: '0 5px 22px rgba(45,74,62,0.28)', display: 'inline-block',
-              }}
-            >
-              Book a Free Call
-            </Link>
-            <Link
-              href="/work-with-me"
-              style={{
-                padding: '13px 32px', borderRadius: 'var(--radius-full)',
-                background: 'transparent', border: '1.5px solid var(--color-border)',
-                color: 'var(--color-pine)', fontFamily: 'var(--font-body)',
-                fontSize: 14, fontWeight: 400, textDecoration: 'none', display: 'inline-block',
-              }}
-            >
-              Learn more
-            </Link>
+        <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+          <div style={{ maxWidth: 600, animation: 'fadeUp 0.9s ease both' }}>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(38px, 5vw, 62px)', fontWeight: 900, color: 'var(--color-text-primary)', lineHeight: 1.08, letterSpacing: '-0.03em', marginBottom: 28 }}>
+              The space where the real work of{' '}
+              <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>becoming yourself</em>{' '}
+              begins.
+            </h1>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 17, fontWeight: 300, color: 'var(--color-text-secondary)', maxWidth: 480, lineHeight: 1.88, marginBottom: 40 }}>
+              Deepbloom is a therapeutic coaching practice for people ready to go beneath the surface.
+            </p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+              <Link
+                href="/first-root"
+                className="hover:-translate-y-0.5 transition-transform"
+                style={{
+                  padding: '13px 32px', borderRadius: 'var(--radius-full)',
+                  background: 'var(--color-pine)', color: 'var(--color-text-inverse)',
+                  fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 600,
+                  textDecoration: 'none', boxShadow: '0 5px 22px rgba(45,74,62,0.28)', display: 'inline-block',
+                }}
+              >
+                Book a Free Call
+              </Link>
+              <Link
+                href="/work-with-me"
+                style={{
+                  padding: '13px 32px', borderRadius: 'var(--radius-full)',
+                  background: 'transparent', border: '1.5px solid var(--color-border)',
+                  color: 'var(--color-pine)', fontFamily: 'var(--font-body)',
+                  fontSize: 14, fontWeight: 400, textDecoration: 'none', display: 'inline-block',
+                }}
+              >
+                Learn more
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -196,25 +197,77 @@ export default function HomePage() {
         <div style={{ height: 1, background: 'var(--color-border)' }} />
       </div>
 
-      {/* ── The Turning Point ── */}
+      {/* ── You don't need to have it figured out ── */}
       <section style={{ padding: '80px 60px 0', position: 'relative', zIndex: 5 }}>
-        <div style={{ maxWidth: 660, margin: '0 auto', textAlign: 'center' }}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3.2vw, 40px)', fontWeight: 800, color: 'var(--color-text-primary)', lineHeight: 1.22, letterSpacing: '-0.025em', marginBottom: 28 }}>
-            Something in you already{' '}
-            <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>knows</em>{' '}
-            it&apos;s time.
-          </h2>
-          <div style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88, textAlign: 'left', display: 'flex', flexDirection: 'column', gap: 20 }}>
-            <p>
-              You can feel it — that quiet sense that who you are right now isn&apos;t the whole story.
-              That somewhere beneath the noise, the habits, the beliefs that shaped you before you
-              could choose them, there&apos;s someone waiting to emerge.
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          {/* Heading block — centered */}
+          <div style={{ textAlign: 'center', maxWidth: 720, margin: '0 auto 52px' }}>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(30px, 4vw, 52px)', fontWeight: 900, color: 'var(--color-text-primary)', lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: 20 }}>
+              You don&apos;t need to have it figured out to{' '}
+              <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>begin.</em>
+            </h2>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 16, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88 }}>
+              Beneath the noise, the habits, the beliefs that shaped you before you could choose them —
+              there&apos;s someone waiting to bloom. Deepbloom creates the space to find them.
             </p>
-            <p>
-              You&apos;re not broken. You&apos;re not behind. You&apos;ve simply been carrying things that were
-              never yours to carry forever.
-            </p>
-            <p>This is the space for the work that changes that.</p>
+          </div>
+
+          {/* Offer cards — 2 col, centered */}
+          <div style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 18 }}>
+            {/* The First Root */}
+            <div style={{ background: 'var(--color-bg-card)', borderRadius: 'var(--radius-xl)', padding: '28px 30px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 20 }}>
+                <div style={{ width: 48, height: 48, borderRadius: 'var(--radius-md)', background: 'var(--color-bg-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <svg width={22} height={22} viewBox="0 0 24 24" fill="none" stroke="var(--color-pine)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                  </svg>
+                </div>
+                <span style={{ fontFamily: 'var(--font-body)', fontSize: 10.5, fontWeight: 500, color: 'var(--color-text-secondary)', letterSpacing: '0.04em', padding: '4px 10px', borderRadius: 'var(--radius-full)', border: '1px solid var(--color-border)' }}>
+                  Start here
+                </span>
+              </div>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 800, color: 'var(--color-text-primary)', letterSpacing: '-0.02em', marginBottom: 4 }}>
+                The First Root
+              </h3>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 10, fontWeight: 500, letterSpacing: '0.10em', textTransform: 'uppercase', color: 'var(--color-text-secondary)', marginBottom: 16 }}>
+                Free Discovery Call
+              </p>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.78, marginBottom: 24, flex: 1 }}>
+                A 30-minute conversation — no commitment, no agenda. Just an honest talk about where you are and what&apos;s possible.
+              </p>
+              <Link href="/first-root" className="hover:text-[var(--color-sage)] transition-colors" style={{ fontFamily: 'var(--font-body)', fontSize: 13, fontWeight: 500, color: 'var(--color-pine)', textDecoration: 'none' }}>
+                Book now →
+              </Link>
+            </div>
+
+            {/* The Becoming */}
+            <div style={{ background: 'var(--color-bg-card)', borderRadius: 'var(--radius-xl)', padding: '28px 30px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 20 }}>
+                <div style={{ width: 48, height: 48, borderRadius: 'var(--radius-md)', background: 'var(--color-bg-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <svg width={22} height={22} viewBox="0 0 28 28" fill="none" aria-hidden="true">
+                    <path d="M14 3.5 Q21 8 21 13.5 Q21 22 14 24 Q7 22 7 13.5 Q7 8 14 3.5Z" stroke="var(--color-pine)" strokeWidth="1.4" fill="none" strokeLinecap="round"/>
+                    <path d="M14 24 L14 13.5 Q11 17 7 15.5" stroke="var(--color-pine)" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+                    <path d="M14 13.5 Q17.5 10 21 11.5" stroke="var(--color-sage)" strokeWidth="1.2" fill="none" strokeLinecap="round"/>
+                  </svg>
+                </div>
+                <span style={{ fontFamily: 'var(--font-body)', fontSize: 10.5, fontWeight: 500, color: 'var(--color-text-secondary)', letterSpacing: '0.04em', padding: '4px 10px', borderRadius: 'var(--radius-full)', border: '1px solid var(--color-border)' }}>
+                  Most chosen
+                </span>
+              </div>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 800, color: 'var(--color-text-primary)', letterSpacing: '-0.02em', marginBottom: 4 }}>
+                The Becoming
+              </h3>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 10, fontWeight: 500, letterSpacing: '0.10em', textTransform: 'uppercase', color: 'var(--color-text-secondary)', marginBottom: 16 }}>
+                Core 1:1 Programme
+              </p>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.78, marginBottom: 24, flex: 1 }}>
+                Deep, unhurried coaching that goes where it needs to go — into the patterns, the beliefs, the story you&apos;ve been living.
+              </p>
+              <Link href="/work-with-me" className="hover:text-[var(--color-sage)] transition-colors" style={{ fontFamily: 'var(--font-body)', fontSize: 13, fontWeight: 500, color: 'var(--color-pine)', textDecoration: 'none' }}>
+                Learn more →
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -243,28 +296,6 @@ export default function HomePage() {
             <div style={{ background: 'var(--color-bg)', borderRadius: 'var(--radius-xl)', height: 300, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--color-border)' }}>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--color-text-secondary)', fontStyle: 'italic' }}>Photography coming soon</p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── The Offer Snapshot ── */}
-      <section style={{ padding: '64px 60px 0', position: 'relative', zIndex: 5 }}>
-        <div style={{ maxWidth: 600, margin: '0 auto' }}>
-          <div style={{ background: 'var(--color-pine)', borderRadius: 'var(--radius-2xl)', padding: '48px 52px', textAlign: 'center' }}>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: 9.5, fontWeight: 500, letterSpacing: '0.10em', textTransform: 'uppercase', color: 'var(--color-sage)', marginBottom: 12 }}>
-              1:1 Therapeutic Coaching
-            </p>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 3.5vw, 44px)', fontWeight: 800, color: 'var(--color-text-inverse)', letterSpacing: '-0.025em', lineHeight: 1.08, marginBottom: 8 }}>
-              The Becoming
-            </h2>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'rgba(250,247,242,0.75)', lineHeight: 1.88, marginBottom: 36 }}>
-              A personal, held programme for people ready to do the deeper work. We go beneath the
-              presenting problem — into the patterns, the beliefs, the moments that shaped you —
-              and we build something new from there.
-            </p>
-            <Link href="/work-with-me" style={{ display: 'inline-block', padding: '13px 32px', borderRadius: 'var(--radius-full)', background: 'var(--color-bg)', color: 'var(--color-pine)', fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 600, textDecoration: 'none', boxShadow: '0 8px 28px rgba(0,0,0,0.18)' }}>
-              See how it works
-            </Link>
           </div>
         </div>
       </section>
@@ -299,57 +330,40 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Testimonials ── */}
-      <section style={{ padding: '64px 60px 0', position: 'relative', zIndex: 5 }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(20px, 2.4vw, 30px)', fontWeight: 700, color: 'var(--color-text-secondary)', textAlign: 'center', letterSpacing: '-0.015em', marginBottom: 36 }}>
-            What clients say
-          </h2>
-          <div className="grid md:grid-cols-3" style={{ gap: 18 }}>
-            {[1, 2, 3].map((i) => (
-              <div key={i} style={{ background: 'var(--color-bg-card)', borderRadius: 'var(--radius-xl)', padding: '28px 30px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)' }}>
-                <p style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 14, lineHeight: 1.78, color: 'var(--color-text-secondary)', marginBottom: 20 }}>
-                  &ldquo;Testimonials will appear here as they are collected.&rdquo;
-                </p>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: 12, color: 'var(--color-pine)', fontWeight: 500 }}>—</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── Final CTA band ── */}
       <section style={{ padding: '64px 60px 72px', position: 'relative', zIndex: 5 }}>
-        <div style={{
-          background: 'var(--color-pine)', borderRadius: 'var(--radius-2xl)',
-          padding: '56px 64px', textAlign: 'center',
-          position: 'relative', overflow: 'hidden',
-        }}>
-          {/* Botanical accent inside CTA */}
-          <svg aria-hidden="true" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', opacity: 0.1 }} viewBox="0 0 900 280" preserveAspectRatio="xMidYMid slice">
-            <path d="M-40 280 Q120 200 200 160 Q280 120 270 60" stroke="#fff" strokeWidth="1.3" fill="none" strokeLinecap="round" />
-            <path d="M940 280 Q780 200 700 160 Q620 120 630 60" stroke="#fff" strokeWidth="1.3" fill="none" strokeLinecap="round" />
-            {([[180, 92], [680, 105], [430, 28], [78, 188], [810, 195]] as [number, number][]).map(([x, y], i) => (
-              <path key={i} d={`M${x} ${y} Q${x + 16} ${y - 24} ${x + 28} ${y} Q${x + 16} ${y + 10} ${x} ${y}Z`} fill="#fff" opacity="0.6" />
-            ))}
-          </svg>
-          <div style={{ position: 'relative', zIndex: 2 }}>
-            <div style={{ fontFamily: 'var(--font-body)', fontSize: 10.5, color: 'rgba(250,247,242,0.4)', letterSpacing: '0.13em', textTransform: 'uppercase', marginBottom: 16 }}>
-              Begin here
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{
+            background: 'var(--color-pine)', borderRadius: 'var(--radius-2xl)',
+            padding: '56px 64px', textAlign: 'center',
+            position: 'relative', overflow: 'hidden',
+          }}>
+            {/* Botanical accent inside CTA */}
+            <svg aria-hidden="true" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', opacity: 0.1 }} viewBox="0 0 900 280" preserveAspectRatio="xMidYMid slice">
+              <path d="M-40 280 Q120 200 200 160 Q280 120 270 60" stroke="#fff" strokeWidth="1.3" fill="none" strokeLinecap="round" />
+              <path d="M940 280 Q780 200 700 160 Q620 120 630 60" stroke="#fff" strokeWidth="1.3" fill="none" strokeLinecap="round" />
+              {([[180, 92], [680, 105], [430, 28], [78, 188], [810, 195]] as [number, number][]).map(([x, y], i) => (
+                <path key={i} d={`M${x} ${y} Q${x + 16} ${y - 24} ${x + 28} ${y} Q${x + 16} ${y + 10} ${x} ${y}Z`} fill="#fff" opacity="0.6" />
+              ))}
+            </svg>
+            <div style={{ position: 'relative', zIndex: 2 }}>
+              <div style={{ fontFamily: 'var(--font-body)', fontSize: 10.5, color: 'rgba(250,247,242,0.4)', letterSpacing: '0.13em', textTransform: 'uppercase', marginBottom: 16 }}>
+                Begin here
+              </div>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3.5vw, 44px)', fontWeight: 800, color: 'var(--color-text-inverse)', letterSpacing: '-0.025em', lineHeight: 1.08, marginBottom: 16 }}>
+                Ready to begin?
+              </h2>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'rgba(250,247,242,0.5)', lineHeight: 1.78, maxWidth: 420, margin: '0 auto 34px' }}>
+                The First Root is a free 30-minute conversation. No commitment. Just a beginning.
+              </p>
+              <Link
+                href="/first-root"
+                className="hover:-translate-y-0.5 transition-transform"
+                style={{ display: 'inline-block', padding: '13px 36px', borderRadius: 'var(--radius-full)', background: 'var(--color-bg)', color: 'var(--color-pine)', fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 600, textDecoration: 'none', boxShadow: '0 8px 28px rgba(0,0,0,0.18)' }}
+              >
+                Book your free call
+              </Link>
             </div>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3.5vw, 44px)', fontWeight: 800, color: 'var(--color-text-inverse)', letterSpacing: '-0.025em', lineHeight: 1.08, marginBottom: 16 }}>
-              Ready to begin?
-            </h2>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'rgba(250,247,242,0.5)', lineHeight: 1.78, maxWidth: 420, margin: '0 auto 34px' }}>
-              The First Root is a free 30-minute conversation. No commitment. Just a beginning.
-            </p>
-            <Link
-              href="/first-root"
-              className="hover:-translate-y-0.5 transition-transform"
-              style={{ display: 'inline-block', padding: '13px 36px', borderRadius: 'var(--radius-full)', background: 'var(--color-bg)', color: 'var(--color-pine)', fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 600, textDecoration: 'none', boxShadow: '0 8px 28px rgba(0,0,0,0.18)' }}
-            >
-              Book your free call
-            </Link>
           </div>
         </div>
       </section>
