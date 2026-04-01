@@ -153,17 +153,17 @@ export default function HomePage() {
 
       {/* ── Hero ── */}
       <section style={{ minHeight: '88vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '80px 60px 0', position: 'relative', zIndex: 5 }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-          <div style={{ maxWidth: 600, animation: 'fadeUp 0.9s ease both' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <div style={{ maxWidth: 700, textAlign: 'center', animation: 'fadeUp 0.9s ease both' }}>
             <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(38px, 5vw, 62px)', fontWeight: 900, color: 'var(--color-text-primary)', lineHeight: 1.08, letterSpacing: '-0.03em', marginBottom: 28 }}>
               The space where the real work of{' '}
               <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>becoming yourself</em>{' '}
               begins.
             </h1>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: 17, fontWeight: 300, color: 'var(--color-text-secondary)', maxWidth: 480, lineHeight: 1.88, marginBottom: 40 }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 17, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88, marginBottom: 40 }}>
               Deepbloom is a therapeutic coaching practice for people ready to go beneath the surface.
             </p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
               <Link
                 href="/first-root"
                 className="hover:-translate-y-0.5 transition-transform"
