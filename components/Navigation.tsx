@@ -67,7 +67,7 @@ export default function Navigation() {
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '0 60px',
-          background: scrolled ? 'rgba(250, 247, 242, 0.92)' : 'var(--color-bg)',
+          background: scrolled ? 'rgba(250, 247, 242, 0.92)' : 'transparent',
           backdropFilter: scrolled ? 'blur(14px)' : 'none',
           WebkitBackdropFilter: scrolled ? 'blur(14px)' : 'none',
           borderBottom: `1px solid ${scrolled ? 'var(--color-border)' : 'transparent'}`,
