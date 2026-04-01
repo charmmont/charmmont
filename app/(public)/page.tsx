@@ -76,9 +76,13 @@ function BotanicalBg() {
       />
 
       {/* ── Leaf shapes — upper left ── */}
+      {/* upper-left: spaced so x-ranges never overlap between adjacent leaves */}
       {([
-        [230, 198, 0.3, 1], [218, 192, 0.6, 0.8], [248, 188, 0.9, 0.9],
-        [355, 268, 1.1, 1.1], [344, 262, 1.4, 0.85],
+        [420, 148, 0.3, 0.9],  // x:[420,451] y:[123,158]
+        [378, 172, 0.6, 0.85], // x:[378,407] — 407<420 ✓
+        [368, 255, 0.9, 0.95], // x:[368,400] y:[229,266] — separate node
+        [330, 282, 1.2, 0.85], // x:[330,359] — 359<368 ✓
+        [170, 693, 1.5, 0.8],  // x:[170,197] — branch node, isolated
       ] as [number, number, number, number][]).map(([x, y, d, s], i) => (
         <path key={`ul${i}`}
           d={`M${x} ${y} Q${x + 20 * s} ${y - 28 * s} ${x + 34 * s} ${y} Q${x + 20 * s} ${y + 11 * s} ${x} ${y}Z`}
@@ -88,9 +92,13 @@ function BotanicalBg() {
       ))}
 
       {/* ── Leaf shapes — upper right ── */}
+      {/* upper-right: spaced so x-ranges never overlap between adjacent leaves */}
       {([
-        [1194, 132, 0.5, 1], [1208, 126, 0.8, 0.9], [1180, 138, 1.1, 0.85],
-        [1166, 538, 1.3, 1.05], [1180, 532, 1.6, 0.9],
+        [1232, 152, 0.5, 0.95], // x:[1232,1264] y:[125,163]
+        [1190, 175, 0.8, 0.9],  // x:[1190,1221] — 1221<1232 ✓
+        [1162, 228, 1.1, 0.85], // x:[1162,1191] — separate node
+        [1158, 545, 1.3, 0.85], // x:[1158,1187] y:[521,554] — lower node
+        [1120, 572, 1.6, 0.8],  // x:[1120,1147] — 1147<1158 ✓
       ] as [number, number, number, number][]).map(([x, y, d, s], i) => (
         <path key={`ur${i}`}
           d={`M${x} ${y} Q${x + 20 * s} ${y - 28 * s} ${x + 34 * s} ${y} Q${x + 20 * s} ${y + 11 * s} ${x} ${y}Z`}
@@ -100,9 +108,12 @@ function BotanicalBg() {
       ))}
 
       {/* ── Leaf shapes — mid page ── */}
+      {/* mid: spaced so x-ranges never overlap between adjacent leaves */}
       {([
-        [148, 1188, 0.9, 0.9], [136, 1196, 1.2, 0.8],
-        [1278, 1300, 0.7, 1], [1292, 1294, 1.1, 0.85],
+        [115, 1235, 0.9, 0.9],   // x:[115,146] y:[1210,1245]
+        [155, 1210, 1.2, 0.85],  // x:[155,184] — 146<155 ✓
+        [1255, 1328, 0.7, 1.0],  // x:[1255,1289] y:[1300,1339]
+        [1295, 1302, 1.1, 0.85], // x:[1295,1324] — 1289<1295 ✓
       ] as [number, number, number, number][]).map(([x, y, d, s], i) => (
         <path key={`mid${i}`}
           d={`M${x} ${y} Q${x + 20 * s} ${y - 28 * s} ${x + 34 * s} ${y} Q${x + 20 * s} ${y + 11 * s} ${x} ${y}Z`}
