@@ -42,7 +42,7 @@ export default function Footer() {
 
   return (
     <footer style={{
-      background: 'var(--color-bg)',
+      background: 'var(--color-bg-card)',
       borderTop: '1px solid var(--color-border)',
     }}>
       <div style={{
