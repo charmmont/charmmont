@@ -86,16 +86,6 @@ export default function HomePage() {
       <section style={{ minHeight: '90vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '96px 60px 72px', position: 'relative', overflow: 'hidden' }}>
         <BotanicalBg />
         <div style={{ maxWidth: 720, position: 'relative', zIndex: 5, animation: 'fadeUp 0.9s ease both' }}>
-          <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: 10,
-            padding: '6px 16px', borderRadius: 'var(--radius-full)',
-            border: '1.5px solid var(--color-border)', background: 'var(--color-tag-bg)', marginBottom: 32,
-          }}>
-            <div style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--color-sage)' }} />
-            <span style={{ fontFamily: 'var(--font-body)', fontSize: 10.5, fontWeight: 500, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--color-tag-text)' }}>
-              Therapeutic coaching
-            </span>
-          </div>
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(38px, 5vw, 62px)', fontWeight: 900, color: 'var(--color-text-primary)', lineHeight: 1.08, letterSpacing: '-0.03em', marginBottom: 28 }}>
             The space where the real work of{' '}
             <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>becoming yourself</em>{' '}
