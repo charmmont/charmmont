@@ -152,7 +152,7 @@ export default function HomePage() {
       <BotanicalBg />
 
       {/* ── Hero ── */}
-      <section style={{ minHeight: '88vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '80px 60px 0', position: 'relative', zIndex: 5 }}>
+      <section style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '120px 60px 80px', position: 'relative', zIndex: 5 }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%', display: 'flex', justifyContent: 'center' }}>
           <div style={{ maxWidth: 700, textAlign: 'center', animation: 'fadeUp 0.9s ease both' }}>
             <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(38px, 5vw, 62px)', fontWeight: 900, color: 'var(--color-text-primary)', lineHeight: 1.08, letterSpacing: '-0.03em', marginBottom: 28 }}>
@@ -193,8 +193,8 @@ export default function HomePage() {
       </section>
 
       {/* ── Divider ── */}
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '80px 60px 0', position: 'relative', zIndex: 5 }}>
-        <div style={{ height: 1, background: 'var(--color-border)' }} />
+      <div style={{ position: 'relative', zIndex: 5, display: 'flex', justifyContent: 'center', paddingBottom: 80 }}>
+        <div style={{ width: 80, height: 1, background: 'var(--color-border)' }} />
       </div>
 
       {/* ── You don't need to have it figured out ── */}
