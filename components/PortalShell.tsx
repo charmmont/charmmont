@@ -9,13 +9,14 @@ interface Props {
 
 export default function PortalShell({ role, name, children }: Props) {
   return (
-    <>
+    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--color-bg)' }}>
       <PortalNav role={role} name={name} />
-      <div className="pt-14 min-h-screen bg-[#FAF7F2]">
-        <div className="max-w-6xl mx-auto px-6 py-10">
-          {children}
-        </div>
-      </div>
-    </>
+      <main
+        className="pt-[54px] md:pt-0"
+        style={{ flex: 1, minWidth: 0, padding: '30px 34px', overflowY: 'auto' }}
+      >
+        {children}
+      </main>
+    </div>
   )
 }

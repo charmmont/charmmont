@@ -7,27 +7,36 @@ export const metadata: Metadata = {
     'I believe every person carries the capacity to bloom into their truest self. Meet Ayelen, founder of Deepbloom.',
 }
 
+const borderColors = ['var(--color-pine)', 'var(--color-sage)', 'var(--color-sage-light)']
+
 export default function AboutPage() {
   return (
     <>
       {/* Opening */}
-      <section className="py-24 px-6">
-        <div className="max-w-3xl mx-auto">
-          <h1
-            className="text-4xl md:text-5xl font-semibold text-[#1C1C1A] leading-tight mb-0"
-            style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
-          >
-            I believe every person carries the capacity to bloom into their truest self.
+      <section style={{ padding: '96px 60px 56px' }}>
+        <div style={{ maxWidth: 800, margin: '0 auto' }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 9.5, fontWeight: 500, letterSpacing: '0.10em', textTransform: 'uppercase', color: 'var(--color-sage)', marginBottom: 24 }}>
+            The guide
+          </p>
+          <h1 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(32px, 4vw, 52px)',
+            fontWeight: 900,
+            color: 'var(--color-text-primary)',
+            lineHeight: 1.08,
+            letterSpacing: '-0.03em',
+          }}>
+            I believe every person carries the capacity to{' '}
+            <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>bloom</em>{' '}
+            into their truest self.
           </h1>
         </div>
       </section>
 
       {/* Brand Story */}
-      <section className="pb-24 px-6">
-        <div className="max-w-2xl mx-auto space-y-8 text-[#6B6B65] text-lg leading-[1.8]">
-          <p>
-            There&apos;s a version of you that you haven&apos;t fully met yet.
-          </p>
+      <section style={{ padding: '0 60px 72px' }}>
+        <div style={{ maxWidth: 620, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 24, fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88 }}>
+          <p>There&apos;s a version of you that you haven&apos;t fully met yet.</p>
           <p>
             You might feel it in quiet moments — a sense that who you are right now isn&apos;t the whole
             story. That somewhere beneath the noise, the habits, the beliefs that shaped you before you
@@ -52,39 +61,54 @@ export default function AboutPage() {
             as deep as it needs to, and where who you&apos;re becoming is always the compass.
           </p>
           <p>This is that space. And it was made for you.</p>
-          <p className="text-[#2D4A3E] font-medium italic">Root deep. Bloom safe.</p>
+          <p style={{ color: 'var(--color-pine)', fontStyle: 'italic', fontFamily: 'var(--font-display)', fontSize: 15 }}>
+            Root deep. Bloom safe.
+          </p>
         </div>
       </section>
 
       {/* Divider */}
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="h-px bg-[#2D4A3E]/10" />
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 60px' }}>
+        <div style={{ height: 1, background: 'var(--color-border)' }} />
       </div>
 
       {/* What I Believe */}
-      <section className="py-24 px-6">
-        <div className="max-w-4xl mx-auto">
-          <h2
-            className="text-2xl font-semibold text-[#1C1C1A] mb-12 text-center"
-            style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
-          >
+      <section style={{ padding: '72px 60px' }}>
+        <div style={{ maxWidth: 900, margin: '0 auto' }}>
+          <h2 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(22px, 2.4vw, 34px)',
+            fontWeight: 700,
+            color: 'var(--color-text-primary)',
+            letterSpacing: '-0.015em',
+            textAlign: 'center',
+            marginBottom: 40,
+          }}>
             What I believe
           </h2>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18 }}>
             {[
-              'Real change happens beneath the surface, not on it.',
-              'Safety is not a soft extra. It\'s where transformation begins.',
-              'You are not a problem to be fixed. You are a person becoming.',
-            ].map((belief, i) => (
-              <div key={i} className="bg-white rounded-2xl p-8">
-                <div className="w-8 h-8 rounded-full bg-[#2D4A3E]/10 flex items-center justify-center mb-6">
-                  <span className="text-[#2D4A3E] text-xs font-medium">{i + 1}</span>
-                </div>
-                <p
-                  className="text-[#1C1C1A] text-lg font-semibold leading-snug"
-                  style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
-                >
-                  &ldquo;{belief}&rdquo;
+              { text: 'Real change happens beneath the surface, not on it.', label: 'On depth' },
+              { text: "Safety is not a soft extra. It's where transformation begins.", label: 'On safety' },
+              { text: 'You are not a problem to be fixed. You are a person becoming.', label: 'On you' },
+            ].map(({ text, label }, i) => (
+              <div
+                key={i}
+                style={{
+                  padding: '20px 22px',
+                  borderRadius: 'var(--radius-lg)',
+                  background: 'var(--color-bg)',
+                  border: '1px solid var(--color-border)',
+                  borderLeft: `3px solid ${borderColors[i]}`,
+                  borderTopLeftRadius: 0,
+                  borderBottomLeftRadius: 0,
+                }}
+              >
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: 9.5, fontWeight: 500, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--color-text-secondary)', marginBottom: 12 }}>
+                  {label}
+                </p>
+                <p style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 14, lineHeight: 1.62, color: 'var(--color-text-primary)' }}>
+                  &ldquo;{text}&rdquo;
                 </p>
               </div>
             ))}
@@ -93,15 +117,23 @@ export default function AboutPage() {
       </section>
 
       {/* My Approach */}
-      <section className="py-24 px-6 bg-white">
-        <div className="max-w-2xl mx-auto">
-          <h2
-            className="text-3xl font-semibold text-[#1C1C1A] mb-8"
-            style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
-          >
+      <section style={{ padding: '72px 60px', background: 'var(--color-bg-card)' }}>
+        <div style={{ maxWidth: 620, margin: '0 auto' }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 9.5, fontWeight: 500, letterSpacing: '0.10em', textTransform: 'uppercase', color: 'var(--color-sage)', marginBottom: 16 }}>
+            The approach
+          </p>
+          <h2 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(24px, 3vw, 38px)',
+            fontWeight: 800,
+            color: 'var(--color-text-primary)',
+            letterSpacing: '-0.025em',
+            lineHeight: 1.22,
+            marginBottom: 24,
+          }}>
             My approach
           </h2>
-          <p className="text-[#6B6B65] text-lg leading-[1.8]">
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88 }}>
             Working with me is unhurried. We begin where you are — not where you think you should be.
             Sessions are honest and held. I will not tell you what to do or feel. I will ask the
             questions that matter, sit with you in the difficult parts, and hold you accountable to
@@ -111,24 +143,47 @@ export default function AboutPage() {
       </section>
 
       {/* Photo placeholder */}
-      <section className="py-0 bg-white px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="bg-[#FAF7F2] rounded-2xl h-96 flex items-center justify-center">
-            <p className="text-[#6B6B65] text-sm italic">Practitioner photo coming soon</p>
+      <section style={{ background: 'var(--color-bg-card)', padding: '0 60px 72px' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{
+            background: 'var(--color-bg)',
+            borderRadius: 'var(--radius-2xl)',
+            height: 380,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            border: '1px solid var(--color-border)',
+          }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--color-text-secondary)', fontStyle: 'italic' }}>
+              Practitioner photo coming soon
+            </p>
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-24 px-6 bg-white">
-        <div className="max-w-xl mx-auto text-center">
+      <section style={{ padding: '72px 60px' }}>
+        <div style={{ maxWidth: 480, margin: '0 auto', textAlign: 'center' }}>
           <Link
             href="/first-root"
-            className="inline-block bg-[#2D4A3E] text-white px-10 py-4 rounded-full text-base hover:bg-[#7A9E8E] transition-colors"
+            className="hover:-translate-y-0.5 transition-transform"
+            style={{
+              display: 'inline-block',
+              padding: '13px 36px',
+              borderRadius: 'var(--radius-full)',
+              background: 'var(--color-pine)',
+              color: 'var(--color-text-inverse)',
+              fontFamily: 'var(--font-body)',
+              fontSize: 14,
+              fontWeight: 600,
+              textDecoration: 'none',
+              boxShadow: '0 5px 22px rgba(45, 74, 62, 0.28)',
+              marginBottom: 14,
+            }}
           >
             Book The First Root
           </Link>
-          <p className="text-[#6B6B65] text-sm mt-4">
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--color-text-secondary)', marginTop: 14 }}>
             A free 30-minute conversation. No commitment.
           </p>
         </div>

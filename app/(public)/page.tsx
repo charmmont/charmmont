@@ -11,52 +11,86 @@ export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="min-h-[90vh] flex flex-col justify-center px-6 max-w-6xl mx-auto py-24">
-        <div className="max-w-3xl">
-          <p className="text-xs tracking-[0.2em] text-[#7A9E8E] uppercase mb-6 font-body">
-            Root Deep, Bloom Safe.
-          </p>
-          <h1
-            className="text-5xl md:text-7xl font-semibold text-[#1C1C1A] leading-[1.1] mb-6"
-            style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
-          >
-            The space where the real work of becoming yourself begins.
+      <section className="px-6 md:px-[60px]" style={{ minHeight: '90vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '96px 60px 72px' }}>
+        <div style={{ maxWidth: 720 }}>
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 10,
+            padding: '6px 16px',
+            borderRadius: 'var(--radius-full)',
+            border: '1.5px solid var(--color-border)',
+            background: 'var(--color-tag-bg)',
+            marginBottom: 32,
+          }}>
+            <div style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--color-sage)' }} />
+            <span style={{ fontFamily: 'var(--font-body)', fontSize: 10.5, fontWeight: 500, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--color-tag-text)' }}>
+              Therapeutic coaching
+            </span>
+          </div>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(38px, 5vw, 62px)', fontWeight: 900, color: 'var(--color-text-primary)', lineHeight: 1.08, letterSpacing: '-0.03em', marginBottom: 28 }}>
+            The space where the real work of{' '}
+            <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>becoming yourself</em>{' '}
+            begins.
           </h1>
-          <p className="text-lg md:text-xl text-[#6B6B65] max-w-xl leading-relaxed mb-10">
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 17, fontWeight: 300, color: 'var(--color-text-secondary)', maxWidth: 520, lineHeight: 1.88, marginBottom: 40 }}>
             Deepbloom is a therapeutic coaching practice for people ready to go beneath the surface.
           </p>
-          <div className="flex flex-wrap gap-4">
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
             <Link
               href="/first-root"
-              className="bg-[#2D4A3E] text-white px-8 py-3.5 rounded-full text-base hover:bg-[#7A9E8E] transition-colors"
+              className="hover:-translate-y-0.5 transition-transform"
+              style={{
+                padding: '13px 32px',
+                borderRadius: 'var(--radius-full)',
+                background: 'var(--color-pine)',
+                color: 'var(--color-text-inverse)',
+                fontFamily: 'var(--font-body)',
+                fontSize: 14,
+                fontWeight: 600,
+                textDecoration: 'none',
+                boxShadow: '0 5px 22px rgba(45, 74, 62, 0.28)',
+                display: 'inline-block',
+              }}
             >
               Book a Free Call
             </Link>
             <Link
               href="/work-with-me"
-              className="border border-[#2D4A3E] text-[#2D4A3E] px-8 py-3.5 rounded-full text-base hover:bg-[#2D4A3E] hover:text-white transition-colors"
+              className="hover:bg-[rgba(45,74,62,0.03)] transition-colors"
+              style={{
+                padding: '13px 32px',
+                borderRadius: 'var(--radius-full)',
+                background: 'transparent',
+                border: '1.5px solid var(--color-border)',
+                color: 'var(--color-pine)',
+                fontFamily: 'var(--font-body)',
+                fontSize: 14,
+                fontWeight: 400,
+                textDecoration: 'none',
+                display: 'inline-block',
+              }}
             >
-              Learn More
+              Learn more
             </Link>
           </div>
         </div>
       </section>
 
       {/* Divider */}
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="h-px bg-[#2D4A3E]/10" />
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 60px' }}>
+        <div style={{ height: 1, background: 'var(--color-border)' }} />
       </div>
 
       {/* The Turning Point */}
-      <section className="py-24 px-6">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2
-            className="text-3xl md:text-4xl font-semibold text-[#1C1C1A] mb-10 leading-tight"
-            style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
-          >
-            Something in you already knows it&apos;s time.
+      <section style={{ padding: '72px 60px' }}>
+        <div style={{ maxWidth: 620, margin: '0 auto', textAlign: 'center' }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3.2vw, 40px)', fontWeight: 800, color: 'var(--color-text-primary)', lineHeight: 1.22, letterSpacing: '-0.025em', marginBottom: 36 }}>
+            Something in you already{' '}
+            <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>knows</em>{' '}
+            it&apos;s time.
           </h2>
-          <div className="space-y-6 text-[#6B6B65] text-lg leading-[1.8] text-left">
+          <div style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88, textAlign: 'left', display: 'flex', flexDirection: 'column', gap: 20 }}>
             <p>
               You can feel it — that quiet sense that who you are right now isn&apos;t the whole story.
               That somewhere beneath the noise, the habits, the beliefs that shaped you before you
@@ -72,55 +106,47 @@ export default function HomePage() {
       </section>
 
       {/* What Deepbloom Is */}
-      <section className="py-24 px-6 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div>
-              <h2
-                className="text-3xl md:text-4xl font-semibold text-[#1C1C1A] mb-6 leading-tight"
-                style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
-              >
-                Therapeutic coaching that goes where it needs to go.
-              </h2>
-              <p className="text-[#6B6B65] text-lg leading-[1.8] mb-8">
-                Deepbloom is not about surface-level fixes or performance. It&apos;s about depth —
-                honest, unhurried work that reaches the root of old patterns and beliefs, so you
-                can finally grow into who you&apos;re becoming. No jargon. No judgement. Just real.
-              </p>
-              <Link
-                href="/work-with-me"
-                className="text-[#2D4A3E] text-sm hover:text-[#7A9E8E] transition-colors inline-flex items-center gap-2"
-              >
-                Learn how we work <span aria-hidden>→</span>
-              </Link>
-            </div>
-            <div className="bg-[#FAF7F2] rounded-2xl h-80 flex items-center justify-center">
-              <p className="text-[#6B6B65] text-sm italic">Photography coming soon</p>
-            </div>
+      <section style={{ padding: '72px 60px', background: 'var(--color-bg-card)' }}>
+        <div className="grid md:grid-cols-2" style={{ maxWidth: 1200, margin: '0 auto', gap: 56, alignItems: 'center' }}>
+          <div>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 9.5, fontWeight: 500, letterSpacing: '0.10em', textTransform: 'uppercase', color: 'var(--color-sage)', marginBottom: 16 }}>
+              The practice
+            </p>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 800, color: 'var(--color-text-primary)', lineHeight: 1.22, letterSpacing: '-0.025em', marginBottom: 20 }}>
+              Therapeutic coaching that goes where it{' '}
+              <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>needs to go.</em>
+            </h2>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88, marginBottom: 28 }}>
+              Deepbloom is not about surface-level fixes or performance. It&apos;s about depth —
+              honest, unhurried work that reaches the root of old patterns and beliefs, so you
+              can finally grow into who you&apos;re becoming. No jargon. No judgement. Just real.
+            </p>
+            <Link href="/work-with-me" className="hover:text-[var(--color-sage)] transition-colors" style={{ fontFamily: 'var(--font-body)', fontSize: 13, fontWeight: 500, color: 'var(--color-pine)', textDecoration: 'none' }}>
+              Learn how we work →
+            </Link>
+          </div>
+          <div style={{ background: 'var(--color-bg)', borderRadius: 'var(--radius-2xl)', height: 320, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--color-border)' }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--color-text-secondary)', fontStyle: 'italic' }}>Photography coming soon</p>
           </div>
         </div>
       </section>
 
       {/* The Offer Snapshot */}
-      <section className="py-24 px-6">
-        <div className="max-w-2xl mx-auto">
-          <div className="bg-[#2D4A3E] rounded-2xl p-10 md:p-14 text-center">
-            <h2
-              className="text-3xl md:text-4xl font-semibold text-[#FAF7F2] mb-2"
-              style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
-            >
+      <section style={{ padding: '72px 60px' }}>
+        <div style={{ maxWidth: 600, margin: '0 auto' }}>
+          <div style={{ background: 'var(--color-pine)', borderRadius: 'var(--radius-2xl)', padding: '48px 52px', textAlign: 'center' }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 9.5, fontWeight: 500, letterSpacing: '0.10em', textTransform: 'uppercase', color: 'var(--color-sage)', marginBottom: 12 }}>
+              1:1 Therapeutic Coaching
+            </p>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 3.5vw, 44px)', fontWeight: 800, color: 'var(--color-text-inverse)', letterSpacing: '-0.025em', lineHeight: 1.08, marginBottom: 8 }}>
               The Becoming
             </h2>
-            <p className="text-[#7A9E8E] text-base mb-8">1:1 Therapeutic Coaching</p>
-            <p className="text-[#FAF7F2]/80 text-lg leading-[1.8] mb-10">
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'rgba(250,247,242,0.75)', lineHeight: 1.88, marginBottom: 36 }}>
               A personal, held programme for people ready to do the deeper work. We go beneath the
               presenting problem — into the patterns, the beliefs, the moments that shaped you —
               and we build something new from there.
             </p>
-            <Link
-              href="/work-with-me"
-              className="inline-block bg-[#FAF7F2] text-[#2D4A3E] px-8 py-3.5 rounded-full text-base hover:bg-[#7A9E8E] hover:text-white transition-colors"
-            >
+            <Link href="/work-with-me" style={{ display: 'inline-block', padding: '13px 32px', borderRadius: 'var(--radius-full)', background: 'var(--color-bg)', color: 'var(--color-pine)', fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 600, textDecoration: 'none', boxShadow: '0 8px 28px rgba(0,0,0,0.18)' }}>
               See how it works
             </Link>
           </div>
@@ -128,54 +154,46 @@ export default function HomePage() {
       </section>
 
       {/* About Bridge */}
-      <section className="py-24 px-6 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div className="bg-[#FAF7F2] rounded-2xl h-80 flex items-center justify-center order-2 md:order-1">
-              <p className="text-[#6B6B65] text-sm italic">Ayelen — Deepbloom</p>
-            </div>
-            <div className="order-1 md:order-2">
-              <h2
-                className="text-3xl md:text-4xl font-semibold text-[#1C1C1A] mb-6 leading-tight"
-                style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
-              >
-                I&apos;ve walked this path.
-              </h2>
-              <p className="text-[#6B6B65] text-lg leading-[1.8] mb-6">
-                Transformation isn&apos;t a performance. It happens in the quiet, in the honest
-                conversations, in the moments when someone finally feels safe enough to tell the
-                truth about where they are — and dare to imagine where they could go.
-              </p>
-              <p className="text-[#6B6B65] text-lg leading-[1.8] mb-8">
-                My name is Ayelen. This practice is built from everything I know about that journey.
-              </p>
-              <Link
-                href="/about"
-                className="text-[#2D4A3E] text-sm hover:text-[#7A9E8E] transition-colors inline-flex items-center gap-2"
-              >
-                Read my story <span aria-hidden>→</span>
-              </Link>
-            </div>
+      <section style={{ padding: '72px 60px', background: 'var(--color-bg-card)' }}>
+        <div className="grid md:grid-cols-2" style={{ maxWidth: 1200, margin: '0 auto', gap: 56, alignItems: 'center' }}>
+          <div style={{ background: 'var(--color-bg)', borderRadius: 'var(--radius-2xl)', height: 320, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--color-border)' }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--color-text-secondary)', fontStyle: 'italic' }}>Ayelen — Deepbloom</p>
+          </div>
+          <div>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 9.5, fontWeight: 500, letterSpacing: '0.10em', textTransform: 'uppercase', color: 'var(--color-sage)', marginBottom: 16 }}>
+              The guide
+            </p>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 800, color: 'var(--color-text-primary)', lineHeight: 1.22, letterSpacing: '-0.025em', marginBottom: 20 }}>
+              I&apos;ve <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>walked</em> this path.
+            </h2>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88, marginBottom: 16 }}>
+              Transformation isn&apos;t a performance. It happens in the quiet, in the honest
+              conversations, in the moments when someone finally feels safe enough to tell the
+              truth about where they are — and dare to imagine where they could go.
+            </p>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88, marginBottom: 28 }}>
+              My name is Ayelen. This practice is built from everything I know about that journey.
+            </p>
+            <Link href="/about" className="hover:text-[var(--color-sage)] transition-colors" style={{ fontFamily: 'var(--font-body)', fontSize: 13, fontWeight: 500, color: 'var(--color-pine)', textDecoration: 'none' }}>
+              Read my story →
+            </Link>
           </div>
         </div>
       </section>
 
       {/* Testimonials */}
-      <section className="py-24 px-6">
-        <div className="max-w-6xl mx-auto">
-          <h2
-            className="text-2xl font-semibold text-center text-[#6B6B65] mb-12"
-            style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
-          >
+      <section style={{ padding: '72px 60px' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(20px, 2.4vw, 30px)', fontWeight: 700, color: 'var(--color-text-secondary)', textAlign: 'center', letterSpacing: '-0.015em', marginBottom: 40 }}>
             What clients say
           </h2>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3" style={{ gap: 18 }}>
             {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-white rounded-2xl p-8">
-                <p className="text-[#6B6B65] text-base leading-[1.8] mb-6 italic">
+              <div key={i} style={{ background: 'var(--color-bg-card)', borderRadius: 'var(--radius-xl)', padding: '28px 30px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)' }}>
+                <p style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 14, lineHeight: 1.78, color: 'var(--color-text-secondary)', marginBottom: 20 }}>
                   &ldquo;Testimonials will appear here as they are collected.&rdquo;
                 </p>
-                <p className="text-[#2D4A3E] text-sm font-medium">—</p>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: 12, color: 'var(--color-pine)', fontWeight: 500 }}>—</p>
               </div>
             ))}
           </div>
@@ -183,21 +201,15 @@ export default function HomePage() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-24 px-6 bg-[#2D4A3E]">
-        <div className="max-w-xl mx-auto text-center">
-          <h2
-            className="text-3xl md:text-4xl font-semibold text-[#FAF7F2] mb-4"
-            style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
-          >
+      <section style={{ padding: '72px 60px', background: 'var(--color-pine)' }}>
+        <div style={{ maxWidth: 520, margin: '0 auto', textAlign: 'center' }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3.5vw, 44px)', fontWeight: 800, color: 'var(--color-text-inverse)', letterSpacing: '-0.025em', lineHeight: 1.08, marginBottom: 16 }}>
             Ready to begin?
           </h2>
-          <p className="text-[#7A9E8E] text-lg mb-10">
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'var(--color-sage)', lineHeight: 1.78, marginBottom: 36 }}>
             The First Root is a free 30-minute conversation. No commitment. Just a beginning.
           </p>
-          <Link
-            href="/first-root"
-            className="inline-block bg-[#FAF7F2] text-[#2D4A3E] px-10 py-4 rounded-full text-base hover:bg-[#7A9E8E] hover:text-white transition-colors"
-          >
+          <Link href="/first-root" style={{ display: 'inline-block', padding: '13px 36px', borderRadius: 'var(--radius-full)', background: 'var(--color-bg)', color: 'var(--color-pine)', fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 600, textDecoration: 'none', boxShadow: '0 8px 28px rgba(0,0,0,0.18)' }}>
             Book your free call
           </Link>
         </div>

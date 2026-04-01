@@ -3,6 +3,35 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
+function LogoMark({ size = 28 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 28 28" fill="none" aria-hidden="true">
+      <path
+        d="M14 3.5 Q21 8 21 13.5 Q21 22 14 24 Q7 22 7 13.5 Q7 8 14 3.5Z"
+        stroke="var(--color-pine)"
+        strokeWidth="1.4"
+        fill="none"
+        strokeLinecap="round"
+      />
+      <path
+        d="M14 24 L14 13.5 Q11 17 7 15.5"
+        stroke="var(--color-pine)"
+        strokeWidth="1.5"
+        fill="none"
+        strokeLinecap="round"
+      />
+      <path
+        d="M14 13.5 Q17.5 10 21 11.5"
+        stroke="var(--color-sage)"
+        strokeWidth="1.2"
+        fill="none"
+        strokeLinecap="round"
+      />
+      <circle cx="14" cy="13.5" r="1.8" fill="var(--color-sage)" opacity="0.65" />
+    </svg>
+  )
+}
+
 export default function Navigation() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -14,11 +43,7 @@ export default function Navigation() {
   }, [])
 
   useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
 
@@ -30,78 +55,171 @@ export default function Navigation() {
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-[#FAF7F2]/95 backdrop-blur-sm border-b border-[#2D4A3E]/10' : 'bg-[#FAF7F2]'
-      }`}>
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          {/* Wordmark */}
-          <Link href="/" className="flex flex-col leading-none group">
-            <span className="font-serif text-xl font-semibold text-[#2D4A3E] tracking-tight">
+      <nav
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          height: 66,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '0 60px',
+          background: scrolled ? 'rgba(250, 247, 242, 0.92)' : 'var(--color-bg)',
+          backdropFilter: scrolled ? 'blur(14px)' : 'none',
+          WebkitBackdropFilter: scrolled ? 'blur(14px)' : 'none',
+          borderBottom: `1px solid ${scrolled ? 'var(--color-border)' : 'transparent'}`,
+          transition: 'background 0.3s, border-color 0.3s, backdrop-filter 0.3s',
+        }}
+      >
+        {/* Wordmark */}
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
+          <LogoMark size={28} />
+          <div>
+            <div style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 18,
+              fontWeight: 700,
+              color: 'var(--color-pine)',
+              lineHeight: 1,
+              letterSpacing: '-0.02em',
+            }}>
               Deepbloom
-            </span>
-            <span className="text-[10px] text-[#6B6B65] font-body tracking-wider">
-              Root deep, bloom safe.
-            </span>
-          </Link>
-
-          {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-8">
-            {links.map(({ href, label }) => (
-              <Link
-                key={href}
-                href={href}
-                className="text-sm text-[#1C1C1A] hover:text-[#2D4A3E] transition-colors font-body"
-              >
-                {label}
-              </Link>
-            ))}
-            <Link
-              href="/first-root"
-              className="bg-[#2D4A3E] text-white text-sm px-5 py-2 rounded-full hover:bg-[#7A9E8E] transition-colors font-body"
-            >
-              Book a Call
-            </Link>
+            </div>
+            <div style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: 9,
+              color: 'var(--color-sage)',
+              letterSpacing: '0.10em',
+              textTransform: 'uppercase',
+              marginTop: 2,
+            }}>
+              Root deep, bloom safe
+            </div>
           </div>
+        </Link>
 
-          {/* Hamburger */}
-          <button
-            className="md:hidden flex flex-col gap-1.5 p-2"
-            onClick={() => setMenuOpen(true)}
-            aria-label="Open menu"
+        {/* Desktop links */}
+        <div className="hidden md:flex" style={{ alignItems: 'center', gap: 32 }}>
+          {links.map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: 13,
+                fontWeight: 400,
+                color: 'var(--color-text-secondary)',
+                textDecoration: 'none',
+                transition: 'color 0.2s',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-pine)')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-text-secondary)')}
+            >
+              {label}
+            </Link>
+          ))}
+          <Link
+            href="/first-root"
+            style={{
+              padding: '11px 26px',
+              borderRadius: 'var(--radius-full)',
+              background: 'var(--color-pine)',
+              color: 'var(--color-text-inverse)',
+              fontFamily: 'var(--font-body)',
+              fontSize: 13.5,
+              fontWeight: 600,
+              textDecoration: 'none',
+              letterSpacing: '0.01em',
+              boxShadow: '0 5px 22px rgba(45, 74, 62, 0.28)',
+              transition: 'transform 0.22s, box-shadow 0.22s',
+              display: 'inline-block',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.transform = 'translateY(-2px)'
+              e.currentTarget.style.boxShadow = '0 10px 32px rgba(45, 74, 62, 0.38)'
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.transform = 'translateY(0)'
+              e.currentTarget.style.boxShadow = '0 5px 22px rgba(45, 74, 62, 0.28)'
+            }}
           >
-            <span className="block w-6 h-0.5 bg-[#2D4A3E]" />
-            <span className="block w-6 h-0.5 bg-[#2D4A3E]" />
-            <span className="block w-4 h-0.5 bg-[#2D4A3E]" />
-          </button>
+            Book a Free Call
+          </Link>
         </div>
+
+        {/* Hamburger */}
+        <button
+          className="md:hidden"
+          onClick={() => setMenuOpen(true)}
+          aria-label="Open menu"
+          style={{
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 5,
+          }}
+        >
+          <span style={{ display: 'block', width: 22, height: 1.5, background: 'var(--color-pine)', borderRadius: 2 }} />
+          <span style={{ display: 'block', width: 22, height: 1.5, background: 'var(--color-pine)', borderRadius: 2 }} />
+          <span style={{ display: 'block', width: 14, height: 1.5, background: 'var(--color-pine)', borderRadius: 2 }} />
+        </button>
       </nav>
 
       {/* Mobile overlay */}
       {menuOpen && (
-        <div className="fixed inset-0 z-50 bg-[#FAF7F2] flex flex-col">
-          <div className="h-16 px-6 flex items-center justify-between border-b border-[#2D4A3E]/10">
-            <Link href="/" onClick={() => setMenuOpen(false)} className="flex flex-col leading-none">
-              <span className="font-serif text-xl font-semibold text-[#2D4A3E]">Deepbloom</span>
-              <span className="text-[10px] text-[#6B6B65] tracking-wider">Root deep, bloom safe.</span>
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 200,
+          background: 'var(--color-bg)',
+          display: 'flex',
+          flexDirection: 'column',
+        }}>
+          <div style={{
+            height: 66,
+            padding: '0 24px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            borderBottom: '1px solid var(--color-border)',
+          }}>
+            <Link href="/" onClick={() => setMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
+              <LogoMark size={24} />
+              <span style={{ fontFamily: 'var(--font-display)', fontSize: 17, fontWeight: 700, color: 'var(--color-pine)', letterSpacing: '-0.02em' }}>
+                Deepbloom
+              </span>
             </Link>
             <button
               onClick={() => setMenuOpen(false)}
-              className="p-2 text-[#2D4A3E]"
               aria-label="Close menu"
+              style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 8, color: 'var(--color-pine)' }}
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg width={20} height={20} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
 
-          <div className="flex-1 flex flex-col justify-center px-8 gap-8">
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 32px', gap: 32 }}>
             {links.map(({ href, label }) => (
               <Link
                 key={href}
                 href={href}
                 onClick={() => setMenuOpen(false)}
-                className="font-serif text-3xl text-[#1C1C1A] hover:text-[#2D4A3E] transition-colors"
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 30,
+                  fontWeight: 700,
+                  color: 'var(--color-text-primary)',
+                  textDecoration: 'none',
+                  letterSpacing: '-0.02em',
+                }}
               >
                 {label}
               </Link>
@@ -109,9 +227,20 @@ export default function Navigation() {
             <Link
               href="/first-root"
               onClick={() => setMenuOpen(false)}
-              className="mt-4 self-start bg-[#2D4A3E] text-white text-base px-8 py-3 rounded-full hover:bg-[#7A9E8E] transition-colors"
+              style={{
+                marginTop: 8,
+                alignSelf: 'flex-start',
+                padding: '13px 32px',
+                borderRadius: 'var(--radius-full)',
+                background: 'var(--color-pine)',
+                color: 'var(--color-text-inverse)',
+                fontFamily: 'var(--font-body)',
+                fontSize: 14,
+                fontWeight: 600,
+                textDecoration: 'none',
+              }}
             >
-              Book a Call
+              Book a Free Call
             </Link>
           </div>
         </div>
