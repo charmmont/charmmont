@@ -70,128 +70,52 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 
 export default function WorkWithMePage() {
   return (
-    <>
-      {/* Opening */}
-      <section style={{ padding: '96px 60px 72px' }}>
-        <div style={{ maxWidth: 800, margin: '0 auto' }}>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: 9.5, fontWeight: 500, letterSpacing: '0.10em', textTransform: 'uppercase', color: 'var(--color-sage)', marginBottom: 24 }}>
-            Begin here
-          </p>
-          <h1 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(34px, 4vw, 52px)',
-            fontWeight: 900,
-            color: 'var(--color-text-primary)',
-            lineHeight: 1.08,
-            letterSpacing: '-0.03em',
-            marginBottom: 28,
-          }}>
-            Work With Me
-          </h1>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: 17, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88, maxWidth: 580 }}>
-            This is for the person who senses there&apos;s more. More depth, more honesty, more freedom
-            in who they are and how they move through the world. You don&apos;t need to have it figured
-            out. You just need to be ready to look.
-          </p>
+    <div style={{ position: 'relative', overflow: 'hidden', background: 'var(--color-bg)' }}>
+
+      {/* ── Opening hero ── */}
+      <section style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '120px 60px 80px' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <div style={{ maxWidth: 760, textAlign: 'center', animation: 'fadeUp 0.9s ease both' }}>
+            <h1 style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(34px, 4vw, 52px)',
+              fontWeight: 900,
+              color: 'var(--color-text-primary)',
+              lineHeight: 1.08,
+              letterSpacing: '-0.03em',
+              marginBottom: 28,
+            }}>
+              Work With <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>Me</em>
+            </h1>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 17, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88 }}>
+              This is for the person who senses there&apos;s more. More depth, more honesty, more freedom
+              in who they are and how they move through the world. You don&apos;t need to have it figured
+              out. You just need to be ready to look.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* The Becoming */}
-      <section style={{ padding: '72px 60px', background: 'var(--color-bg-card)' }}>
-        <div style={{ maxWidth: 720, margin: '0 auto' }}>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: 9.5, fontWeight: 500, letterSpacing: '0.10em', textTransform: 'uppercase', color: 'var(--color-sage)', marginBottom: 16 }}>
-            The offer
-          </p>
+      {/* ── Divider ── */}
+      <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: 80 }}>
+        <div style={{ width: 80, height: 1, background: 'var(--color-border)' }} />
+      </div>
+
+      {/* ── The journey ── */}
+      <section style={{ padding: '0 60px 64px' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', background: 'var(--color-bg-card)', borderRadius: 'var(--radius-2xl)', padding: '48px 52px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)' }}>
           <h2 style={{
             fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(26px, 3.5vw, 44px)',
-            fontWeight: 800,
+            fontSize: 'clamp(22px, 2.8vw, 34px)',
+            fontWeight: 700,
             color: 'var(--color-text-primary)',
             letterSpacing: '-0.025em',
-            lineHeight: 1.08,
-            marginBottom: 8,
-          }}>
-            The Becoming
-          </h2>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--color-text-secondary)', marginBottom: 28, letterSpacing: '0.01em' }}>
-            1:1 Coaching — Online
-          </p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 20, fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88 }}>
-            <p>
-              The Becoming is Deepbloom&apos;s core 1:1 coaching programme. It is personal, in-depth work
-              — the kind that doesn&apos;t rush, doesn&apos;t skip the difficult parts, and doesn&apos;t settle for
-              surface-level insight.
-            </p>
-            <p>
-              We begin with The First Root — a free discovery call to understand where you are, what
-              you&apos;re carrying, and what becoming yourself might look like for you. From there, we build
-              a programme shaped entirely around you.
-            </p>
-            <p>Sessions are held online. The pace is yours. The work is ours, together.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* What it isn't */}
-      <section style={{ padding: '72px 60px' }}>
-        <div style={{ maxWidth: 720, margin: '0 auto' }}>
-          <h2 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(22px, 2.8vw, 34px)',
-            fontWeight: 700,
-            color: 'var(--color-text-primary)',
-            letterSpacing: '-0.015em',
-            lineHeight: 1.22,
-            marginBottom: 32,
-          }}>
-            What this isn&apos;t
-          </h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {[
-              'Not a quick fix or a 30-day transformation',
-              "Not advice-giving or telling you what to do",
-              "Not therapy — but it goes to the places therapy sometimes doesn't reach",
-            ].map((item, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
-                <div style={{
-                  marginTop: 2,
-                  width: 20,
-                  height: 20,
-                  borderRadius: '50%',
-                  border: '1.5px solid rgba(45,74,62,0.3)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                }}>
-                  <svg width={10} height={10} fill="none" stroke="var(--color-pine)" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6" />
-                  </svg>
-                </div>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.78 }}>
-                  {item}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* The client journey */}
-      <section style={{ padding: '72px 60px', background: 'var(--color-bg-card)' }}>
-        <div style={{ maxWidth: 720, margin: '0 auto' }}>
-          <h2 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(22px, 2.8vw, 34px)',
-            fontWeight: 700,
-            color: 'var(--color-text-primary)',
-            letterSpacing: '-0.015em',
             textAlign: 'center',
             marginBottom: 48,
           }}>
-            The journey
+            The <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>journey</em>
           </h2>
-          <div className="flex flex-col md:flex-row items-center md:items-start" style={{ gap: 0 }}>
+          <div className="flex flex-col md:flex-row items-center md:items-start" style={{ gap: 0, maxWidth: 640, margin: '0 auto' }}>
             {[
               { label: 'The First Root', sub: 'Free discovery call' },
               { label: 'The Becoming', sub: '1:1 Programme' },
@@ -231,15 +155,89 @@ export default function WorkWithMePage() {
         </div>
       </section>
 
-      {/* Investment */}
-      <section style={{ padding: '72px 60px' }}>
-        <div style={{ maxWidth: 720, margin: '0 auto' }}>
+      {/* ── The offer + What it isn't ── */}
+      <section style={{ padding: '0 60px 64px' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', background: 'var(--color-bg-card)', borderRadius: 'var(--radius-2xl)', padding: '48px 52px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)' }}>
+          <h2 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(26px, 3.5vw, 44px)',
+            fontWeight: 800,
+            color: 'var(--color-text-primary)',
+            letterSpacing: '-0.025em',
+            lineHeight: 1.08,
+            marginBottom: 8,
+          }}>
+            The <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>Becoming</em>
+          </h2>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--color-text-secondary)', marginBottom: 28, letterSpacing: '0.01em' }}>
+            1:1 Coaching — Online
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20, fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88, marginBottom: 48 }}>
+            <p>
+              The Becoming is Deepbloom&apos;s core 1:1 coaching programme. It is personal, in-depth work
+              — the kind that doesn&apos;t rush, doesn&apos;t skip the difficult parts, and doesn&apos;t settle for
+              surface-level insight.
+            </p>
+            <p>
+              We begin with The First Root — a free discovery call to understand where you are, what
+              you&apos;re carrying, and what becoming yourself might look like for you. From there, we build
+              a programme shaped entirely around you.
+            </p>
+            <p>Sessions are held online. The pace is yours. The work is ours, together.</p>
+          </div>
+          {/* Divider */}
+          <div style={{ height: 1, background: 'var(--color-border)', marginBottom: 48 }} />
           <h2 style={{
             fontFamily: 'var(--font-display)',
             fontSize: 'clamp(22px, 2.8vw, 34px)',
             fontWeight: 700,
             color: 'var(--color-text-primary)',
-            letterSpacing: '-0.015em',
+            letterSpacing: '-0.025em',
+            lineHeight: 1.22,
+            marginBottom: 32,
+          }}>
+            What this <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>isn&apos;t</em>
+          </h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {[
+              'Not a quick fix or a 30-day transformation',
+              "Not advice-giving or telling you what to do",
+              "Not therapy — but it goes to the places therapy sometimes doesn't reach",
+            ].map((item, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
+                <div style={{
+                  marginTop: 2,
+                  width: 20,
+                  height: 20,
+                  borderRadius: '50%',
+                  border: '1.5px solid rgba(45,74,62,0.3)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}>
+                  <svg width={10} height={10} fill="none" stroke="var(--color-pine)" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6" />
+                  </svg>
+                </div>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.78 }}>
+                  {item}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Investment ── */}
+      <section style={{ padding: '0 60px 64px' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', background: 'var(--color-bg-card)', borderRadius: 'var(--radius-2xl)', padding: '48px 52px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)' }}>
+          <h2 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(22px, 2.8vw, 34px)',
+            fontWeight: 700,
+            color: 'var(--color-text-primary)',
+            letterSpacing: '-0.025em',
             marginBottom: 24,
           }}>
             Investment
@@ -257,15 +255,15 @@ export default function WorkWithMePage() {
         </div>
       </section>
 
-      {/* FAQ */}
-      <section style={{ padding: '72px 60px', background: 'var(--color-bg-card)' }}>
-        <div style={{ maxWidth: 720, margin: '0 auto' }}>
+      {/* ── FAQ ── */}
+      <section style={{ padding: '0 60px 64px' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', background: 'var(--color-bg-card)', borderRadius: 'var(--radius-2xl)', padding: '48px 52px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)' }}>
           <h2 style={{
             fontFamily: 'var(--font-display)',
             fontSize: 'clamp(22px, 2.8vw, 34px)',
             fontWeight: 700,
             color: 'var(--color-text-primary)',
-            letterSpacing: '-0.015em',
+            letterSpacing: '-0.025em',
             marginBottom: 32,
           }}>
             Questions
@@ -278,42 +276,41 @@ export default function WorkWithMePage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ padding: '72px 60px', background: 'var(--color-pine)' }}>
-        <div style={{ maxWidth: 520, margin: '0 auto', textAlign: 'center' }}>
-          <h2 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(26px, 3.5vw, 44px)',
-            fontWeight: 800,
-            color: 'var(--color-text-inverse)',
-            letterSpacing: '-0.025em',
-            lineHeight: 1.08,
-            marginBottom: 14,
+      {/* ── Final CTA band ── */}
+      <section style={{ padding: '64px 60px 72px' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{
+            background: 'var(--color-pine)', borderRadius: 'var(--radius-2xl)',
+            padding: '56px 64px', textAlign: 'center',
+            position: 'relative', overflow: 'hidden',
           }}>
-            Begin with The First Root
-          </h2>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'var(--color-sage)', lineHeight: 1.78, marginBottom: 36 }}>
-            A free 30-minute conversation. No commitment.
-          </p>
-          <Link
-            href="/first-root"
-            style={{
-              display: 'inline-block',
-              padding: '13px 36px',
-              borderRadius: 'var(--radius-full)',
-              background: 'var(--color-bg)',
-              color: 'var(--color-pine)',
-              fontFamily: 'var(--font-body)',
-              fontSize: 14,
-              fontWeight: 600,
-              textDecoration: 'none',
-              boxShadow: '0 8px 28px rgba(0,0,0,0.18)',
-            }}
-          >
-            Book The First Root
-          </Link>
+            {/* Botanical accent inside CTA */}
+            <svg aria-hidden="true" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', opacity: 0.1 }} viewBox="0 0 900 280" preserveAspectRatio="xMidYMid slice">
+              <path d="M-40 280 Q120 200 200 160 Q280 120 270 60" stroke="#fff" strokeWidth="1.3" fill="none" strokeLinecap="round" />
+              <path d="M940 280 Q780 200 700 160 Q620 120 630 60" stroke="#fff" strokeWidth="1.3" fill="none" strokeLinecap="round" />
+              {([[180, 92], [680, 105], [430, 28], [78, 188], [810, 195]] as [number, number][]).map(([x, y], i) => (
+                <path key={i} d={`M${x} ${y} Q${x + 16} ${y - 24} ${x + 28} ${y} Q${x + 16} ${y + 10} ${x} ${y}Z`} fill="#fff" opacity="0.6" />
+              ))}
+            </svg>
+            <div style={{ position: 'relative', zIndex: 2 }}>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3.5vw, 44px)', fontWeight: 800, color: 'var(--color-text-inverse)', letterSpacing: '-0.025em', lineHeight: 1.08, marginBottom: 16 }}>
+                Begin with <em style={{ fontStyle: 'italic' }}>The First Root</em>
+              </h2>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'rgba(250,247,242,0.5)', lineHeight: 1.78, maxWidth: 420, margin: '0 auto 34px' }}>
+                A free 30-minute conversation. No commitment.
+              </p>
+              <Link
+                href="/first-root"
+                className="hover:-translate-y-0.5 transition-transform"
+                style={{ display: 'inline-block', padding: '13px 36px', borderRadius: 'var(--radius-full)', background: 'var(--color-bg)', color: 'var(--color-pine)', fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 600, textDecoration: 'none', boxShadow: '0 8px 28px rgba(0,0,0,0.18)' }}
+              >
+                Book The First Root
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
-    </>
+
+    </div>
   )
 }

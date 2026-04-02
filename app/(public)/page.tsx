@@ -22,17 +22,17 @@ function BotanicalBg() {
     >
       {/* ── Upper left stem ── */}
       <path
-        d="M-60 900 Q80 750 170 700 Q260 648 252 545 Q244 445 315 398 Q386 351 370 270 Q354 189 420 152"
+        d="M-60 900 Q50 780 100 700 Q150 620 140 540 Q130 460 175 380 Q220 300 175 200 Q120 80 10 -20"
         stroke="var(--color-pine)" strokeWidth="1.6" strokeLinecap="round" fill="none"
         style={{ strokeDasharray: 950, strokeDashoffset: 950, animation: 'rootDraw 4.5s ease 0.3s forwards', opacity: 0.13 }}
       />
       <path
-        d="M170 700 Q200 670 230 695 Q260 720 248 745"
+        d="M100 700 Q128 678 150 703 Q160 719 148 735"
         stroke="var(--color-pine)" strokeWidth="1" strokeLinecap="round" fill="none"
         style={{ strokeDasharray: 200, strokeDashoffset: 200, animation: 'rootDraw 2.5s ease 1s forwards', opacity: 0.1 }}
       />
       <path
-        d="M252 545 Q282 525 308 552 Q320 570 310 590"
+        d="M140 540 Q168 520 188 545 Q198 562 186 578"
         stroke="var(--color-pine)" strokeWidth="1" strokeLinecap="round" fill="none"
         style={{ strokeDasharray: 180, strokeDashoffset: 180, animation: 'rootDraw 2s ease 1.4s forwards', opacity: 0.1 }}
       />
@@ -75,19 +75,44 @@ function BotanicalBg() {
         style={{ strokeDasharray: 750, strokeDashoffset: 750, animation: 'rootDraw 4.5s ease 1s forwards', opacity: 0.08 }}
       />
 
-      {/* ── Leaf shapes — upper left ── */}
-      {/* upper-left: spaced so x-ranges never overlap between adjacent leaves */}
+      {/* ── Leaf shapes — upper left, right-side ── */}
+      {/*
+        Verified bboxes (no overlap):
+        node-1  (102,692,0.85): x[102,131] y[668,701]
+        node-2  (142,532,0.85): x[142,171] y[508,541]
+        stem-mid(174,374,0.82): x[174,202] y[351,383]
+        stem-up (174,192,0.82): x[174,202] y[169,201]
+        top     (104,130,0.78): x[104,130] y[108,139]  — brought down from y=38
+      */}
       {([
-        [420, 148, 0.3, 0.9],  // x:[420,451] y:[123,158]
-        [378, 172, 0.6, 0.85], // x:[378,407] — 407<420 ✓
-        [368, 255, 0.9, 0.95], // x:[368,400] y:[229,266] — separate node
-        [330, 282, 1.2, 0.85], // x:[330,359] — 359<368 ✓
-        [170, 693, 1.5, 0.8],  // x:[170,197] — branch node, isolated
+        [102, 692, 0.3, 0.85],
+        [142, 532, 0.8, 0.85],
+        [174, 374, 1.3, 0.82],
+        [174, 192, 1.5, 0.82],
+        [104, 130, 1.8, 0.78],
       ] as [number, number, number, number][]).map(([x, y, d, s], i) => (
-        <path key={`ul${i}`}
+        <path key={`ul-r${i}`}
           d={`M${x} ${y} Q${x + 20 * s} ${y - 28 * s} ${x + 34 * s} ${y} Q${x + 20 * s} ${y + 11 * s} ${x} ${y}Z`}
           fill="var(--color-sage)"
           style={{ opacity: 0.12, animation: `leafIn 1s ease ${d + 0.4}s both` }}
+        />
+      ))}
+      {/* ── Leaf shapes — upper left, left-side (mirrored bilateral) ── */}
+      {/*
+        Verified bboxes — right ends at x≥102/142, left ends at x≤100/140 → 2-unit gap:
+        node-1  (100,714,0.78): x[78,100]  — right x starts 102, no x overlap ✓
+        node-2  (140,552,0.78): x[118,140] — right x starts 142, no x overlap ✓
+        stem-up (182,222,0.75): x[161,182] — right ends y=201, left starts y=206, no y overlap ✓
+      */}
+      {([
+        [100, 714, 0.5, 0.78],
+        [140, 552, 1.0, 0.78],
+        [182, 222, 1.6, 0.75],
+      ] as [number, number, number, number][]).map(([x, y, d, s], i) => (
+        <path key={`ul-l${i}`}
+          d={`M${x} ${y} Q${x - 16 * s} ${y - 22 * s} ${x - 28 * s} ${y} Q${x - 16 * s} ${y + 9 * s} ${x} ${y}Z`}
+          fill="var(--color-sage)"
+          style={{ opacity: 0.10, animation: `leafIn 1s ease ${d + 0.4}s both` }}
         />
       ))}
 
@@ -288,9 +313,6 @@ export default function HomePage() {
         <div style={{ maxWidth: 1200, margin: '0 auto', background: 'var(--color-bg-card)', borderRadius: 'var(--radius-2xl)', padding: '48px 52px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)' }}>
           <div className="grid md:grid-cols-2" style={{ gap: 56, alignItems: 'center' }}>
             <div>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: 9.5, fontWeight: 500, letterSpacing: '0.10em', textTransform: 'uppercase', color: 'var(--color-sage)', marginBottom: 16 }}>
-                The practice
-              </p>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 800, color: 'var(--color-text-primary)', lineHeight: 1.22, letterSpacing: '-0.025em', marginBottom: 20 }}>
                 Therapeutic coaching that goes where it{' '}
                 <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>needs to go.</em>
@@ -319,9 +341,6 @@ export default function HomePage() {
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--color-text-secondary)', fontStyle: 'italic' }}>Ayelen — Deepbloom</p>
             </div>
             <div>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: 9.5, fontWeight: 500, letterSpacing: '0.10em', textTransform: 'uppercase', color: 'var(--color-sage)', marginBottom: 16 }}>
-                The guide
-              </p>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 800, color: 'var(--color-text-primary)', lineHeight: 1.22, letterSpacing: '-0.025em', marginBottom: 20 }}>
                 I&apos;ve <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>walked</em> this path.
               </h2>
@@ -358,9 +377,6 @@ export default function HomePage() {
               ))}
             </svg>
             <div style={{ position: 'relative', zIndex: 2 }}>
-              <div style={{ fontFamily: 'var(--font-body)', fontSize: 10.5, color: 'rgba(250,247,242,0.4)', letterSpacing: '0.13em', textTransform: 'uppercase', marginBottom: 16 }}>
-                Begin here
-              </div>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3.5vw, 44px)', fontWeight: 800, color: 'var(--color-text-inverse)', letterSpacing: '-0.025em', lineHeight: 1.08, marginBottom: 16 }}>
                 Ready to begin?
               </h2>

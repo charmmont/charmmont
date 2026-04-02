@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <defs>
+    <clipPath id="lc">
+      <path d="M16 5.5 Q22.5 9.5 22.5 15 Q22.5 23.5 16 25.5 Q9.5 23.5 9.5 15 Q9.5 9.5 16 5.5Z"/>
+    </clipPath>
+    <linearGradient id="ng"
+      x1="21.5" y1="12.5" x2="10.5" y2="17.5"
+      gradientUnits="userSpaceOnUse">
+      <stop offset="49.5%" stop-color="#7A9E8E"/>
+      <stop offset="50.5%" stop-color="#FAF7F2"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 1. Background -->
+  <rect width="32" height="32" rx="7" fill="#2D4A3E"/>
+
+  <!-- 2. Both nerve arms as ONE path — single stroke-width guarantees equal thickness -->
+  <path d="M21.5 12.5 Q19 11.5 16 15 Q13 18.5 10.5 17.5"
+        stroke="url(#ng)" stroke-width="1.6" stroke-linecap="round"
+        clip-path="url(#lc)"/>
+
+  <!-- 3. Main white stem — drawn on top so its round cap cleanly covers the junction -->
+  <path d="M16 25.5 L16 15"
+        stroke="#FAF7F2" stroke-width="1.6" stroke-linecap="round"
+        clip-path="url(#lc)"/>
+
+  <!-- 4. Leaf outline — topmost layer, defines the clean edge -->
+  <path d="M16 5.5 Q22.5 9.5 22.5 15 Q22.5 23.5 16 25.5 Q9.5 23.5 9.5 15 Q9.5 9.5 16 5.5Z"
+        stroke="#FAF7F2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

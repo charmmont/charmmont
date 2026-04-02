@@ -9,6 +9,11 @@ export const metadata: Metadata = {
   description:
     'Deepbloom is a therapeutic coaching practice for people ready to go beneath the surface. Work with Ayelen for honest, unhurried 1:1 coaching.',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://deepbloom.me'),
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
   openGraph: {
     siteName: 'Deepbloom',
     type: 'website',
