@@ -16,7 +16,7 @@ export default function FirstRootPage() {
       />
 
       {/* ── Opening hero ── */}
-      <section style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '120px 60px 80px' }}>
+      <section className="pub-hero" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '120px 60px 80px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%', display: 'flex', justifyContent: 'center' }}>
           <div style={{ maxWidth: 760, textAlign: 'center', animation: 'fadeUp 0.9s ease both' }}>
             <h1 style={{
@@ -38,13 +38,13 @@ export default function FirstRootPage() {
       </section>
 
       {/* ── Divider ── */}
-      <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: 80 }}>
+      <div className="hero-divider" style={{ display: 'flex', justifyContent: 'center', paddingBottom: 80 }}>
         <div style={{ width: 80, height: 1, background: 'var(--color-border)' }} />
       </div>
 
       {/* ── Description + What to expect ── */}
-      <section style={{ padding: '0 60px 64px' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', background: 'var(--color-bg-card)', borderRadius: 'var(--radius-2xl)', padding: '48px 52px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)' }}>
+      <section className="pub-section-x" style={{ padding: '0 60px 64px' }}>
+        <div className="card-inner" style={{ maxWidth: 1200, margin: '0 auto', background: 'var(--color-bg-card)', borderRadius: 'var(--radius-2xl)', padding: '48px 52px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)' }}>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88, marginBottom: 48, textAlign: 'center' }}>
             This is not a sales call. It&apos;s a conversation — a chance for us to understand where you
             are, what&apos;s brought you here, and whether working together feels right. You&apos;ll leave
@@ -87,7 +87,7 @@ export default function FirstRootPage() {
       </section>
 
       {/* ── Calendly ── */}
-      <section style={{ padding: '0 60px 64px' }}>
+      <section className="pub-section-x" style={{ padding: '0 60px 64px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', background: 'var(--color-bg-card)', borderRadius: 'var(--radius-2xl)', padding: '8px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)', overflow: 'hidden' }}>
           <div
             className="calendly-inline-widget"
@@ -98,9 +98,9 @@ export default function FirstRootPage() {
       </section>
 
       {/* ── Final CTA band ── */}
-      <section style={{ padding: '0 60px 72px' }}>
+      <section className="pub-section-x" style={{ padding: '0 60px 72px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{
+          <div className="cta-band" style={{
             background: 'var(--color-pine)', borderRadius: 'var(--radius-2xl)',
             padding: '56px 64px', textAlign: 'center',
             position: 'relative', overflow: 'hidden',

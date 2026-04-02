@@ -125,3 +125,35 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ── Mobile responsive overrides ────────────────────────────────────────────── */
+
+@media (max-width: 767px) {
+  /* Navigation */
+  .nav-bar        { padding: 0 20px !important; }
+
+  /* Hero sections */
+  .pub-hero       { padding: 72px 20px 48px !important; }
+
+  /* Divider below hero */
+  .hero-divider   { padding-bottom: 40px !important; }
+
+  /* Section horizontal padding (60px → 16px) */
+  .pub-section-x  { padding-left: 16px !important; padding-right: 16px !important; }
+
+  /* Card inner padding (48px 52px → 24px 20px) */
+  .card-inner     { padding: 24px 20px !important; }
+
+  /* CTA band inner padding (56px 64px → 36px 24px) */
+  .cta-band       { padding: 36px 24px !important; }
+
+  /* Home offer grid: 2-col → 1-col */
+  .offer-grid     { grid-template-columns: 1fr !important; }
+
+  /* About belief grid: 3-col → 1-col */
+  .belief-grid    { grid-template-columns: 1fr !important; }
+
+  /* Footer: horizontal → vertical stack */
+  .footer-wrap    { flex-direction: column !important; align-items: flex-start !important; padding: 20px 20px !important; gap: 14px !important; }
+  .footer-nav     { justify-content: flex-start !important; }
+}

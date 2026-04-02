@@ -56,6 +56,7 @@ export default function Navigation() {
   return (
     <>
       <nav
+        className="nav-bar"
         style={{
           position: 'fixed',
           top: 0,

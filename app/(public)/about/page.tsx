@@ -14,7 +14,7 @@ export default function AboutPage() {
     <div style={{ position: 'relative', overflow: 'hidden', background: 'var(--color-bg)' }}>
 
       {/* ── Opening hero ── */}
-      <section style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '120px 60px 80px' }}>
+      <section className="pub-hero" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '120px 60px 80px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%', display: 'flex', justifyContent: 'center' }}>
           <div style={{ maxWidth: 760, textAlign: 'center', animation: 'fadeUp 0.9s ease both' }}>
             <h1 style={{
@@ -34,14 +34,14 @@ export default function AboutPage() {
       </section>
 
       {/* ── Divider ── */}
-      <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: 80 }}>
+      <div className="hero-divider" style={{ display: 'flex', justifyContent: 'center', paddingBottom: 80 }}>
         <div style={{ width: 80, height: 1, background: 'var(--color-border)' }} />
       </div>
 
       {/* ── Brand Story ── */}
-      <section style={{ padding: '0 60px 72px' }}>
+      <section className="pub-section-x" style={{ padding: '0 60px 72px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{
+          <div className="card-inner" style={{
             background: 'var(--color-bg-card)',
             borderRadius: 'var(--radius-2xl)',
             padding: '48px 52px',
@@ -83,7 +83,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── What I Believe ── */}
-      <section style={{ padding: '0 60px 0' }}>
+      <section className="pub-section-x" style={{ padding: '0 60px 0' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 40 }}>
             <h2 style={{
@@ -96,7 +96,7 @@ export default function AboutPage() {
               What I <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>believe</em>
             </h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18 }}>
+          <div className="belief-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18 }}>
             {[
               { text: 'Real change happens beneath the surface, not on it.', label: 'On depth' },
               { text: "Safety is not a soft extra. It's where transformation begins.", label: 'On safety' },
@@ -128,8 +128,8 @@ export default function AboutPage() {
       </section>
 
       {/* ── My Approach + Photo ── */}
-      <section style={{ padding: '64px 60px 0' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', background: 'var(--color-bg-card)', borderRadius: 'var(--radius-2xl)', padding: '48px 52px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)' }}>
+      <section className="pub-section-x" style={{ padding: '64px 60px 0' }}>
+        <div className="card-inner" style={{ maxWidth: 1200, margin: '0 auto', background: 'var(--color-bg-card)', borderRadius: 'var(--radius-2xl)', padding: '48px 52px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)' }}>
           <div className="grid md:grid-cols-2" style={{ gap: 56, alignItems: 'center' }}>
             <div style={{ background: 'var(--color-bg)', borderRadius: 'var(--radius-xl)', height: 380, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--color-border)' }}>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--color-text-secondary)', fontStyle: 'italic' }}>Practitioner photo coming soon</p>
@@ -158,9 +158,9 @@ export default function AboutPage() {
       </section>
 
       {/* ── Final CTA band ── */}
-      <section style={{ padding: '64px 60px 72px' }}>
+      <section className="pub-section-x" style={{ padding: '64px 60px 72px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{
+          <div className="cta-band" style={{
             background: 'var(--color-pine)', borderRadius: 'var(--radius-2xl)',
             padding: '56px 64px', textAlign: 'center',
             position: 'relative', overflow: 'hidden',

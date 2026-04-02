@@ -188,7 +188,7 @@ export default function HomePage() {
       <BotanicalBg />
 
       {/* ── Hero ── */}
-      <section style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '120px 60px 80px', position: 'relative', zIndex: 5 }}>
+      <section className="pub-hero" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '120px 60px 80px', position: 'relative', zIndex: 5 }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%', display: 'flex', justifyContent: 'center' }}>
           <div style={{ maxWidth: 700, textAlign: 'center', animation: 'fadeUp 0.9s ease both' }}>
             <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(38px, 5vw, 62px)', fontWeight: 900, color: 'var(--color-text-primary)', lineHeight: 1.08, letterSpacing: '-0.03em', marginBottom: 28 }}>
@@ -229,12 +229,12 @@ export default function HomePage() {
       </section>
 
       {/* ── Divider ── */}
-      <div style={{ position: 'relative', zIndex: 5, display: 'flex', justifyContent: 'center', paddingBottom: 80 }}>
+      <div className="hero-divider" style={{ position: 'relative', zIndex: 5, display: 'flex', justifyContent: 'center', paddingBottom: 80 }}>
         <div style={{ width: 80, height: 1, background: 'var(--color-border)' }} />
       </div>
 
       {/* ── You don't need to have it figured out ── */}
-      <section style={{ padding: '80px 60px 0', position: 'relative', zIndex: 5 }}>
+      <section className="pub-section-x" style={{ padding: '80px 60px 0', position: 'relative', zIndex: 5 }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           {/* Heading block — centered */}
           <div style={{ textAlign: 'center', maxWidth: 720, margin: '0 auto 52px' }}>
@@ -249,7 +249,7 @@ export default function HomePage() {
           </div>
 
           {/* Offer cards — 2 col, centered */}
-          <div style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 18 }}>
+          <div className="offer-grid" style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 18 }}>
             {/* The First Root */}
             <div style={{ background: 'var(--color-bg-card)', borderRadius: 'var(--radius-xl)', padding: '28px 30px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)', display: 'flex', flexDirection: 'column' }}>
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 20 }}>
@@ -309,8 +309,8 @@ export default function HomePage() {
       </section>
 
       {/* ── What Deepbloom Is ── */}
-      <section style={{ padding: '64px 60px 0', position: 'relative', zIndex: 5 }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', background: 'var(--color-bg-card)', borderRadius: 'var(--radius-2xl)', padding: '48px 52px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)' }}>
+      <section className="pub-section-x" style={{ padding: '64px 60px 0', position: 'relative', zIndex: 5 }}>
+        <div className="card-inner" style={{ maxWidth: 1200, margin: '0 auto', background: 'var(--color-bg-card)', borderRadius: 'var(--radius-2xl)', padding: '48px 52px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)' }}>
           <div className="grid md:grid-cols-2" style={{ gap: 56, alignItems: 'center' }}>
             <div>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 800, color: 'var(--color-text-primary)', lineHeight: 1.22, letterSpacing: '-0.025em', marginBottom: 20 }}>
@@ -334,8 +334,8 @@ export default function HomePage() {
       </section>
 
       {/* ── About Bridge ── */}
-      <section style={{ padding: '64px 60px 0', position: 'relative', zIndex: 5 }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', background: 'var(--color-bg-card)', borderRadius: 'var(--radius-2xl)', padding: '48px 52px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)' }}>
+      <section className="pub-section-x" style={{ padding: '64px 60px 0', position: 'relative', zIndex: 5 }}>
+        <div className="card-inner" style={{ maxWidth: 1200, margin: '0 auto', background: 'var(--color-bg-card)', borderRadius: 'var(--radius-2xl)', padding: '48px 52px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)' }}>
           <div className="grid md:grid-cols-2" style={{ gap: 56, alignItems: 'center' }}>
             <div style={{ background: 'var(--color-bg)', borderRadius: 'var(--radius-xl)', height: 300, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--color-border)' }}>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--color-text-secondary)', fontStyle: 'italic' }}>Ayelen — Deepbloom</p>
@@ -361,9 +361,9 @@ export default function HomePage() {
       </section>
 
       {/* ── Final CTA band ── */}
-      <section style={{ padding: '64px 60px 72px', position: 'relative', zIndex: 5 }}>
+      <section className="pub-section-x" style={{ padding: '64px 60px 72px', position: 'relative', zIndex: 5 }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{
+          <div className="cta-band" style={{
             background: 'var(--color-pine)', borderRadius: 'var(--radius-2xl)',
             padding: '56px 64px', textAlign: 'center',
             position: 'relative', overflow: 'hidden',

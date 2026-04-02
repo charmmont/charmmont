@@ -45,7 +45,7 @@ export default function Footer() {
       background: 'var(--color-bg-card)',
       borderTop: '1px solid var(--color-border)',
     }}>
-      <div style={{
+      <div className="footer-wrap" style={{
         maxWidth: 1200,
         margin: '0 auto',
         padding: '18px 60px',
@@ -77,7 +77,7 @@ export default function Footer() {
         </div>
 
         {/* Nav links */}
-        <nav style={{ display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap', justifyContent: 'center' }}>
+        <nav className="footer-nav" style={{ display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap', justifyContent: 'center' }}>
           {links.map(({ href, label }) => (
             <Link
               key={href}

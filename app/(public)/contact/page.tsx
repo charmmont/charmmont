@@ -65,7 +65,7 @@ export default function ContactPage() {
     <div style={{ position: 'relative', overflow: 'hidden', background: 'var(--color-bg)' }}>
 
       {/* ── Opening hero ── */}
-      <section style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '120px 60px 80px' }}>
+      <section className="pub-hero" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '120px 60px 80px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%', display: 'flex', justifyContent: 'center' }}>
           <div style={{ maxWidth: 760, textAlign: 'center', animation: 'fadeUp 0.9s ease both' }}>
             <h1 style={{
@@ -87,13 +87,13 @@ export default function ContactPage() {
       </section>
 
       {/* ── Divider ── */}
-      <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: 80 }}>
+      <div className="hero-divider" style={{ display: 'flex', justifyContent: 'center', paddingBottom: 80 }}>
         <div style={{ width: 80, height: 1, background: 'var(--color-border)' }} />
       </div>
 
       {/* ── Form card ── */}
-      <section style={{ padding: '0 60px 72px' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', background: 'var(--color-bg-card)', borderRadius: 'var(--radius-2xl)', padding: '48px 52px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)' }}>
+      <section className="pub-section-x" style={{ padding: '0 60px 72px' }}>
+        <div className="card-inner" style={{ maxWidth: 1200, margin: '0 auto', background: 'var(--color-bg-card)', borderRadius: 'var(--radius-2xl)', padding: '48px 52px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)' }}>
 
           {state === 'success' ? (
             <div style={{ textAlign: 'center', padding: '40px 0' }}>
