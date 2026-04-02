@@ -10,7 +10,7 @@ interface Props {
 export default function PortalShell({ role, name, children }: Props) {
   return (
     <div
-      className="pt-[54px] md:pt-0"
+      className="portal-wrapper"
       style={{ display: 'flex', minHeight: '100vh', background: 'var(--color-bg)' }}
     >
       <PortalNav role={role} name={name} />
