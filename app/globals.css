@@ -132,6 +132,7 @@
   /* Navigation */
   .nav-bar        { padding: 0 20px !important; }
 
+
   /* Hero sections */
   .pub-hero       { padding: 72px 20px 48px !important; }
 
@@ -146,6 +147,9 @@
 
   /* CTA band inner padding (56px 64px → 36px 24px) */
   .cta-band       { padding: 36px 24px !important; }
+
+  /* Journey steps: add vertical gap between stacked items */
+  .journey-steps  { gap: 24px !important; }
 
   /* Home offer grid: 2-col → 1-col */
   .offer-grid     { grid-template-columns: 1fr !important; }

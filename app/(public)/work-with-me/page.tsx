@@ -115,7 +115,7 @@ export default function WorkWithMePage() {
           }}>
             The <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>journey</em>
           </h2>
-          <div className="flex flex-col md:flex-row items-center md:items-start" style={{ gap: 0, maxWidth: 640, margin: '0 auto' }}>
+          <div className="journey-steps flex flex-col md:flex-row items-center md:items-start" style={{ gap: 0, maxWidth: 640, margin: '0 auto' }}>
             {[
               { label: 'The First Root', sub: 'Free discovery call' },
               { label: 'The Becoming', sub: '1:1 Programme' },
