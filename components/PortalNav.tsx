@@ -183,22 +183,6 @@ export default function PortalNav({ role, name }: Props) {
           overflowY: 'auto',
         }}
       >
-        {/* Wordmark */}
-        <Link
-          href={role === 'practitioner' ? '/portal/dashboard' : '/portal/my-space'}
-          style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 10px 18px', textDecoration: 'none' }}
-        >
-          <LogoMark size={22} />
-          <div>
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--color-pine)', letterSpacing: '-0.02em', lineHeight: 1 }}>
-              Deepbloom
-            </div>
-            <div style={{ fontFamily: 'var(--font-body)', fontSize: 8.5, color: 'var(--color-sage)', letterSpacing: '0.08em', textTransform: 'uppercase', marginTop: 2 }}>
-              {role === 'practitioner' ? 'Practice' : 'My Space'}
-            </div>
-          </div>
-        </Link>
-
         {/* Nav items */}
         <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2 }}>
           {links.map(({ href, label, Icon }) => {
@@ -370,11 +354,7 @@ export default function PortalNav({ role, name }: Props) {
               overflowY: 'auto',
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 22, padding: '0 6px' }}>
-              <Link href={role === 'practitioner' ? '/portal/dashboard' : '/portal/my-space'} onClick={() => setMobileOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
-                <LogoMark size={22} />
-                <span style={{ fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, color: 'var(--color-pine)', letterSpacing: '-0.02em' }}>Deepbloom</span>
-              </Link>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 22, padding: '0 6px' }}>
               <button onClick={() => setMobileOpen(false)} aria-label="Close" style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-secondary)', padding: 4 }}>
                 <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6" viewBox="0 0 24 24"><path strokeLinecap="round" d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
