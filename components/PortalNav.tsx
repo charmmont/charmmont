@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
@@ -141,7 +140,6 @@ const clientLinks = [
 export default function PortalNav({ role, name }: Props) {
   const pathname = usePathname()
   const router = useRouter()
-  const [mobileOpen, setMobileOpen] = useState(false)
   const links = role === 'practitioner' ? practitionerLinks : clientLinks
 
   const initials = name
@@ -165,18 +163,47 @@ export default function PortalNav({ role, name }: Props) {
 
   return (
     <>
-      {/* ── Desktop sidebar ── */}
+      {/* ── Top bar ── */}
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 50,
+          height: 54,
+          display: 'flex',
+          alignItems: 'center',
+          padding: '0 20px',
+          background: 'rgba(250, 247, 242, 0.95)',
+          backdropFilter: 'blur(14px)',
+          WebkitBackdropFilter: 'blur(14px)',
+          borderBottom: '1px solid var(--color-border)',
+        }}
+      >
+        <Link
+          href={role === 'practitioner' ? '/portal/dashboard' : '/portal/my-space'}
+          style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}
+        >
+          <LogoMark size={20} />
+          <span style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--color-pine)', letterSpacing: '-0.02em' }}>
+            Deepbloom
+          </span>
+        </Link>
+      </div>
+
+      {/* ── Sidebar (always visible) ── */}
       <aside
-        className="hidden md:flex"
         style={{
           width: 222,
           flexShrink: 0,
           background: 'var(--color-bg-card)',
           borderRight: '1px solid var(--color-border)',
-          padding: '22px 12px',
+          padding: '74px 12px 22px',
           height: '100vh',
           position: 'sticky',
           top: 0,
+          display: 'flex',
           flexDirection: 'column',
           gap: 2,
           boxShadow: '2px 0 18px rgba(45, 74, 62, 0.04)',
@@ -285,124 +312,6 @@ export default function PortalNav({ role, name }: Props) {
         </div>
       </aside>
 
-      {/* ── Mobile top bar ── */}
-      <div
-        className="md:hidden"
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 50,
-          height: 54,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '0 20px',
-          background: 'rgba(250, 247, 242, 0.95)',
-          backdropFilter: 'blur(14px)',
-          WebkitBackdropFilter: 'blur(14px)',
-          borderBottom: '1px solid var(--color-border)',
-        }}
-      >
-        <Link
-          href={role === 'practitioner' ? '/portal/dashboard' : '/portal/my-space'}
-          style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}
-        >
-          <LogoMark size={20} />
-          <span style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color: 'var(--color-pine)', letterSpacing: '-0.02em' }}>
-            Deepbloom
-          </span>
-        </Link>
-        <button
-          onClick={() => setMobileOpen(true)}
-          aria-label="Open navigation"
-          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 8, color: 'var(--color-pine)' }}
-        >
-          <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" viewBox="0 0 24 24">
-            <path d="M3 12h18M3 6h18M3 18h18" />
-          </svg>
-        </button>
-      </div>
-
-      {/* ── Mobile drawer ── */}
-      {mobileOpen && (
-        <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: 200,
-            display: 'flex',
-          }}
-        >
-          {/* Backdrop */}
-          <div
-            style={{ position: 'absolute', inset: 0, background: 'rgba(28,28,26,0.35)', backdropFilter: 'blur(4px)' }}
-            onClick={() => setMobileOpen(false)}
-          />
-          {/* Drawer */}
-          <div
-            style={{
-              position: 'relative',
-              width: 260,
-              height: '100%',
-              background: 'var(--color-bg-card)',
-              display: 'flex',
-              flexDirection: 'column',
-              padding: '88px 14px 22px',
-              boxShadow: 'var(--shadow-lg)',
-              overflowY: 'auto',
-            }}
-          >
-            <button
-              onClick={() => setMobileOpen(false)}
-              aria-label="Close"
-              style={{ position: 'absolute', top: 62, right: 14, background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-secondary)', padding: 4 }}
-            >
-              <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6" viewBox="0 0 24 24"><path strokeLinecap="round" d="M6 18L18 6M6 6l12 12" /></svg>
-            </button>
-
-            <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2 }}>
-              {links.map(({ href, label, Icon }) => {
-                const active = isActive(href)
-                return (
-                  <Link
-                    key={href}
-                    href={href}
-                    onClick={() => setMobileOpen(false)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 10,
-                      padding: '11px 14px',
-                      borderRadius: 12,
-                      background: active ? 'var(--color-active)' : 'transparent',
-                      border: `1px solid ${active ? 'var(--color-border)' : 'transparent'}`,
-                      textDecoration: 'none',
-                      color: active ? 'var(--color-pine)' : 'rgba(45,74,62,0.4)',
-                    }}
-                  >
-                    <Icon />
-                    <span style={{ fontFamily: 'var(--font-body)', fontSize: 13, fontWeight: active ? 600 : 400, color: active ? 'var(--color-pine)' : 'rgba(45,74,62,0.55)' }}>
-                      {label}
-                    </span>
-                  </Link>
-                )
-              })}
-            </nav>
-
-            <div style={{ borderTop: '1px solid var(--color-border)', paddingTop: 14, marginTop: 8 }}>
-              <button
-                onClick={handleSignOut}
-                style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: '10px 14px', borderRadius: 11, background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)', fontSize: 12 }}
-              >
-                <IconSignOut />
-                Sign out
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   )
 }
