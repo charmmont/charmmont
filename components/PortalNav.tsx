@@ -349,16 +349,18 @@ export default function PortalNav({ role, name }: Props) {
               background: 'var(--color-bg-card)',
               display: 'flex',
               flexDirection: 'column',
-              padding: '76px 14px 22px',
+              padding: '88px 14px 22px',
               boxShadow: 'var(--shadow-lg)',
               overflowY: 'auto',
             }}
           >
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 22, padding: '0 6px' }}>
-              <button onClick={() => setMobileOpen(false)} aria-label="Close" style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-secondary)', padding: 4 }}>
-                <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6" viewBox="0 0 24 24"><path strokeLinecap="round" d="M6 18L18 6M6 6l12 12" /></svg>
-              </button>
-            </div>
+            <button
+              onClick={() => setMobileOpen(false)}
+              aria-label="Close"
+              style={{ position: 'absolute', top: 62, right: 14, background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-secondary)', padding: 4 }}
+            >
+              <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6" viewBox="0 0 24 24"><path strokeLinecap="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
 
             <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2 }}>
               {links.map(({ href, label, Icon }) => {
