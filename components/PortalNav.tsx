@@ -365,7 +365,7 @@ export default function PortalNav({ role, name }: Props) {
               background: 'var(--color-bg-card)',
               display: 'flex',
               flexDirection: 'column',
-              padding: '22px 14px',
+              padding: '76px 14px 22px',
               boxShadow: 'var(--shadow-lg)',
               overflowY: 'auto',
             }}
