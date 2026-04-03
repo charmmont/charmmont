@@ -126,11 +126,6 @@
   }
 }
 
-/* ── Portal: push content below the 54px mobile fixed top bar ───────────────── */
-@media (max-width: 767px) {
-  .portal-content-offset { padding-top: 54px; }
-}
-
 /* ── Mobile responsive overrides ────────────────────────────────────────────── */
 
 @media (max-width: 767px) {
