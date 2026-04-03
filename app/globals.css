@@ -126,9 +126,10 @@
   }
 }
 
-/* ── Portal: offset outer wrapper below fixed mobile top bar ────────────────── */
-.portal-wrapper { padding-top: 54px; }
-@media (min-width: 768px) { .portal-wrapper { padding-top: 0; } }
+/* ── Portal: push content below the 54px mobile fixed top bar ───────────────── */
+@media (max-width: 767px) {
+  .portal-content-offset { padding-top: 54px; }
+}
 
 /* ── Mobile responsive overrides ────────────────────────────────────────────── */
 

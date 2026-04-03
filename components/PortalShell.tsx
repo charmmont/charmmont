@@ -9,13 +9,13 @@ interface Props {
 
 export default function PortalShell({ role, name, children }: Props) {
   return (
-    <div
-      className="portal-wrapper"
-      style={{ display: 'flex', minHeight: '100vh', background: 'var(--color-bg)' }}
-    >
+    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--color-bg)' }}>
       <PortalNav role={role} name={name} />
       <main style={{ flex: 1, minWidth: 0, padding: '30px 34px', overflowY: 'auto' }}>
-        {children}
+        {/* On mobile: push content below the fixed 54px top bar. No inline paddingTop on this div so the CSS class wins cleanly. */}
+        <div className="portal-content-offset">
+          {children}
+        </div>
       </main>
     </div>
   )
