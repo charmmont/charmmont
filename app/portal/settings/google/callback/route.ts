@@ -1,28 +1,29 @@
-import { NextRequest } from 'next/server'
-import { redirect } from 'next/navigation'
+import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { exchangeGoogleCode } from '@/lib/google-calendar'
+
+const BASE = 'https://deepbloom.me'
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const code  = searchParams.get('code')
   const error = searchParams.get('error')
 
-  if (error || !code) redirect('/portal/settings?google=error')
+  if (error || !code) return NextResponse.redirect(`${BASE}/portal/settings?google=error`)
 
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/portal/login')
+  if (!user) return NextResponse.redirect(`${BASE}/portal/login`)
 
   try {
-    const tokens = await exchangeGoogleCode(code)
+    const tokens = await exchangeGoogleCode(code!)
     await supabase
       .from('profiles')
       .update({ google_refresh_token: tokens.refresh_token })
       .eq('id', user.id)
   } catch {
-    redirect('/portal/settings?google=error')
+    return NextResponse.redirect(`${BASE}/portal/settings?google=error`)
   }
 
-  redirect('/portal/settings?google=connected')
+  return NextResponse.redirect(`${BASE}/portal/settings?google=connected`)
 }
