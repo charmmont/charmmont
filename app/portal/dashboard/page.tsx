@@ -36,12 +36,15 @@ export default async function DashboardPage() {
     supabase.from('tool_assignments').select('*', { count: 'exact', head: true }).in('status', ['assigned', 'in_progress']),
   ])
 
-  // Today's sessions
-  const { data: todaysSessions } = await supabase
+  // Upcoming sessions (today and future, booked or confirmed)
+  const { data: upcomingSessions } = await supabase
     .from('sessions')
     .select('*, clients(id, profiles(full_name))')
-    .eq('session_date', today)
-    .order('created_at', { ascending: true })
+    .gte('session_date', today)
+    .in('status', ['booked', 'confirmed'])
+    .order('scheduled_at', { ascending: true, nullsFirst: false })
+    .order('session_date', { ascending: true })
+    .limit(8)
 
   // Recent activity: last 8 sessions + last 5 tool completions
   const { data: recentSessions } = await supabase
@@ -141,49 +144,78 @@ export default async function DashboardPage() {
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
-        {/* Today's schedule */}
+        {/* Upcoming sessions */}
         <div className="bg-white rounded-2xl">
           <div className="px-6 py-5 border-b border-[#2D4A3E]/10 flex items-center justify-between">
             <h2
               className="font-semibold text-[#1C1C1A] text-sm"
               style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
             >
-              Today
+              Upcoming sessions
             </h2>
-            <span className="text-xs text-[#6B6B65]">
-              {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
-            </span>
+            <Link href="/portal/sessions" className="text-xs text-[#2D4A3E] hover:text-[#7A9E8E] transition-colors">
+              View all →
+            </Link>
           </div>
-          {todaysSessions && todaysSessions.length > 0 ? (
+          {upcomingSessions && upcomingSessions.length > 0 ? (
             <div className="divide-y divide-[#2D4A3E]/10">
-              {todaysSessions.map((s: any) => (
-                <Link
-                  key={s.id}
-                  href={`/portal/clients/${s.clients?.id}`}
-                  className="flex items-center justify-between px-6 py-4 hover:bg-[#FAF7F2] transition-colors"
-                >
-                  <div>
-                    <p className="text-sm font-medium text-[#1C1C1A]">
-                      {s.clients?.profiles?.full_name ?? 'Client'}
-                    </p>
-                    <p className="text-xs text-[#6B6B65] mt-0.5 capitalize">
-                      {s.session_type?.replace('_', '-') ?? 'Session'}
-                    </p>
-                  </div>
-                  <svg className="w-4 h-4 text-[#6B6B65]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
-                  </svg>
-                </Link>
-              ))}
+              {upcomingSessions.map((s: any) => {
+                const programmeLabel =
+                  s.programme === 'first_root' ? 'The First Root' :
+                  s.programme === 'becoming' ? 'The Becoming' :
+                  s.programme === 'in_full_bloom' ? 'In Full Bloom' :
+                  s.session_type?.replace('_', '-') ?? 'Session'
+                const programmePill =
+                  s.programme === 'first_root' ? 'bg-[#7A9E8E]/15 text-[#2D4A3E]' :
+                  s.programme === 'becoming' ? 'bg-[#2D4A3E]/10 text-[#2D4A3E]' :
+                  'bg-[#6B6B65]/10 text-[#6B6B65]'
+                const isToday = s.session_date === today
+                const dateLabel = isToday
+                  ? 'Today'
+                  : new Date(s.session_date).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })
+                const timeLabel = s.scheduled_at
+                  ? new Date(s.scheduled_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
+                  : null
+                return (
+                  <Link
+                    key={s.id}
+                    href={`/portal/clients/${s.clients?.id}`}
+                    className="flex items-center justify-between px-6 py-4 hover:bg-[#FAF7F2] transition-colors"
+                  >
+                    <div className="flex items-start gap-3 min-w-0">
+                      <div className="text-center shrink-0 w-10">
+                        <p className={`text-[10px] font-semibold uppercase tracking-wide ${isToday ? 'text-[#2D4A3E]' : 'text-[#6B6B65]'}`}>
+                          {isToday ? 'Today' : new Date(s.session_date).toLocaleDateString('en-GB', { weekday: 'short' })}
+                        </p>
+                        <p className="text-base font-semibold text-[#1C1C1A] leading-tight">
+                          {new Date(s.session_date).getDate()}
+                        </p>
+                        {timeLabel && <p className="text-[10px] text-[#6B6B65]">{timeLabel}</p>}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium text-[#1C1C1A] truncate">
+                          {s.clients?.profiles?.full_name ?? 'Client'}
+                        </p>
+                        <span className={`inline-block text-[10px] font-medium px-2 py-0.5 rounded-full mt-1 ${programmePill}`}>
+                          {programmeLabel}
+                        </span>
+                      </div>
+                    </div>
+                    <svg className="w-4 h-4 text-[#6B6B65] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
+                )
+              })}
             </div>
           ) : (
             <div className="px-6 py-8 text-center">
-              <p className="text-sm text-[#6B6B65] italic">No sessions today.</p>
+              <p className="text-sm text-[#6B6B65] italic">No upcoming sessions.</p>
               <Link
                 href="/portal/sessions"
                 className="text-xs text-[#2D4A3E] hover:text-[#7A9E8E] transition-colors mt-3 inline-block"
               >
-                Log a session →
+                Book a session →
               </Link>
             </div>
           )}
