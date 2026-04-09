@@ -76,7 +76,7 @@ export default async function SessionsPage() {
           </h1>
           {!isGoogleConnected && (
             <p className="text-xs text-[#6B6B65] mt-1">
-              <a href="/portal/settings" className="text-[#2D4A3E] hover:underline">Connect Google Calendar</a>
+              <a href="/portal/settings/google" className="text-[#2D4A3E] hover:underline">Connect Google Calendar</a>
               {' '}to sync sessions automatically.
             </p>
           )}

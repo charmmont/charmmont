@@ -3,9 +3,9 @@
  * Uses per-practitioner OAuth tokens stored in profiles.google_refresh_token.
  */
 
-const CLIENT_ID     = process.env.GOOGLE_CLIENT_ID!
-const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET!
-const REDIRECT_URI  = process.env.GOOGLE_REDIRECT_URI!
+const CLIENT_ID     = process.env.GOOGLE_CLIENT_ID!.trim()
+const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET!.trim()
+const REDIRECT_URI  = process.env.GOOGLE_REDIRECT_URI!.trim()
 const SCOPES        = ['https://www.googleapis.com/auth/calendar']
 
 // ── OAuth helpers ─────────────────────────────────────────────────────────────
