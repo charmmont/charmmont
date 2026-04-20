@@ -86,7 +86,46 @@ export async function sendToolCompletedEmail(params: {
   })
 }
 
-// ── 3. Invoice sent → client ──────────────────────────────────────────────────
+// ── 3. Session rescheduled → client ──────────────────────────────────────────
+export async function sendSessionRescheduledEmail(params: {
+  clientEmail: string
+  clientName: string
+  newDate: string      // formatted display string e.g. "23 April 2026"
+  newTime: string | null  // formatted display string e.g. "21:00" or null
+  sessionType: string | null
+}) {
+  const timeLine = params.newTime
+    ? `<p style="color:#6B6B65;font-size:15px;margin:4px 0;">Time: <strong style="color:#1C1C1A;">${params.newTime}</strong></p>`
+    : ''
+  const typeLine = params.sessionType
+    ? `<p style="color:#6B6B65;font-size:14px;margin:4px 0;">${params.sessionType}</p>`
+    : ''
+
+  await resend.emails.send({
+    from: FROM,
+    to: params.clientEmail,
+    subject: 'Your session has been rescheduled',
+    html: emailWrap(`
+      <h2 style="font-size:20px;color:#1C1C1A;margin-bottom:8px;">Hi ${params.clientName},</h2>
+      <p style="color:#6B6B65;font-size:15px;line-height:1.6;margin-bottom:16px;">
+        Your coaching session has been rescheduled to:
+      </p>
+      <div style="background:#fff;border-radius:16px;padding:24px;border:1px solid #2D4A3E20;">
+        <p style="font-size:15px;font-weight:600;color:#1C1C1A;margin:0 0 4px;">
+          ${params.newDate}
+        </p>
+        ${timeLine}
+        ${typeLine}
+      </div>
+      <p style="color:#6B6B65;font-size:14px;margin-top:16px;line-height:1.6;">
+        If you have any questions, please reply to this email or contact hello@deepbloom.me
+      </p>
+      ${btn(`${SITE}/portal/my-space/sessions`, 'View my sessions →')}
+    `),
+  })
+}
+
+// ── 4. Invoice sent → client ──────────────────────────────────────────────────
 export async function sendInvoiceEmail(params: {
   clientEmail: string
   clientName: string

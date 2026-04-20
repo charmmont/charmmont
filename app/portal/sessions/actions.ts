@@ -7,6 +7,7 @@ import {
   updateCalendarEvent,
   deleteCalendarEvent,
 } from '@/lib/google-calendar'
+import { sendSessionRescheduledEmail } from '@/lib/email'
 
 const PROGRAMME_LABELS: Record<string, string> = {
   first_root:    'Deepbloom — The First Root',
@@ -139,7 +140,7 @@ export async function rescheduleSession(formData: FormData) {
 
   const { data: session } = await supabase
     .from('sessions')
-    .select('*, clients(profiles(full_name))')
+    .select('*, clients(profiles(full_name, email))')
     .eq('id', sessionId)
     .single()
 
@@ -193,6 +194,29 @@ export async function rescheduleSession(formData: FormData) {
       status: 'booked',
     })
     .eq('id', sessionId)
+
+  // Notify client by email
+  const clientProfile = (session?.clients as any)?.profiles
+  const clientEmail = clientProfile?.email
+  const clientName = clientProfile?.full_name ?? 'there'
+  if (clientEmail) {
+    const displayDate = new Date(sessionDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+    const displayTime = sessionTime
+      ? new Date(`${sessionDate}T${sessionTime}`).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
+      : null
+    const typeLabels: Record<string, string> = { video: 'Video call', phone: 'Phone call', in_person: 'In person' }
+    try {
+      await sendSessionRescheduledEmail({
+        clientEmail,
+        clientName,
+        newDate: displayDate,
+        newTime: displayTime,
+        sessionType: session?.session_type ? (typeLabels[session.session_type] ?? session.session_type) : null,
+      })
+    } catch (e) {
+      console.error('Reschedule email failed:', e)
+    }
+  }
 
   revalidatePath('/portal/sessions')
   revalidatePath('/portal/dashboard')
