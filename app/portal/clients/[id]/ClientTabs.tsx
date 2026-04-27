@@ -3,14 +3,15 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { useTranslations } from 'next-intl'
 import NotesEditor from './NotesEditor'
 import LogSessionForm from '@/app/portal/sessions/LogSessionForm'
 import ToolResponseViewer from './ToolResponseViewer'
 import DocumentUpload from '@/app/portal/documents/DocumentUpload'
 import Link from 'next/link'
 
-const TABS = ['Overview', 'Sessions', 'Onboarding', 'Toolbox', 'Documents', 'Invoices', 'Notes'] as const
-type Tab = typeof TABS[number]
+const TAB_KEYS = ['Overview', 'Sessions', 'Onboarding', 'Toolbox', 'Documents', 'Invoices', 'Notes'] as const
+type Tab = typeof TAB_KEYS[number]
 
 interface Props {
   client: any
@@ -18,6 +19,7 @@ interface Props {
   assignments: any[]
   invoices: any[]
   documents: any[]
+  locale: string
 }
 
 function StatusBadge({ status }: { status: string }) {
@@ -51,11 +53,23 @@ const FILE_ICONS: Record<string, string> = {
   'image/jpeg': '🖼', 'image/png': '🖼',
 }
 
-export default function ClientTabs({ client, sessions, assignments, invoices, documents }: Props) {
+export default function ClientTabs({ client, sessions, assignments, invoices, documents, locale }: Props) {
+  const t = useTranslations('ClientDetail')
   const router = useRouter()
   const [activeTab, setActiveTab] = useState<Tab>('Overview')
 
-  // Overview edit state
+  const dateLang = locale === 'es' ? 'es-ES' : 'en-GB'
+
+  const TABS: { key: Tab; label: string }[] = [
+    { key: 'Overview',   label: t('tab_overview') },
+    { key: 'Sessions',   label: t('tab_sessions') },
+    { key: 'Onboarding', label: t('tab_onboarding') },
+    { key: 'Toolbox',    label: t('tab_toolbox') },
+    { key: 'Documents',  label: t('tab_documents') },
+    { key: 'Invoices',   label: t('tab_invoices') },
+    { key: 'Notes',      label: t('tab_notes') },
+  ]
+
   const [editing, setEditing] = useState(false)
   const [overview, setOverview] = useState({
     summary_note: client.summary_note ?? '',
@@ -80,17 +94,17 @@ export default function ClientTabs({ client, sessions, assignments, invoices, do
     <div>
       {/* Tab bar */}
       <div className="flex gap-1 mb-6 bg-white rounded-xl p-1 w-fit overflow-x-auto">
-        {TABS.map((tab) => (
+        {TABS.map(({ key, label }) => (
           <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
+            key={key}
+            onClick={() => setActiveTab(key)}
             className={`px-4 py-2 rounded-lg text-sm whitespace-nowrap transition-colors ${
-              activeTab === tab
+              activeTab === key
                 ? 'bg-[#2D4A3E] text-white'
                 : 'text-[#6B6B65] hover:text-[#1C1C1A]'
             }`}
           >
-            {tab}
+            {label}
           </button>
         ))}
       </div>
@@ -101,14 +115,14 @@ export default function ClientTabs({ client, sessions, assignments, invoices, do
           <div className="grid md:grid-cols-2 gap-6">
             {/* Contact details */}
             <div className="bg-white rounded-2xl p-6 space-y-4">
-              <h3 className="font-semibold text-[#1C1C1A] text-sm">Contact details</h3>
+              <h3 className="font-semibold text-[#1C1C1A] text-sm">{t('contact_title')}</h3>
               <dl className="space-y-3 text-sm">
                 <div className="flex justify-between">
-                  <dt className="text-[#6B6B65]">Name</dt>
+                  <dt className="text-[#6B6B65]">{t('field_name')}</dt>
                   <dd className="text-[#1C1C1A] font-medium">{client.profiles?.full_name ?? '—'}</dd>
                 </div>
                 <div className="flex justify-between">
-                  <dt className="text-[#6B6B65]">Email</dt>
+                  <dt className="text-[#6B6B65]">{t('field_email')}</dt>
                   <dd className="text-[#1C1C1A]">
                     <a href={`mailto:${client.profiles?.email}`} className="hover:text-[#2D4A3E] transition-colors">
                       {client.profiles?.email ?? '—'}
@@ -116,17 +130,17 @@ export default function ClientTabs({ client, sessions, assignments, invoices, do
                   </dd>
                 </div>
                 <div className="flex justify-between">
-                  <dt className="text-[#6B6B65]">Programme</dt>
+                  <dt className="text-[#6B6B65]">{t('field_programme')}</dt>
                   <dd className="text-[#1C1C1A]">{client.programme ?? '—'}</dd>
                 </div>
                 <div className="flex justify-between">
-                  <dt className="text-[#6B6B65]">Start date</dt>
+                  <dt className="text-[#6B6B65]">{t('field_start_date')}</dt>
                   <dd className="text-[#1C1C1A]">
-                    {client.start_date ? new Date(client.start_date).toLocaleDateString('en-GB') : '—'}
+                    {client.start_date ? new Date(client.start_date).toLocaleDateString(dateLang) : '—'}
                   </dd>
                 </div>
                 <div className="flex justify-between items-center">
-                  <dt className="text-[#6B6B65]">Status</dt>
+                  <dt className="text-[#6B6B65]">{t('field_status')}</dt>
                   <dd><StatusBadge status={client.status} /></dd>
                 </div>
               </dl>
@@ -134,23 +148,23 @@ export default function ClientTabs({ client, sessions, assignments, invoices, do
 
             {/* Stats */}
             <div className="bg-white rounded-2xl p-6">
-              <h3 className="font-semibold text-[#1C1C1A] text-sm mb-4">At a glance</h3>
+              <h3 className="font-semibold text-[#1C1C1A] text-sm mb-4">{t('glance_title')}</h3>
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { label: 'Sessions', value: sessions.length },
-                  { label: 'Tools assigned', value: assignments.length },
-                  { label: 'Completed tools', value: assignments.filter((a: any) => a.status === 'completed').length },
+                  { label: t('glance_sessions'), value: sessions.length },
+                  { label: t('glance_tools_assigned'), value: assignments.length },
+                  { label: t('glance_tools_completed'), value: assignments.filter((a: any) => a.status === 'completed').length },
                   {
-                    label: 'Last session',
+                    label: t('glance_last_session'),
                     value: sessions[0]
-                      ? new Date(sessions[0].session_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })
+                      ? new Date(sessions[0].session_date).toLocaleDateString(dateLang, { day: 'numeric', month: 'short' })
                       : '—',
                   },
                 ].map((s) => (
                   <div key={s.label} className="bg-[#FAF7F2] rounded-xl p-4 text-center">
                     <p
                       className="text-xl font-semibold text-[#2D4A3E]"
-                      style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
+                      style={{ fontFamily: 'var(--font-display), Georgia, serif' }}
                     >
                       {s.value}
                     </p>
@@ -164,21 +178,21 @@ export default function ClientTabs({ client, sessions, assignments, invoices, do
           {/* Editable practitioner fields */}
           <div className="bg-white rounded-2xl p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-semibold text-[#1C1C1A] text-sm">Practitioner notes</h3>
+              <h3 className="font-semibold text-[#1C1C1A] text-sm">{t('practitioner_notes_title')}</h3>
               {editing ? (
                 <div className="flex gap-2">
                   <button
                     onClick={() => setEditing(false)}
                     className="text-xs text-[#6B6B65] px-3 py-1.5 rounded-full border border-[#6B6B65]/20 hover:bg-[#FAF7F2] transition-colors"
                   >
-                    Cancel
+                    {t('cancel')}
                   </button>
                   <button
                     onClick={saveOverview}
                     disabled={saving}
                     className="text-xs bg-[#2D4A3E] text-white px-3 py-1.5 rounded-full hover:bg-[#7A9E8E] transition-colors disabled:opacity-60"
                   >
-                    {saving ? 'Saving…' : 'Save'}
+                    {saving ? t('saving') : t('save')}
                   </button>
                 </div>
               ) : (
@@ -186,7 +200,7 @@ export default function ClientTabs({ client, sessions, assignments, invoices, do
                   onClick={() => setEditing(true)}
                   className="text-xs text-[#2D4A3E] hover:text-[#7A9E8E] transition-colors"
                 >
-                  Edit
+                  {t('edit')}
                 </button>
               )}
             </div>
@@ -194,67 +208,67 @@ export default function ClientTabs({ client, sessions, assignments, invoices, do
             {editing ? (
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs font-medium text-[#6B6B65] mb-1.5">Status</label>
+                  <label className="block text-xs font-medium text-[#6B6B65] mb-1.5">{t('field_status_label')}</label>
                   <select
                     value={overview.status}
                     onChange={(e) => setOverview({ ...overview, status: e.target.value })}
                     className="w-full border border-[#2D4A3E]/20 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#2D4A3E] bg-white"
                   >
-                    <option value="active">Active</option>
-                    <option value="paused">Paused</option>
-                    <option value="completed">Completed</option>
+                    <option value="active">{t('status_active')}</option>
+                    <option value="paused">{t('status_paused')}</option>
+                    <option value="completed">{t('status_completed')}</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-[#6B6B65] mb-1.5">Summary note</label>
+                  <label className="block text-xs font-medium text-[#6B6B65] mb-1.5">{t('field_summary')}</label>
                   <textarea
                     value={overview.summary_note}
                     onChange={(e) => setOverview({ ...overview, summary_note: e.target.value })}
                     rows={4}
                     className="w-full border border-[#2D4A3E]/20 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#2D4A3E] resize-none"
-                    placeholder="Overview of this client's journey, goals, and context…"
+                    placeholder={t('field_summary_placeholder')}
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-[#6B6B65] mb-1.5">Emergency contact</label>
+                  <label className="block text-xs font-medium text-[#6B6B65] mb-1.5">{t('field_emergency')}</label>
                   <input
                     type="text"
                     value={overview.emergency_contact}
                     onChange={(e) => setOverview({ ...overview, emergency_contact: e.target.value })}
                     className="w-full border border-[#2D4A3E]/20 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#2D4A3E]"
-                    placeholder="Name and phone number"
+                    placeholder={t('field_emergency_placeholder')}
                   />
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-[#6B6B65] mb-1.5">
-                    Flags / considerations <span className="text-[#6B6B65]/60">(private)</span>
+                    {t('field_flags')} <span className="text-[#6B6B65]/60">{t('field_flags_private')}</span>
                   </label>
                   <textarea
                     value={overview.flags}
                     onChange={(e) => setOverview({ ...overview, flags: e.target.value })}
                     rows={3}
                     className="w-full border border-[#2D4A3E]/20 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#2D4A3E] resize-none"
-                    placeholder="Any special considerations, contraindications, or flags…"
+                    placeholder={t('field_flags_placeholder')}
                   />
                 </div>
               </div>
             ) : (
               <div className="space-y-4 text-sm">
                 <div>
-                  <p className="text-xs text-[#6B6B65] mb-1">Summary note</p>
+                  <p className="text-xs text-[#6B6B65] mb-1">{t('field_summary')}</p>
                   <p className="text-[#1C1C1A] leading-relaxed">
-                    {overview.summary_note || <span className="italic text-[#6B6B65]">No summary yet. Click Edit to add one.</span>}
+                    {overview.summary_note || <span className="italic text-[#6B6B65]">{t('no_summary')}</span>}
                   </p>
                 </div>
                 {overview.emergency_contact && (
                   <div>
-                    <p className="text-xs text-[#6B6B65] mb-1">Emergency contact</p>
+                    <p className="text-xs text-[#6B6B65] mb-1">{t('field_emergency')}</p>
                     <p className="text-[#1C1C1A]">{overview.emergency_contact}</p>
                   </div>
                 )}
                 {overview.flags && (
                   <div>
-                    <p className="text-xs text-[#6B6B65] mb-1">Flags</p>
+                    <p className="text-xs text-[#6B6B65] mb-1">{t('field_flags')}</p>
                     <p className="text-[#1C1C1A] leading-relaxed">{overview.flags}</p>
                   </div>
                 )}
@@ -281,7 +295,7 @@ export default function ClientTabs({ client, sessions, assignments, invoices, do
                     <div className="flex items-start justify-between mb-3">
                       <div>
                         <p className="font-medium text-sm text-[#1C1C1A]">
-                          {new Date(s.session_date).toLocaleDateString('en-GB', {
+                          {new Date(s.session_date).toLocaleDateString(dateLang, {
                             day: 'numeric', month: 'long', year: 'numeric',
                           })}
                         </p>
@@ -300,32 +314,32 @@ export default function ClientTabs({ client, sessions, assignments, invoices, do
                             </span>
                           )}
                           {s.flag_followup && (
-                            <span className="text-xs bg-red-50 text-red-600 px-1.5 py-0.5 rounded-full">Follow-up</span>
+                            <span className="text-xs bg-red-50 text-red-600 px-1.5 py-0.5 rounded-full">{t('follow_up')}</span>
                           )}
                         </div>
                       </div>
                     </div>
                     {s.notes_shared && (
                       <div className="mb-2">
-                        <p className="text-xs text-[#6B6B65] mb-1">Shared notes</p>
+                        <p className="text-xs text-[#6B6B65] mb-1">{t('notes_shared')}</p>
                         <p className="text-sm text-[#1C1C1A] leading-relaxed">{s.notes_shared}</p>
                       </div>
                     )}
                     {s.notes_practitioner && (
                       <div className="mb-2">
-                        <p className="text-xs text-[#6B6B65] mb-1">Private notes</p>
+                        <p className="text-xs text-[#6B6B65] mb-1">{t('notes_private')}</p>
                         <p className="text-sm text-[#1C1C1A] leading-relaxed">{s.notes_practitioner}</p>
                       </div>
                     )}
                     {s.next_steps && (
                       <div className="mb-2">
-                        <p className="text-xs text-[#6B6B65] mb-1">Next steps</p>
+                        <p className="text-xs text-[#6B6B65] mb-1">{t('next_steps')}</p>
                         <p className="text-sm text-[#2D4A3E]">{s.next_steps}</p>
                       </div>
                     )}
                     {s.homework && (
                       <div>
-                        <p className="text-xs text-[#6B6B65] mb-1">Homework</p>
+                        <p className="text-xs text-[#6B6B65] mb-1">{t('homework')}</p>
                         <p className="text-sm text-[#1C1C1A]">{s.homework}</p>
                       </div>
                     )}
@@ -334,7 +348,7 @@ export default function ClientTabs({ client, sessions, assignments, invoices, do
               </div>
             ) : (
               <div className="p-12 text-center">
-                <p className="text-[#6B6B65] text-sm italic mb-4">No sessions logged yet.</p>
+                <p className="text-[#6B6B65] text-sm italic mb-4">{t('no_sessions')}</p>
               </div>
             )}
           </div>
@@ -351,7 +365,7 @@ export default function ClientTabs({ client, sessions, assignments, invoices, do
                   <div>
                     <p className="font-medium text-sm text-[#1C1C1A]">{a.tools?.name}</p>
                     <p className="text-xs text-[#6B6B65] mt-0.5">
-                      Assigned {new Date(a.assigned_at).toLocaleDateString('en-GB')}
+                      {t('assigned', { date: new Date(a.assigned_at).toLocaleDateString(dateLang) })}
                     </p>
                   </div>
                   <AssignmentStatusBadge status={a.status} />
@@ -360,12 +374,12 @@ export default function ClientTabs({ client, sessions, assignments, invoices, do
             </div>
           ) : (
             <div className="p-12 text-center">
-              <p className="text-[#6B6B65] text-sm italic mb-4">No onboarding questionnaires assigned.</p>
+              <p className="text-[#6B6B65] text-sm italic mb-4">{t('no_onboarding')}</p>
               <Link
                 href="/portal/toolbox"
                 className="text-xs bg-[#2D4A3E] text-white px-4 py-2 rounded-full hover:bg-[#7A9E8E] transition-colors"
               >
-                Go to Toolbox →
+                {t('go_toolbox')}
               </Link>
             </div>
           )}
@@ -380,7 +394,7 @@ export default function ClientTabs({ client, sessions, assignments, invoices, do
               href="/portal/toolbox"
               className="text-xs bg-[#2D4A3E] text-white px-4 py-2 rounded-full hover:bg-[#7A9E8E] transition-colors"
             >
-              + Assign tool
+              {t('assign_tool')}
             </Link>
           </div>
           <div className="bg-white rounded-2xl overflow-hidden">
@@ -396,11 +410,11 @@ export default function ClientTabs({ client, sessions, assignments, invoices, do
                             {a.tools?.type?.replace(/_/g, ' ')}
                           </span>
                           <span className="text-xs text-[#6B6B65]">
-                            · Assigned {new Date(a.assigned_at).toLocaleDateString('en-GB')}
+                            · {t('assigned', { date: new Date(a.assigned_at).toLocaleDateString(dateLang) })}
                           </span>
                           {a.due_date && (
                             <span className="text-xs text-[#6B6B65]">
-                              · Due {new Date(a.due_date).toLocaleDateString('en-GB')}
+                              · {t('due', { date: new Date(a.due_date).toLocaleDateString(dateLang) })}
                             </span>
                           )}
                         </div>
@@ -413,12 +427,12 @@ export default function ClientTabs({ client, sessions, assignments, invoices, do
               </div>
             ) : (
               <div className="p-12 text-center">
-                <p className="text-[#6B6B65] text-sm italic mb-4">No tools assigned yet.</p>
+                <p className="text-[#6B6B65] text-sm italic mb-4">{t('no_tools')}</p>
                 <Link
                   href="/portal/toolbox"
                   className="text-xs bg-[#2D4A3E] text-white px-4 py-2 rounded-full hover:bg-[#7A9E8E] transition-colors"
                 >
-                  Go to Toolbox →
+                  {t('go_toolbox')}
                 </Link>
               </div>
             )}
@@ -441,10 +455,10 @@ export default function ClientTabs({ client, sessions, assignments, invoices, do
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-[#1C1C1A]">{doc.label ?? doc.file_name}</p>
                       <p className="text-xs text-[#6B6B65] mt-0.5">
-                        {new Date(doc.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                        {new Date(doc.created_at).toLocaleDateString(dateLang, { day: 'numeric', month: 'short', year: 'numeric' })}
                         {doc.is_shared
-                          ? <span className="ml-2 text-[#7A9E8E]">Visible to client</span>
-                          : <span className="ml-2">Internal only</span>
+                          ? <span className="ml-2 text-[#7A9E8E]">{t('visible_client')}</span>
+                          : <span className="ml-2">{t('internal_only')}</span>
                         }
                       </p>
                     </div>
@@ -454,7 +468,7 @@ export default function ClientTabs({ client, sessions, assignments, invoices, do
                       rel="noopener noreferrer"
                       className="text-xs text-[#2D4A3E] hover:text-[#7A9E8E] transition-colors"
                     >
-                      Download
+                      {t('download')}
                     </a>
                   </div>
                 ))}
@@ -462,7 +476,7 @@ export default function ClientTabs({ client, sessions, assignments, invoices, do
             </div>
           ) : (
             <div className="bg-white rounded-2xl p-12 text-center">
-              <p className="text-sm text-[#6B6B65] italic">No documents for this client yet. Upload using the button above.</p>
+              <p className="text-sm text-[#6B6B65] italic">{t('no_documents')}</p>
             </div>
           )}
         </div>
@@ -476,7 +490,7 @@ export default function ClientTabs({ client, sessions, assignments, invoices, do
               href={`/portal/invoices/new?client=${client.id}`}
               className="text-xs bg-[#2D4A3E] text-white px-4 py-2 rounded-full hover:bg-[#7A9E8E] transition-colors"
             >
-              + New invoice
+              {t('new_invoice')}
             </Link>
           </div>
           {invoices.length > 0 ? (
@@ -496,15 +510,15 @@ export default function ClientTabs({ client, sessions, assignments, invoices, do
                         </span>
                       </div>
                       <p className="text-xs text-[#6B6B65]">
-                        {new Date(inv.invoice_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                        {new Date(inv.invoice_date).toLocaleDateString(dateLang, { day: 'numeric', month: 'short', year: 'numeric' })}
                         {inv.due_date && inv.status !== 'paid' && (
-                          <> · Due {new Date(inv.due_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</>
+                          <> · {t('due', { date: new Date(inv.due_date).toLocaleDateString(dateLang, { day: 'numeric', month: 'short' }) })}</>
                         )}
                       </p>
                     </div>
                     <div className="text-right">
                       <p className="text-sm font-semibold text-[#1C1C1A]">£{Number(inv.total).toFixed(2)}</p>
-                      <p className="text-xs text-[#6B6B65] group-hover:text-[#2D4A3E] transition-colors">View →</p>
+                      <p className="text-xs text-[#6B6B65] group-hover:text-[#2D4A3E] transition-colors">{t('view')}</p>
                     </div>
                   </Link>
                 ))}
@@ -512,7 +526,7 @@ export default function ClientTabs({ client, sessions, assignments, invoices, do
             </div>
           ) : (
             <div className="bg-white rounded-2xl p-12 text-center">
-              <p className="text-sm text-[#6B6B65] italic">No invoices for this client yet.</p>
+              <p className="text-sm text-[#6B6B65] italic">{t('no_invoices')}</p>
             </div>
           )}
         </div>

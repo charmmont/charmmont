@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import PortalShell from '@/components/PortalShell'
 import InviteClientForm from './InviteClientForm'
 import type { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 
 export const metadata: Metadata = { title: 'Clients' }
 
@@ -15,6 +16,8 @@ export default async function ClientsPage() {
   const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single()
   if (profile?.role !== 'practitioner') redirect('/portal/my-space')
 
+  const t = await getTranslations('Clients')
+
   const { data: clients } = await supabase
     .from('clients')
     .select('id, programme, start_date, status, created_at, profiles(full_name, email)')
@@ -25,9 +28,9 @@ export default async function ClientsPage() {
       <div className="flex items-center justify-between mb-8">
         <h1
           className="text-2xl font-semibold text-[#1C1C1A]"
-          style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
+          style={{ fontFamily: 'var(--font-display), Georgia, serif' }}
         >
-          Clients
+          {t('title')}
         </h1>
         <InviteClientForm />
       </div>
@@ -38,10 +41,10 @@ export default async function ClientsPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-[#2D4A3E]/10">
-                  <th className="text-left px-6 py-4 text-xs font-medium text-[#6B6B65] uppercase tracking-wider">Name</th>
-                  <th className="text-left px-6 py-4 text-xs font-medium text-[#6B6B65] uppercase tracking-wider hidden md:table-cell">Programme</th>
-                  <th className="text-left px-6 py-4 text-xs font-medium text-[#6B6B65] uppercase tracking-wider hidden md:table-cell">Start date</th>
-                  <th className="text-left px-6 py-4 text-xs font-medium text-[#6B6B65] uppercase tracking-wider">Status</th>
+                  <th className="text-left px-6 py-4 text-xs font-medium text-[#6B6B65] uppercase tracking-wider">{t('col_name')}</th>
+                  <th className="text-left px-6 py-4 text-xs font-medium text-[#6B6B65] uppercase tracking-wider hidden md:table-cell">{t('col_programme')}</th>
+                  <th className="text-left px-6 py-4 text-xs font-medium text-[#6B6B65] uppercase tracking-wider hidden md:table-cell">{t('col_start')}</th>
+                  <th className="text-left px-6 py-4 text-xs font-medium text-[#6B6B65] uppercase tracking-wider">{t('col_status')}</th>
                   <th className="px-6 py-4" />
                 </tr>
               </thead>
@@ -72,7 +75,7 @@ export default async function ClientsPage() {
                         href={`/portal/clients/${c.id}`}
                         className="text-xs text-[#2D4A3E] hover:text-[#7A9E8E] transition-colors"
                       >
-                        View →
+                        {t('col_view')}
                       </Link>
                     </td>
                   </tr>
@@ -82,7 +85,7 @@ export default async function ClientsPage() {
           </div>
         ) : (
           <div className="p-16 text-center">
-            <p className="text-[#6B6B65] text-sm italic mb-6">No clients yet.</p>
+            <p className="text-[#6B6B65] text-sm italic mb-6">{t('empty')}</p>
             <InviteClientForm />
           </div>
         )}

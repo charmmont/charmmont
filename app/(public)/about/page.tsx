@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 
 export const metadata: Metadata = {
   title: 'About Ayelen',
@@ -9,7 +10,9 @@ export const metadata: Metadata = {
 
 const borderColors = ['var(--color-pine)', 'var(--color-sage)', 'var(--color-sage-light)']
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const t = await getTranslations('About')
+
   return (
     <div style={{ position: 'relative', overflow: 'hidden', background: 'var(--color-bg)' }}>
 
@@ -25,9 +28,11 @@ export default function AboutPage() {
               lineHeight: 1.08,
               letterSpacing: '-0.03em',
             }}>
-              I believe every person carries the capacity to{' '}
-              <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>bloom</em>{' '}
-              into their truest self.
+              {t('hero_quote').split(t('hero_em')).map((part, i, arr) =>
+                i < arr.length - 1
+                  ? <span key={i}>{part}<em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>{t('hero_em')}</em></span>
+                  : <span key={i}>{part}</span>
+              )}
             </h1>
           </div>
         </div>
@@ -49,33 +54,15 @@ export default function AboutPage() {
             boxShadow: 'var(--shadow-card)',
           }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 24, fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88 }}>
-              <p>There&apos;s a version of you that you haven&apos;t fully met yet.</p>
-              <p>
-                You might feel it in quiet moments — a sense that who you are right now isn&apos;t the whole
-                story. That somewhere beneath the noise, the habits, the beliefs that shaped you before you
-                could choose them — there&apos;s someone waiting to bloom.
-              </p>
-              <p>I believe that person is already inside you. My work is simply to help you find them.</p>
-              <p>
-                My name is Ayelen. In my language, it means happiness of the home — and I&apos;ve come to
-                understand that phrase not as a destination, but as a way of being. Of feeling truly at home
-                in yourself. Grounded in who you are. Free from what no longer serves you. Open to who
-                you&apos;re becoming.
-              </p>
-              <p>
-                That journey — the one inward and then outward — is one I know deeply and personally. It has
-                taught me that transformation isn&apos;t a performance. It isn&apos;t loud or linear. It happens in the
-                quiet, in the honest conversations, in the moments when someone finally feels safe enough to
-                tell the truth about where they are and dare to imagine where they could go.
-              </p>
-              <p>
-                Those lessons are the foundation of Deepbloom. A practice rooted in the belief that every
-                person deserves a space that is real, non-judgmental and genuinely held — where the work goes
-                as deep as it needs to, and where who you&apos;re becoming is always the compass.
-              </p>
-              <p>This is that space. And it was made for you.</p>
+              <p>{t('p1')}</p>
+              <p>{t('p2')}</p>
+              <p>{t('p3')}</p>
+              <p>{t('p4')}</p>
+              <p>{t('p5')}</p>
+              <p>{t('p6')}</p>
+              <p>{t('p7')}</p>
               <p style={{ color: 'var(--color-pine)', fontStyle: 'italic', fontFamily: 'var(--font-display)', fontSize: 15 }}>
-                Root deep. Bloom safe.
+                {t('sign')}
               </p>
             </div>
           </div>
@@ -93,15 +80,15 @@ export default function AboutPage() {
               color: 'var(--color-text-primary)',
               letterSpacing: '-0.025em',
             }}>
-              What I <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>believe</em>
+              {t('beliefs_title_pre')} <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>{t('beliefs_title_em')}</em>
             </h2>
           </div>
           <div className="belief-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18 }}>
-            {[
-              { text: 'Real change happens beneath the surface, not on it.', label: 'On depth' },
-              { text: "Safety is not a soft extra. It's where transformation begins.", label: 'On safety' },
-              { text: 'You are not a problem to be fixed. You are a person becoming.', label: 'On you' },
-            ].map(({ text, label }, i) => (
+            {([
+              { text: t('belief1_quote'), label: t('belief1_title') },
+              { text: t('belief2_quote'), label: t('belief2_title') },
+              { text: t('belief3_quote'), label: t('belief3_title') },
+            ] as { text: string; label: string }[]).map(({ text, label }, i) => (
               <div
                 key={i}
                 style={{
@@ -144,13 +131,10 @@ export default function AboutPage() {
                 lineHeight: 1.22,
                 marginBottom: 20,
               }}>
-                My <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>approach</em>
+                {t('approach_title_pre')} <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>{t('approach_title_em')}</em>
               </h2>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88 }}>
-                Working with me is unhurried. We begin where you are — not where you think you should be.
-                Sessions are honest and held. I will not tell you what to do or feel. I will ask the
-                questions that matter, sit with you in the difficult parts, and hold you accountable to
-                the version of yourself you&apos;re moving toward. Nothing is judged here. Everything is welcome.
+                {t('approach_body')}
               </p>
             </div>
           </div>
@@ -175,17 +159,17 @@ export default function AboutPage() {
             </svg>
             <div style={{ position: 'relative', zIndex: 2 }}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3.5vw, 44px)', fontWeight: 800, color: 'var(--color-text-inverse)', letterSpacing: '-0.025em', lineHeight: 1.08, marginBottom: 16 }}>
-                Book The First Root
+                {t('cta_title')}
               </h2>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'rgba(250,247,242,0.5)', lineHeight: 1.78, maxWidth: 420, margin: '0 auto 34px' }}>
-                A free 30-minute conversation. No commitment.
+                {t('cta_sub')}
               </p>
               <Link
                 href="/first-root"
                 className="hover:-translate-y-0.5 transition-transform"
                 style={{ display: 'inline-block', padding: '13px 36px', borderRadius: 'var(--radius-full)', background: 'var(--color-bg)', color: 'var(--color-pine)', fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 600, textDecoration: 'none', boxShadow: '0 8px 28px rgba(0,0,0,0.18)' }}
               >
-                Book a Free Call
+                {t('cta_button')}
               </Link>
             </div>
           </div>

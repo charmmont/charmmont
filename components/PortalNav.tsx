@@ -3,6 +3,8 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { useTranslations } from 'next-intl'
+import LanguageSwitcher from './LanguageSwitcher'
 import type { UserRole } from '@/lib/types'
 
 interface Props {
@@ -124,32 +126,32 @@ function LogoMark({ size = 24 }: { size?: number }) {
   )
 }
 
-// ── Nav config ─────────────────────────────────────────────────────────────
-
-const practitionerLinks = [
-  { href: '/portal/dashboard',  label: 'Dashboard', Icon: IconDashboard },
-  { href: '/portal/clients',    label: 'Clients',   Icon: IconClients },
-  { href: '/portal/sessions',   label: 'Sessions',  Icon: IconCalendar },
-  { href: '/portal/toolbox',    label: 'Toolbox',   Icon: IconToolbox },
-  { href: '/portal/invoices',   label: 'Invoices',  Icon: IconInvoice },
-  { href: '/portal/documents',  label: 'Documents', Icon: IconFolder },
-  { href: '/portal/settings',   label: 'Settings',  Icon: IconSettings },
-]
-
-const clientLinks = [
-  { href: '/portal/my-space',           label: 'My Space',  Icon: IconHome },
-  { href: '/portal/my-space/sessions',  label: 'Sessions',  Icon: IconCalendar },
-  { href: '/portal/my-space/tools',     label: 'My Tools',  Icon: IconStar },
-  { href: '/portal/my-space/invoices',  label: 'Invoices',  Icon: IconInvoice },
-  { href: '/portal/my-space/documents', label: 'Documents', Icon: IconFolder },
-  { href: '/portal/my-space/profile',   label: 'Profile',   Icon: IconUser },
-]
-
 // ── Component ──────────────────────────────────────────────────────────────
 
 export default function PortalNav({ role, name }: Props) {
+  const t = useTranslations('PortalNav')
   const pathname = usePathname()
   const router = useRouter()
+
+  const practitionerLinks = [
+    { href: '/portal/dashboard',  label: t('dashboard'), Icon: IconDashboard },
+    { href: '/portal/clients',    label: t('clients'),   Icon: IconClients },
+    { href: '/portal/sessions',   label: t('sessions'),  Icon: IconCalendar },
+    { href: '/portal/toolbox',    label: t('toolbox'),   Icon: IconToolbox },
+    { href: '/portal/invoices',   label: t('invoices'),  Icon: IconInvoice },
+    { href: '/portal/documents',  label: t('documents'), Icon: IconFolder },
+    { href: '/portal/settings',   label: t('settings'),  Icon: IconSettings },
+  ]
+
+  const clientLinks = [
+    { href: '/portal/my-space',           label: t('my_space'),  Icon: IconHome },
+    { href: '/portal/my-space/sessions',  label: t('sessions'),  Icon: IconCalendar },
+    { href: '/portal/my-space/tools',     label: t('my_tools'),  Icon: IconStar },
+    { href: '/portal/my-space/invoices',  label: t('invoices'),  Icon: IconInvoice },
+    { href: '/portal/my-space/documents', label: t('documents'), Icon: IconFolder },
+    { href: '/portal/my-space/profile',   label: t('profile'),   Icon: IconUser },
+  ]
+
   const links = role === 'practitioner' ? practitionerLinks : clientLinks
 
   const initials = name
@@ -285,10 +287,11 @@ export default function PortalNav({ role, name }: Props) {
                 {name}
               </div>
               <div style={{ fontFamily: 'var(--font-body)', fontSize: 9.5, color: 'var(--color-text-secondary)', textTransform: 'capitalize' }}>
-                {role}
+                {role === 'practitioner' ? t('practitioner') : t('client')}
               </div>
             </div>
           </div>
+          <LanguageSwitcher style={{ padding: '4px 6px', marginBottom: 4 }} />
           <button
             onClick={handleSignOut}
             style={{
@@ -317,11 +320,10 @@ export default function PortalNav({ role, name }: Props) {
             }}
           >
             <IconSignOut />
-            Sign out
+            {t('sign_out')}
           </button>
         </div>
       </aside>
-
     </>
   )
 }

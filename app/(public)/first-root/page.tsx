@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Script from 'next/script'
+import { getTranslations } from 'next-intl/server'
 
 export const metadata: Metadata = {
   title: 'The First Root — Free Discovery Call',
@@ -7,7 +8,9 @@ export const metadata: Metadata = {
     'Book your free 30-minute conversation with Ayelen. No commitment. Just a beginning.',
 }
 
-export default function FirstRootPage() {
+export default async function FirstRootPage() {
+  const t = await getTranslations('FirstRoot')
+
   return (
     <div style={{ position: 'relative', overflow: 'hidden', background: 'var(--color-bg)' }}>
       <Script
@@ -28,10 +31,10 @@ export default function FirstRootPage() {
               letterSpacing: '-0.03em',
               marginBottom: 28,
             }}>
-              The <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>First Root</em>
+              <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>{t('title')}</em>
             </h1>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 17, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88 }}>
-              A free 30-minute conversation. No commitment. Just the beginning.
+              {t('sub')}
             </p>
           </div>
         </div>
@@ -46,9 +49,7 @@ export default function FirstRootPage() {
       <section className="pub-section-x" style={{ padding: '0 60px 64px' }}>
         <div className="card-inner" style={{ maxWidth: 1200, margin: '0 auto', background: 'var(--color-bg-card)', borderRadius: 'var(--radius-2xl)', padding: '48px 52px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)' }}>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88, marginBottom: 48, textAlign: 'center' }}>
-            This is not a sales call. It&apos;s a conversation — a chance for us to understand where you
-            are, what&apos;s brought you here, and whether working together feels right. You&apos;ll leave
-            with more clarity than you arrived with, whatever you decide.
+            {t('body')}
           </p>
           <div style={{ height: 1, background: 'var(--color-border)', marginBottom: 48 }} />
           <h2 style={{
@@ -59,15 +60,10 @@ export default function FirstRootPage() {
             letterSpacing: '-0.025em',
             marginBottom: 28,
           }}>
-            What to <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>expect</em>
+            {t('what_title_pre')} <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>{t('what_title_em')}</em>
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {[
-              '30 minutes, online via video',
-              "A space to share what's brought you here",
-              'Honest conversation about whether Deepbloom is the right fit',
-              'No pressure, no obligation',
-            ].map((item, i) => (
+            {[t('bullet1'), t('bullet2'), t('bullet3'), t('bullet4')].map((item, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
                 <div style={{
                   marginTop: 7,
@@ -114,16 +110,16 @@ export default function FirstRootPage() {
             </svg>
             <div style={{ position: 'relative', zIndex: 2 }}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3.5vw, 44px)', fontWeight: 800, color: 'var(--color-text-inverse)', letterSpacing: '-0.025em', lineHeight: 1.08, marginBottom: 16 }}>
-                Learn more about <em style={{ fontStyle: 'italic' }}>The Becoming</em>
+                {t('learn_title')}
               </h2>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'rgba(250,247,242,0.5)', lineHeight: 1.78, maxWidth: 420, margin: '0 auto 34px' }}>
-                Explore the full 1:1 coaching programme and what working together looks like.
+                {t('learn_body')}
               </p>
               <a
                 href="/work-with-me"
                 style={{ display: 'inline-block', padding: '13px 36px', borderRadius: 'var(--radius-full)', background: 'var(--color-bg)', color: 'var(--color-pine)', fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 600, textDecoration: 'none', boxShadow: '0 8px 28px rgba(0,0,0,0.18)' }}
               >
-                Work with me
+                {t('learn_cta')}
               </a>
             </div>
           </div>

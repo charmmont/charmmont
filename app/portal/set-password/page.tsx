@@ -4,10 +4,12 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import { useTranslations } from 'next-intl'
 
 type Step = 'loading' | 'set-password' | 'success' | 'error'
 
 export default function SetPasswordPage() {
+  const t = useTranslations('SetPassword')
   const router = useRouter()
   const [step, setStep] = useState<Step>('loading')
   const [password, setPassword] = useState('')
@@ -16,19 +18,16 @@ export default function SetPasswordPage() {
   const [saving, setSaving] = useState(false)
 
   useEffect(() => {
-    // Parse hash fragment — Supabase puts token here on invite/recovery
     const hash = window.location.hash.substring(1)
     const params = new URLSearchParams(hash)
     const accessToken = params.get('access_token')
     const refreshToken = params.get('refresh_token')
-    const type = params.get('type') // 'invite' | 'recovery'
 
     if (!accessToken) {
       setStep('error')
       return
     }
 
-    // Set the session from the tokens in the URL
     const supabase = createClient()
     supabase.auth.setSession({
       access_token: accessToken,
@@ -38,7 +37,6 @@ export default function SetPasswordPage() {
         setStep('error')
       } else {
         setStep('set-password')
-        // Clean the token from the URL bar
         window.history.replaceState(null, '', '/portal/set-password')
       }
     })
@@ -49,11 +47,11 @@ export default function SetPasswordPage() {
     setError('')
 
     if (password.length < 8) {
-      setError('Password must be at least 8 characters.')
+      setError(t('error_length'))
       return
     }
     if (password !== confirm) {
-      setError('Passwords do not match.')
+      setError(t('error_match'))
       return
     }
 
@@ -67,7 +65,6 @@ export default function SetPasswordPage() {
       return
     }
 
-    // Fetch role and redirect
     const { data: { user } } = await supabase.auth.getUser()
     if (user) {
       const { data: profile } = await supabase
@@ -93,7 +90,7 @@ export default function SetPasswordPage() {
           <Link href="/" className="inline-flex flex-col items-center gap-1">
             <span
               className="text-2xl font-semibold text-[#2D4A3E]"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              style={{ fontFamily: 'var(--font-display), Georgia, serif' }}
             >
               Deepbloom
             </span>
@@ -103,7 +100,7 @@ export default function SetPasswordPage() {
         <div className="bg-white rounded-2xl p-8">
           {step === 'loading' && (
             <div className="text-center py-6">
-              <p className="text-[#6B6B65] text-sm">Verifying your link...</p>
+              <p className="text-[#6B6B65] text-sm">{t('verifying')}</p>
             </div>
           )}
 
@@ -111,17 +108,15 @@ export default function SetPasswordPage() {
             <>
               <h1
                 className="text-xl font-semibold text-[#1C1C1A] mb-2 text-center"
-                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                style={{ fontFamily: 'var(--font-display), Georgia, serif' }}
               >
-                Set your password
+                {t('title')}
               </h1>
-              <p className="text-[#6B6B65] text-sm text-center mb-6">
-                Choose a password to access your Deepbloom portal.
-              </p>
+              <p className="text-[#6B6B65] text-sm text-center mb-6">{t('sub')}</p>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-[#1C1C1A] mb-1.5">
-                    New password
+                    {t('new_password_label')}
                   </label>
                   <input
                     type="password"
@@ -130,12 +125,12 @@ export default function SetPasswordPage() {
                     required
                     autoFocus
                     className="w-full border border-[#2D4A3E]/20 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#2D4A3E] transition-colors"
-                    placeholder="Minimum 8 characters"
+                    placeholder={t('new_password_placeholder')}
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-[#1C1C1A] mb-1.5">
-                    Confirm password
+                    {t('confirm_label')}
                   </label>
                   <input
                     type="password"
@@ -143,7 +138,7 @@ export default function SetPasswordPage() {
                     onChange={(e) => setConfirm(e.target.value)}
                     required
                     className="w-full border border-[#2D4A3E]/20 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#2D4A3E] transition-colors"
-                    placeholder="••••••••"
+                    placeholder={t('confirm_placeholder')}
                   />
                 </div>
                 {error && <p className="text-red-500 text-sm">{error}</p>}
@@ -152,7 +147,7 @@ export default function SetPasswordPage() {
                   disabled={saving}
                   className="w-full bg-[#2D4A3E] text-white py-3 rounded-full text-sm hover:bg-[#7A9E8E] transition-colors disabled:opacity-60 mt-2"
                 >
-                  {saving ? 'Setting password...' : 'Set password & sign in'}
+                  {saving ? t('submitting') : t('submit')}
                 </button>
               </form>
             </>
@@ -167,11 +162,11 @@ export default function SetPasswordPage() {
               </div>
               <p
                 className="text-xl font-semibold text-[#1C1C1A] mb-2"
-                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                style={{ fontFamily: 'var(--font-display), Georgia, serif' }}
               >
-                Welcome to Deepbloom.
+                {t('success_title')}
               </p>
-              <p className="text-[#6B6B65] text-sm">Taking you to your portal...</p>
+              <p className="text-[#6B6B65] text-sm">{t('success_body')}</p>
             </div>
           )}
 
@@ -179,18 +174,16 @@ export default function SetPasswordPage() {
             <div className="text-center py-6">
               <p
                 className="text-xl font-semibold text-[#1C1C1A] mb-3"
-                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                style={{ fontFamily: 'var(--font-display), Georgia, serif' }}
               >
-                This link has expired.
+                {t('expired_title')}
               </p>
-              <p className="text-[#6B6B65] text-sm mb-6">
-                Invite links expire after 24 hours. Please ask for a new one.
-              </p>
+              <p className="text-[#6B6B65] text-sm mb-6">{t('expired_body')}</p>
               <Link
                 href="/portal/login"
                 className="text-sm text-[#2D4A3E] hover:text-[#7A9E8E] transition-colors"
               >
-                Go to sign in →
+                {t('sign_in')}
               </Link>
             </div>
           )}

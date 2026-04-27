@@ -1,22 +1,24 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 
 type FormState = 'idle' | 'submitting' | 'success' | 'error'
 
 export default function ContactPage() {
+  const t = useTranslations('Contact')
   const [state, setState] = useState<FormState>('idle')
   const [form, setForm] = useState({ name: '', email: '', message: '' })
   const [errors, setErrors] = useState<Record<string, string>>({})
 
   function validate() {
     const errs: Record<string, string> = {}
-    if (!form.name.trim()) errs.name = 'Please enter your name.'
+    if (!form.name.trim()) errs.name = t('field_name_error')
     if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-      errs.email = 'Please enter a valid email address.'
+      errs.email = t('field_email_error')
     }
     if (!form.message.trim() || form.message.trim().length < 10) {
-      errs.message = 'Please enter a message (at least 10 characters).'
+      errs.message = t('field_message_error')
     }
     return errs
   }
@@ -77,10 +79,10 @@ export default function ContactPage() {
               letterSpacing: '-0.03em',
               marginBottom: 28,
             }}>
-              Get in <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>touch</em>
+              {t('title_pre')} <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>{t('title_em')}</em>
             </h1>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 17, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88 }}>
-              For anything that isn&apos;t a booking — questions, press, or just a hello.
+              {t('sub')}
             </p>
           </div>
         </div>
@@ -103,24 +105,24 @@ export default function ContactPage() {
                 </svg>
               </div>
               <p style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, color: 'var(--color-text-primary)', letterSpacing: '-0.02em', marginBottom: 8 }}>
-                Thank you.
+                {t('success_title')}
               </p>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'var(--color-text-secondary)' }}>
-                I&apos;ll be in touch within 48 hours.
+                {t('success_body')}
               </p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
               <div>
                 <label htmlFor="name" style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 12, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--color-text-secondary)', marginBottom: 8 }}>
-                  Name
+                  {t('field_name')}
                 </label>
                 <input
                   id="name"
                   type="text"
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  placeholder="Your name"
+                  placeholder={t('field_name_placeholder')}
                   style={inputStyle(!!errors.name)}
                 />
                 {errors.name && <p style={{ fontFamily: 'var(--font-body)', fontSize: 12, color: '#e57373', marginTop: 4 }}>{errors.name}</p>}
@@ -128,14 +130,14 @@ export default function ContactPage() {
 
               <div>
                 <label htmlFor="email" style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 12, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--color-text-secondary)', marginBottom: 8 }}>
-                  Email
+                  {t('field_email')}
                 </label>
                 <input
                   id="email"
                   type="email"
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  placeholder="your@email.com"
+                  placeholder={t('field_email_placeholder')}
                   style={inputStyle(!!errors.email)}
                 />
                 {errors.email && <p style={{ fontFamily: 'var(--font-body)', fontSize: 12, color: '#e57373', marginTop: 4 }}>{errors.email}</p>}
@@ -143,14 +145,14 @@ export default function ContactPage() {
 
               <div>
                 <label htmlFor="message" style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 12, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--color-text-secondary)', marginBottom: 8 }}>
-                  Message
+                  {t('field_message')}
                 </label>
                 <textarea
                   id="message"
                   rows={6}
                   value={form.message}
                   onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  placeholder="What would you like to say?"
+                  placeholder={t('field_message_placeholder')}
                   style={{ ...inputStyle(!!errors.message), resize: 'none' }}
                 />
                 {errors.message && <p style={{ fontFamily: 'var(--font-body)', fontSize: 12, color: '#e57373', marginTop: 4 }}>{errors.message}</p>}
@@ -158,7 +160,7 @@ export default function ContactPage() {
 
               {state === 'error' && (
                 <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: '#e57373' }}>
-                  Something went wrong. Please try again or email directly.
+                  {t('error_generic')}
                 </p>
               )}
 
@@ -180,7 +182,7 @@ export default function ContactPage() {
                   alignSelf: 'flex-start',
                 }}
               >
-                {state === 'submitting' ? 'Sending…' : 'Send message'}
+                {state === 'submitting' ? t('submitting') : t('submit')}
               </button>
             </form>
           )}

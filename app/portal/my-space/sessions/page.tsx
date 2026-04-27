@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import PortalShell from '@/components/PortalShell'
 import type { Metadata } from 'next'
+import { getTranslations, getLocale } from 'next-intl/server'
 
 export const metadata: Metadata = { title: 'My Sessions' }
 
@@ -23,20 +24,23 @@ export default async function MySessionsPage() {
     .eq('client_id', clientRecord?.id)
     .order('session_date', { ascending: false })
 
+  const [t, locale] = await Promise.all([getTranslations('MySessions'), getLocale()])
+  const dateLang = locale === 'es' ? 'es-ES' : 'en-GB'
+
   return (
     <PortalShell role="client" name={profile?.full_name ?? user.email ?? ''}>
       <Link
         href="/portal/my-space"
         className="text-sm text-[#6B6B65] hover:text-[#2D4A3E] transition-colors inline-flex items-center gap-2 mb-8"
       >
-        ← My Space
+        {t('back')}
       </Link>
 
       <h1
         className="text-2xl font-semibold text-[#1C1C1A] mb-8"
-        style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
+        style={{ fontFamily: 'var(--font-display), Georgia, serif' }}
       >
-        My Sessions
+        {t('title')}
       </h1>
 
       <div className="bg-white rounded-2xl overflow-hidden">
@@ -47,7 +51,7 @@ export default async function MySessionsPage() {
                 <div className="flex items-start justify-between mb-3">
                   <div>
                     <p className="font-medium text-sm text-[#1C1C1A]">
-                      {new Date(s.session_date).toLocaleDateString('en-GB', {
+                      {new Date(s.session_date).toLocaleDateString(dateLang, {
                         day: 'numeric', month: 'long', year: 'numeric'
                       })}
                     </p>
@@ -60,17 +64,17 @@ export default async function MySessionsPage() {
                 {s.notes_shared ? (
                   <p className="text-sm text-[#6B6B65] leading-relaxed">{s.notes_shared}</p>
                 ) : (
-                  <p className="text-sm text-[#6B6B65] italic">No shared notes for this session.</p>
+                  <p className="text-sm text-[#6B6B65] italic">{t('no_notes')}</p>
                 )}
                 {s.next_steps && (
                   <div className="mt-3 p-3 bg-[#FAF7F2] rounded-lg">
-                    <p className="text-xs font-medium text-[#2D4A3E] mb-1">Next steps</p>
+                    <p className="text-xs font-medium text-[#2D4A3E] mb-1">{t('next_steps')}</p>
                     <p className="text-xs text-[#6B6B65]">{s.next_steps}</p>
                   </div>
                 )}
                 {s.homework && (
                   <div className="mt-2 p-3 bg-[#FAF7F2] rounded-lg">
-                    <p className="text-xs font-medium text-[#2D4A3E] mb-1">Homework</p>
+                    <p className="text-xs font-medium text-[#2D4A3E] mb-1">{t('homework')}</p>
                     <p className="text-xs text-[#6B6B65]">{s.homework}</p>
                   </div>
                 )}
@@ -79,7 +83,7 @@ export default async function MySessionsPage() {
           </div>
         ) : (
           <div className="p-16 text-center text-[#6B6B65] text-sm italic">
-            No sessions yet.
+            {t('empty')}
           </div>
         )}
       </div>

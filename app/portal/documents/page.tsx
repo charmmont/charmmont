@@ -4,6 +4,7 @@ import PortalShell from '@/components/PortalShell'
 import DocumentUpload from './DocumentUpload'
 import DocumentList from './DocumentList'
 import type { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 
 export const metadata: Metadata = { title: 'Documents' }
 
@@ -31,14 +32,16 @@ export default async function DocumentsPage() {
     full_name: c.profiles?.full_name ?? 'Unknown',
   }))
 
+  const t = await getTranslations('Documents')
+
   return (
     <PortalShell role="practitioner" name={profile?.full_name ?? user.email ?? ''}>
       <div className="flex items-center justify-between mb-8">
         <h1
           className="text-2xl font-semibold text-[#1C1C1A]"
-          style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
+          style={{ fontFamily: 'var(--font-display), Georgia, serif' }}
         >
-          Documents
+          {t('title')}
         </h1>
         <DocumentUpload clients={clients} />
       </div>

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import PortalShell from '@/components/PortalShell'
 import type { Metadata } from 'next'
+import { getTranslations, getLocale } from 'next-intl/server'
 
 export const metadata: Metadata = { title: 'Invoices' }
 
@@ -41,34 +42,37 @@ export default async function InvoicesPage() {
     })
     .reduce((sum: number, i: any) => sum + Number(i.total), 0)
 
+  const [t, locale] = await Promise.all([getTranslations('Invoices'), getLocale()])
+  const dateLang = locale === 'es' ? 'es-ES' : 'en-GB'
+
   return (
     <PortalShell role="practitioner" name={profile?.full_name ?? user.email ?? ''}>
       <div className="flex items-center justify-between mb-8">
         <h1
           className="text-2xl font-semibold text-[#1C1C1A]"
-          style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
+          style={{ fontFamily: 'var(--font-display), Georgia, serif' }}
         >
-          Invoices
+          {t('title')}
         </h1>
         <Link
           href="/portal/invoices/new"
           className="bg-[#2D4A3E] text-white px-5 py-2.5 rounded-full text-sm hover:bg-[#7A9E8E] transition-colors"
         >
-          + New invoice
+          {t('new_invoice')}
         </Link>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4 mb-8">
         {[
-          { label: 'Outstanding', value: `£${outstanding.toFixed(2)}`, sub: 'sent + overdue' },
-          { label: 'Paid this month', value: `£${paidThisMonth.toFixed(2)}`, sub: 'received' },
-          { label: 'Total invoices', value: list.length, sub: 'all time' },
+          { label: t('outstanding_label'), value: `£${outstanding.toFixed(2)}`, sub: t('outstanding_sub') },
+          { label: t('paid_label'), value: `£${paidThisMonth.toFixed(2)}`, sub: t('paid_sub') },
+          { label: t('total_label'), value: list.length, sub: t('total_sub') },
         ].map((s) => (
           <div key={s.label} className="bg-white rounded-2xl p-5">
             <p
               className="text-2xl font-semibold text-[#2D4A3E]"
-              style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
+              style={{ fontFamily: 'var(--font-display), Georgia, serif' }}
             >
               {s.value}
             </p>
@@ -98,15 +102,15 @@ export default async function InvoicesPage() {
                   <p className="text-xs text-[#6B6B65]">
                     {(invoice as any).clients?.profiles?.full_name ?? 'Unknown client'}
                     {' · '}
-                    {new Date(invoice.invoice_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                    {new Date(invoice.invoice_date).toLocaleDateString(dateLang, { day: 'numeric', month: 'short', year: 'numeric' })}
                     {invoice.due_date && invoice.status !== 'paid' && (
-                      <> · Due {new Date(invoice.due_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</>
+                      <> · {t('due_date', { date: new Date(invoice.due_date).toLocaleDateString(dateLang, { day: 'numeric', month: 'short' }) })}</>
                     )}
                   </p>
                 </div>
                 <div className="text-right">
                   <p className="text-base font-semibold text-[#1C1C1A]">£{Number(invoice.total).toFixed(2)}</p>
-                  <p className="text-xs text-[#6B6B65] group-hover:text-[#2D4A3E] transition-colors">View →</p>
+                  <p className="text-xs text-[#6B6B65] group-hover:text-[#2D4A3E] transition-colors">{t('view')}</p>
                 </div>
               </Link>
             ))}
@@ -115,13 +119,13 @@ export default async function InvoicesPage() {
       ) : (
         <div className="bg-white rounded-2xl p-16 text-center">
           <div className="w-12 h-12 bg-[#FAF7F2] rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl">🧾</div>
-          <p className="font-semibold text-[#1C1C1A] text-sm mb-2">No invoices yet</p>
-          <p className="text-sm text-[#6B6B65] mb-6">Create your first invoice to get started.</p>
+          <p className="font-semibold text-[#1C1C1A] text-sm mb-2">{t('empty_title')}</p>
+          <p className="text-sm text-[#6B6B65] mb-6">{t('empty_body')}</p>
           <Link
             href="/portal/invoices/new"
             className="bg-[#2D4A3E] text-white px-5 py-2.5 rounded-full text-sm hover:bg-[#7A9E8E] transition-colors"
           >
-            + New invoice
+            {t('new_invoice')}
           </Link>
         </div>
       )}

@@ -3,8 +3,10 @@
 import { useActionState } from 'react'
 import Link from 'next/link'
 import { signInAction } from './actions'
+import { useTranslations } from 'next-intl'
 
 export default function LoginPage() {
+  const t = useTranslations('Login')
   const [state, formAction, pending] = useActionState(signInAction, null)
 
   return (
@@ -15,26 +17,26 @@ export default function LoginPage() {
           <Link href="/" className="inline-flex flex-col items-center gap-1">
             <span
               className="text-2xl font-semibold text-[#2D4A3E]"
-              style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
+              style={{ fontFamily: 'var(--font-display), Georgia, serif' }}
             >
               Deepbloom
             </span>
-            <span className="text-xs text-[#6B6B65] tracking-wider">Portal</span>
+            <span className="text-xs text-[#6B6B65] tracking-wider">{t('title')}</span>
           </Link>
         </div>
 
         <div className="bg-white rounded-2xl p-8">
           <h1
             className="text-xl font-semibold text-[#1C1C1A] mb-6 text-center"
-            style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
+            style={{ fontFamily: 'var(--font-display), Georgia, serif' }}
           >
-            Sign in
+            {t('submit')}
           </h1>
 
           <form action={formAction} className="space-y-4">
             <div>
               <label className="block text-sm text-[#1C1C1A] mb-1.5 font-medium" htmlFor="email">
-                Email
+                {t('email_label')}
               </label>
               <input
                 id="email"
@@ -43,13 +45,13 @@ export default function LoginPage() {
                 required
                 autoComplete="email"
                 className="w-full border border-[#2D4A3E]/20 rounded-xl px-4 py-3 text-[#1C1C1A] text-sm outline-none focus:border-[#2D4A3E] transition-colors"
-                placeholder="your@email.com"
+                placeholder={t('email_placeholder')}
               />
             </div>
 
             <div>
               <label className="block text-sm text-[#1C1C1A] mb-1.5 font-medium" htmlFor="password">
-                Password
+                {t('password_label')}
               </label>
               <input
                 id="password"
@@ -58,7 +60,7 @@ export default function LoginPage() {
                 required
                 autoComplete="current-password"
                 className="w-full border border-[#2D4A3E]/20 rounded-xl px-4 py-3 text-[#1C1C1A] text-sm outline-none focus:border-[#2D4A3E] transition-colors"
-                placeholder="••••••••"
+                placeholder={t('password_placeholder')}
               />
             </div>
 
@@ -71,7 +73,7 @@ export default function LoginPage() {
               disabled={pending}
               className="w-full bg-[#2D4A3E] text-white py-3 rounded-full text-sm hover:bg-[#7A9E8E] transition-colors disabled:opacity-60 mt-2"
             >
-              {pending ? 'Signing in…' : 'Sign in'}
+              {pending ? t('submitting') : t('submit')}
             </button>
           </form>
 
@@ -80,13 +82,13 @@ export default function LoginPage() {
               href="/portal/reset-password"
               className="text-xs text-[#6B6B65] hover:text-[#2D4A3E] transition-colors"
             >
-              Forgot your password?
+              {t('forgot_password')}
             </Link>
           </div>
         </div>
 
         <p className="text-center text-xs text-[#6B6B65] mt-6">
-          New clients are invited by their practitioner.
+          {t('invite_note')}
         </p>
       </div>
     </div>

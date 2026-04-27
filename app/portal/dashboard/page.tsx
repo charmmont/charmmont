@@ -3,14 +3,10 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import PortalShell from '@/components/PortalShell'
 import type { Metadata } from 'next'
+import { getTranslations, getLocale } from 'next-intl/server'
 
 export const metadata: Metadata = { title: 'Dashboard' }
 
-function statusBadge(status: string) {
-  if (status === 'active') return 'bg-[#2D4A3E]/10 text-[#2D4A3E]'
-  if (status === 'paused') return 'bg-amber-100 text-amber-700'
-  return 'bg-[#6B6B65]/10 text-[#6B6B65]'
-}
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -20,9 +16,12 @@ export default async function DashboardPage() {
   const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single()
   if (profile?.role !== 'practitioner') redirect('/portal/my-space')
 
+  const [t, locale] = await Promise.all([getTranslations('Dashboard'), getLocale()])
+
   const today = new Date().toISOString().split('T')[0]
   const startOfWeek = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
   const startOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0]
+  const dateLang = locale === 'es' ? 'es-ES' : 'en-GB'
 
   const [
     { count: activeClients },
@@ -36,7 +35,6 @@ export default async function DashboardPage() {
     supabase.from('tool_assignments').select('*', { count: 'exact', head: true }).in('status', ['assigned', 'in_progress']),
   ])
 
-  // Upcoming sessions (today and future, booked or confirmed)
   const { data: upcomingSessions } = await supabase
     .from('sessions')
     .select('*, clients(id, profiles(full_name))')
@@ -46,7 +44,6 @@ export default async function DashboardPage() {
     .order('session_date', { ascending: true })
     .limit(8)
 
-  // Recent activity: last 8 sessions + last 5 tool completions
   const { data: recentSessions } = await supabase
     .from('sessions')
     .select('id, session_date, session_type, clients(id, profiles(full_name))')
@@ -61,20 +58,19 @@ export default async function DashboardPage() {
     .order('completed_at', { ascending: false })
     .limit(5)
 
-  // Merge activity feed
   type FeedItem = { type: 'session' | 'tool'; label: string; sub: string; href: string; date: string }
   const feed: FeedItem[] = [
     ...(recentSessions ?? []).map((s: any) => ({
       type: 'session' as const,
-      label: `Session with ${s.clients?.profiles?.full_name ?? 'Unknown'}`,
-      sub: s.session_type?.replace('_', '-') ?? 'session',
+      label: t('feed_session', { name: s.clients?.profiles?.full_name ?? 'Unknown' }),
+      sub: t('feed_session_sub'),
       href: `/portal/clients/${s.clients?.id}`,
       date: s.session_date,
     })),
     ...(recentCompletions ?? []).map((a: any) => ({
       type: 'tool' as const,
-      label: `${a.clients?.profiles?.full_name ?? 'Client'} completed ${a.tools?.name ?? 'a tool'}`,
-      sub: 'tool completed',
+      label: t('feed_completion', { name: a.clients?.profiles?.full_name ?? 'Client', tool: a.tools?.name ?? 'a tool' }),
+      sub: t('feed_tool_sub'),
       href: `/portal/clients/${a.clients?.id}`,
       date: (a.completed_at as string).split('T')[0],
     })),
@@ -83,15 +79,15 @@ export default async function DashboardPage() {
     .slice(0, 8)
 
   const stats = [
-    { label: 'Active clients', value: activeClients ?? 0, href: '/portal/clients' },
-    { label: 'Sessions this week', value: sessionsThisWeek ?? 0, href: '/portal/sessions' },
-    { label: 'Sessions this month', value: sessionsThisMonth ?? 0, href: '/portal/sessions' },
-    { label: 'Pending tools', value: pendingTools ?? 0, href: '/portal/toolbox' },
+    { label: t('stat_active_clients'), value: activeClients ?? 0, href: '/portal/clients' },
+    { label: t('stat_sessions_week'), value: sessionsThisWeek ?? 0, href: '/portal/sessions' },
+    { label: t('stat_sessions_month'), value: sessionsThisMonth ?? 0, href: '/portal/sessions' },
+    { label: t('stat_pending_tools'), value: pendingTools ?? 0, href: '/portal/toolbox' },
   ]
 
   const firstName = profile?.full_name?.split(' ')[0] ?? 'Ayelen'
   const hour = new Date().getHours()
-  const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening'
+  const greeting = hour < 12 ? t('greeting_morning') : hour < 17 ? t('greeting_afternoon') : t('greeting_evening')
 
   return (
     <PortalShell role="practitioner" name={profile?.full_name ?? user.email ?? ''}>
@@ -100,12 +96,12 @@ export default async function DashboardPage() {
         <div>
           <h1
             className="text-2xl font-semibold text-[#1C1C1A]"
-            style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
+            style={{ fontFamily: 'var(--font-display), Georgia, serif' }}
           >
             {greeting}, {firstName}.
           </h1>
           <p className="text-[#6B6B65] text-sm mt-1">
-            {new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })}
+            {new Date().toLocaleDateString(dateLang, { weekday: 'long', day: 'numeric', month: 'long' })}
           </p>
         </div>
         <div className="flex gap-3">
@@ -113,13 +109,13 @@ export default async function DashboardPage() {
             href="/portal/sessions"
             className="border border-[#2D4A3E]/20 text-[#2D4A3E] px-4 py-2 rounded-full text-sm hover:bg-[#2D4A3E]/5 transition-colors"
           >
-            + Log session
+            {t('log_session')}
           </Link>
           <Link
             href="/portal/clients"
             className="bg-[#2D4A3E] text-white px-4 py-2 rounded-full text-sm hover:bg-[#7A9E8E] transition-colors"
           >
-            + New client
+            {t('new_client')}
           </Link>
         </div>
       </div>
@@ -134,7 +130,7 @@ export default async function DashboardPage() {
           >
             <p
               className="text-3xl font-semibold text-[#2D4A3E]"
-              style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
+              style={{ fontFamily: 'var(--font-display), Georgia, serif' }}
             >
               {s.value}
             </p>
@@ -149,32 +145,29 @@ export default async function DashboardPage() {
           <div className="px-6 py-5 border-b border-[#2D4A3E]/10 flex items-center justify-between">
             <h2
               className="font-semibold text-[#1C1C1A] text-sm"
-              style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
+              style={{ fontFamily: 'var(--font-display), Georgia, serif' }}
             >
-              Upcoming sessions
+              {t('upcoming_title')}
             </h2>
             <Link href="/portal/sessions" className="text-xs text-[#2D4A3E] hover:text-[#7A9E8E] transition-colors">
-              View all →
+              {t('view_all')}
             </Link>
           </div>
           {upcomingSessions && upcomingSessions.length > 0 ? (
             <div className="divide-y divide-[#2D4A3E]/10">
               {upcomingSessions.map((s: any) => {
                 const programmeLabel =
-                  s.programme === 'first_root' ? 'The First Root' :
-                  s.programme === 'becoming' ? 'The Becoming' :
-                  s.programme === 'in_full_bloom' ? 'In Full Bloom' :
+                  s.programme === 'first_root' ? t('programme_first_root') :
+                  s.programme === 'becoming' ? t('programme_becoming') :
+                  s.programme === 'in_full_bloom' ? t('programme_in_full_bloom') :
                   s.session_type?.replace('_', '-') ?? 'Session'
                 const programmePill =
                   s.programme === 'first_root' ? 'bg-[#7A9E8E]/15 text-[#2D4A3E]' :
                   s.programme === 'becoming' ? 'bg-[#2D4A3E]/10 text-[#2D4A3E]' :
                   'bg-[#6B6B65]/10 text-[#6B6B65]'
                 const isToday = s.session_date === today
-                const dateLabel = isToday
-                  ? 'Today'
-                  : new Date(s.session_date).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })
                 const timeLabel = s.scheduled_at
-                  ? new Date(s.scheduled_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
+                  ? new Date(s.scheduled_at).toLocaleTimeString(dateLang, { hour: '2-digit', minute: '2-digit' })
                   : null
                 return (
                   <Link
@@ -185,7 +178,7 @@ export default async function DashboardPage() {
                     <div className="flex items-start gap-3 min-w-0">
                       <div className="text-center shrink-0 w-10">
                         <p className={`text-[10px] font-semibold uppercase tracking-wide ${isToday ? 'text-[#2D4A3E]' : 'text-[#6B6B65]'}`}>
-                          {isToday ? 'Today' : new Date(s.session_date).toLocaleDateString('en-GB', { weekday: 'short' })}
+                          {isToday ? t('today') : new Date(s.session_date).toLocaleDateString(dateLang, { weekday: 'short' })}
                         </p>
                         <p className="text-base font-semibold text-[#1C1C1A] leading-tight">
                           {new Date(s.session_date).getDate()}
@@ -210,12 +203,12 @@ export default async function DashboardPage() {
             </div>
           ) : (
             <div className="px-6 py-8 text-center">
-              <p className="text-sm text-[#6B6B65] italic">No upcoming sessions.</p>
+              <p className="text-sm text-[#6B6B65] italic">{t('no_upcoming')}</p>
               <Link
                 href="/portal/sessions"
                 className="text-xs text-[#2D4A3E] hover:text-[#7A9E8E] transition-colors mt-3 inline-block"
               >
-                Book a session →
+                {t('book_session')}
               </Link>
             </div>
           )}
@@ -226,9 +219,9 @@ export default async function DashboardPage() {
           <div className="px-6 py-5 border-b border-[#2D4A3E]/10">
             <h2
               className="font-semibold text-[#1C1C1A] text-sm"
-              style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
+              style={{ fontFamily: 'var(--font-display), Georgia, serif' }}
             >
-              Recent activity
+              {t('activity_title')}
             </h2>
           </div>
           {feed.length > 0 ? (
@@ -247,7 +240,7 @@ export default async function DashboardPage() {
                   <div className="min-w-0">
                     <p className="text-sm text-[#1C1C1A] leading-snug">{item.label}</p>
                     <p className="text-xs text-[#6B6B65] mt-0.5 capitalize">
-                      {item.sub} · {new Date(item.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
+                      {item.sub} · {new Date(item.date).toLocaleDateString(dateLang, { day: 'numeric', month: 'short' })}
                     </p>
                   </div>
                 </Link>
@@ -255,12 +248,12 @@ export default async function DashboardPage() {
             </div>
           ) : (
             <div className="px-6 py-8 text-center">
-              <p className="text-sm text-[#6B6B65] italic">No activity yet.</p>
+              <p className="text-sm text-[#6B6B65] italic">{t('no_activity')}</p>
               <Link
                 href="/portal/clients"
                 className="text-xs text-[#2D4A3E] hover:text-[#7A9E8E] transition-colors mt-3 inline-block"
               >
-                Invite your first client →
+                {t('invite_client')}
               </Link>
             </div>
           )}

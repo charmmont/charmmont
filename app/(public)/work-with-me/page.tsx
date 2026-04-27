@@ -2,29 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-
-const faqs = [
-  {
-    q: "How do I know if I'm ready?",
-    a: "If you're asking this question, part of you already is. Readiness isn't about having it figured out — it's about being willing to look. The First Root is the best place to start.",
-  },
-  {
-    q: 'How long is the programme?',
-    a: "The Becoming is shaped around you. There is no fixed number of sessions — we begin where you are and work at a pace that serves your growth. Most clients work with me for several months, with sessions every one to two weeks.",
-  },
-  {
-    q: 'Is this therapy?',
-    a: "No. Therapeutic coaching is not the same as therapy, and I am not a therapist. Coaching is forward-focused — we work with your history to understand it, but the compass always points toward who you're becoming. If I believe you need clinical support, I will say so honestly.",
-  },
-  {
-    q: 'What happens in a session?',
-    a: "Sessions are one hour, held online via video. We begin wherever you are that week — what's present, what's alive, what's sitting with you. From there, we go deep. You can expect honesty, care, and work that actually moves something.",
-  },
-  {
-    q: "What if I've tried coaching before and it didn't work?",
-    a: "That's worth talking about — and it often tells us something important about where the real work is. Coaching that stays on the surface rarely changes anything lasting. This is different. But I'd encourage you to bring that experience to The First Root and let's explore it together.",
-  },
-]
+import { useTranslations } from 'next-intl'
 
 function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false)
@@ -69,6 +47,16 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 }
 
 export default function WorkWithMePage() {
+  const t = useTranslations('WorkWithMe')
+
+  const faqs = [
+    { q: t('faq1_q'), a: t('faq1_a') },
+    { q: t('faq2_q'), a: t('faq2_a') },
+    { q: t('faq3_q'), a: t('faq3_a') },
+    { q: t('faq4_q'), a: t('faq4_a') },
+    { q: t('faq5_q'), a: t('faq5_a') },
+  ]
+
   return (
     <div style={{ position: 'relative', overflow: 'hidden', background: 'var(--color-bg)' }}>
 
@@ -85,12 +73,10 @@ export default function WorkWithMePage() {
               letterSpacing: '-0.03em',
               marginBottom: 28,
             }}>
-              Work With <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>Me</em>
+              {t('title_pre')} <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>{t('title_em')}</em>
             </h1>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 17, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88 }}>
-              This is for the person who senses there&apos;s more. More depth, more honesty, more freedom
-              in who they are and how they move through the world. You don&apos;t need to have it figured
-              out. You just need to be ready to look.
+              {t('intro')}
             </p>
           </div>
         </div>
@@ -113,14 +99,14 @@ export default function WorkWithMePage() {
             textAlign: 'center',
             marginBottom: 48,
           }}>
-            The <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>journey</em>
+            {t('journey_title_pre')} <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>{t('journey_title_em')}</em>
           </h2>
           <div className="journey-steps flex flex-col md:flex-row items-center md:items-start" style={{ gap: 0, maxWidth: 640, margin: '0 auto' }}>
-            {[
-              { label: 'The First Root', sub: 'Free discovery call' },
-              { label: 'The Becoming', sub: '1:1 Programme' },
-              { label: 'In Full Bloom', sub: 'Ongoing' },
-            ].map((step, i) => (
+            {([
+              { label: t('offer1_title'), sub: t('offer1_label') },
+              { label: t('offer2_title'), sub: t('offer2_label') },
+              { label: t('offer3_title'), sub: t('offer3_label') },
+            ] as { label: string; sub: string }[]).map((step, i) => (
               <div key={i} className="flex flex-col md:flex-row items-center" style={{ flex: 1 }}>
                 <div style={{ textAlign: 'center', flex: 1, padding: '0 16px' }}>
                   <div style={{
@@ -167,23 +153,15 @@ export default function WorkWithMePage() {
             lineHeight: 1.08,
             marginBottom: 8,
           }}>
-            The <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>Becoming</em>
+            {t('becoming_title')}
           </h2>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--color-text-secondary)', marginBottom: 28, letterSpacing: '0.01em' }}>
-            1:1 Coaching — Online
+            {t('becoming_sub')}
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20, fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88, marginBottom: 48 }}>
-            <p>
-              The Becoming is Deepbloom&apos;s core 1:1 coaching programme. It is personal, in-depth work
-              — the kind that doesn&apos;t rush, doesn&apos;t skip the difficult parts, and doesn&apos;t settle for
-              surface-level insight.
-            </p>
-            <p>
-              We begin with The First Root — a free discovery call to understand where you are, what
-              you&apos;re carrying, and what becoming yourself might look like for you. From there, we build
-              a programme shaped entirely around you.
-            </p>
-            <p>Sessions are held online. The pace is yours. The work is ours, together.</p>
+            <p>{t('becoming_body1')}</p>
+            <p>{t('becoming_body2')}</p>
+            <p>{t('becoming_body3')}</p>
           </div>
           {/* Divider */}
           <div style={{ height: 1, background: 'var(--color-border)', marginBottom: 48 }} />
@@ -196,14 +174,10 @@ export default function WorkWithMePage() {
             lineHeight: 1.22,
             marginBottom: 32,
           }}>
-            What this <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>isn&apos;t</em>
+            {t('not_title_pre')} <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>{t('not_title_em')}</em>
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {[
-              'Not a quick fix or a 30-day transformation',
-              "Not advice-giving or telling you what to do",
-              "Not therapy — but it goes to the places therapy sometimes doesn't reach",
-            ].map((item, i) => (
+            {[t('not1'), t('not2'), t('not3')].map((item, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
                 <div style={{
                   marginTop: 2,
@@ -240,7 +214,7 @@ export default function WorkWithMePage() {
             letterSpacing: '-0.025em',
             marginBottom: 24,
           }}>
-            Investment
+            {t('investment_title')}
           </h2>
           <div style={{
             background: 'var(--color-bg-subtle)',
@@ -249,7 +223,7 @@ export default function WorkWithMePage() {
             border: '1px solid var(--color-border)',
           }}>
             <p style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 15, color: 'var(--color-text-secondary)', lineHeight: 1.62 }}>
-              Pricing details coming soon. Please book a First Root call to discuss what&apos;s right for you.
+              {t('investment_body')}
             </p>
           </div>
         </div>
@@ -266,7 +240,7 @@ export default function WorkWithMePage() {
             letterSpacing: '-0.025em',
             marginBottom: 32,
           }}>
-            Questions
+            {t('faq_title')}
           </h2>
           <div>
             {faqs.map((faq, i) => (
@@ -294,17 +268,17 @@ export default function WorkWithMePage() {
             </svg>
             <div style={{ position: 'relative', zIndex: 2 }}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3.5vw, 44px)', fontWeight: 800, color: 'var(--color-text-inverse)', letterSpacing: '-0.025em', lineHeight: 1.08, marginBottom: 16 }}>
-                Begin with <em style={{ fontStyle: 'italic' }}>The First Root</em>
+                {t('cta_title')}
               </h2>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'rgba(250,247,242,0.5)', lineHeight: 1.78, maxWidth: 420, margin: '0 auto 34px' }}>
-                A free 30-minute conversation. No commitment.
+                {t('cta_sub')}
               </p>
               <Link
                 href="/first-root"
                 className="hover:-translate-y-0.5 transition-transform"
                 style={{ display: 'inline-block', padding: '13px 36px', borderRadius: 'var(--radius-full)', background: 'var(--color-bg)', color: 'var(--color-pine)', fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 600, textDecoration: 'none', boxShadow: '0 8px 28px rgba(0,0,0,0.18)' }}
               >
-                Book The First Root
+                {t('cta_button')}
               </Link>
             </div>
           </div>

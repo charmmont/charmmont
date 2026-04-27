@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 function LogoMark({ size = 20 }: { size?: number }) {
   return (
@@ -32,12 +33,14 @@ function LogoMark({ size = 20 }: { size?: number }) {
 }
 
 export default function Footer() {
+  const t = useTranslations('Footer')
+
   const links = [
-    { href: '/about', label: 'About' },
-    { href: '/work-with-me', label: 'Work With Me' },
-    { href: '/the-understory', label: 'The Understory' },
-    { href: '/privacy', label: 'Privacy' },
-    { href: '/contact', label: 'Contact' },
+    { href: '/about', label: t('about') },
+    { href: '/work-with-me', label: t('work_with_me') },
+    { href: '/the-understory', label: t('the_understory') },
+    { href: '/privacy', label: t('privacy') },
+    { href: '/contact', label: t('contact') },
   ]
 
   return (
@@ -72,7 +75,7 @@ export default function Footer() {
             fontStyle: 'italic',
             color: 'var(--color-text-secondary)',
           }}>
-            Root deep, bloom safe.
+            {t('tagline')}
           </span>
         </div>
 
@@ -104,7 +107,7 @@ export default function Footer() {
           color: 'var(--color-text-secondary)',
           flexShrink: 0,
         }}>
-          © 2026 Deepbloom
+          {t('copyright')}
         </span>
       </div>
     </footer>

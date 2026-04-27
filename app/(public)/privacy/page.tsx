@@ -1,10 +1,13 @@
 import type { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
 }
 
-export default function PrivacyPage() {
+export default async function PrivacyPage() {
+  const t = await getTranslations('Privacy')
+
   return (
     <div style={{ position: 'relative', overflow: 'hidden', background: 'var(--color-bg)' }}>
 
@@ -20,7 +23,7 @@ export default function PrivacyPage() {
               lineHeight: 1.08,
               letterSpacing: '-0.03em',
             }}>
-              Privacy <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>Policy</em>
+              {t('title_pre')} <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>{t('title_em')}</em>
             </h1>
           </div>
         </div>
@@ -35,35 +38,23 @@ export default function PrivacyPage() {
       <section className="pub-section-x" style={{ padding: '0 60px 72px' }}>
         <div className="card-inner" style={{ maxWidth: 1200, margin: '0 auto', background: 'var(--color-bg-card)', borderRadius: 'var(--radius-2xl)', padding: '48px 52px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24, fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88 }}>
-            <p>
-              Deepbloom is committed to protecting your privacy. This policy explains how we collect,
-              use, and protect your personal data.
-            </p>
+            <p>{t('intro')}</p>
 
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(18px, 2vw, 24px)', fontWeight: 700, color: 'var(--color-text-primary)', letterSpacing: '-0.02em', marginTop: 16 }}>
-              What we collect
+              {t('s1_title')}
             </h2>
-            <p>
-              We may collect your name, email address, and any information you share through contact
-              forms or during coaching sessions. We do not collect any data without your knowledge or
-              consent.
-            </p>
+            <p>{t('s1_body')}</p>
 
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(18px, 2vw, 24px)', fontWeight: 700, color: 'var(--color-text-primary)', letterSpacing: '-0.02em', marginTop: 16 }}>
-              How we use your data
+              {t('s2_title')}
             </h2>
-            <p>
-              Your data is used only to deliver our coaching services, respond to your enquiries, and
-              improve your experience on this site. We will never sell or share your personal data
-              with third parties for marketing purposes.
-            </p>
+            <p>{t('s2_body')}</p>
 
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(18px, 2vw, 24px)', fontWeight: 700, color: 'var(--color-text-primary)', letterSpacing: '-0.02em', marginTop: 16 }}>
-              Your rights
+              {t('s3_title')}
             </h2>
             <p>
-              You have the right to access, correct, or delete the personal data we hold about you.
-              To make a request, please contact us at{' '}
+              {t('s3_body')}{' '}
               <a href="mailto:hello@deepbloom.me" style={{ color: 'var(--color-pine)', textDecoration: 'none' }}>
                 hello@deepbloom.me
               </a>
@@ -71,16 +62,13 @@ export default function PrivacyPage() {
             </p>
 
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(18px, 2vw, 24px)', fontWeight: 700, color: 'var(--color-text-primary)', letterSpacing: '-0.02em', marginTop: 16 }}>
-              Cookies
+              {t('s4_title')}
             </h2>
-            <p>
-              This site uses minimal cookies for authentication purposes only. No tracking or
-              advertising cookies are used.
-            </p>
+            <p>{t('s4_body')}</p>
 
             <div style={{ height: 1, background: 'var(--color-border)', marginTop: 16 }} />
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 11, fontWeight: 500, letterSpacing: '0.06em', color: 'var(--color-text-secondary)' }}>
-              Last updated: March 2025
+              {t('updated')}
             </p>
           </div>
         </div>

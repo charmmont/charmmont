@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import PortalShell from '@/components/PortalShell'
 import type { Metadata } from 'next'
+import { getTranslations, getLocale } from 'next-intl/server'
 
 export const metadata: Metadata = { title: 'My Invoices' }
 
@@ -36,26 +37,29 @@ export default async function MyInvoicesPage() {
     .filter((i: any) => i.status === 'sent' || i.status === 'overdue')
     .reduce((sum: number, i: any) => sum + Number(i.total), 0)
 
+  const [t, locale] = await Promise.all([getTranslations('MyInvoices'), getLocale()])
+  const dateLang = locale === 'es' ? 'es-ES' : 'en-GB'
+
   return (
     <PortalShell role="client" name={profile?.full_name ?? user.email ?? ''}>
       <Link
         href="/portal/my-space"
         className="text-sm text-[#6B6B65] hover:text-[#2D4A3E] transition-colors inline-flex items-center gap-2 mb-8"
       >
-        ← My Space
+        {t('back')}
       </Link>
 
       <h1
         className="text-2xl font-semibold text-[#1C1C1A] mb-8"
-        style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
+        style={{ fontFamily: 'var(--font-display), Georgia, serif' }}
       >
-        My Invoices
+        {t('title')}
       </h1>
 
       {outstanding > 0 && (
         <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 mb-6 flex items-center justify-between">
           <div>
-            <p className="text-sm font-medium text-amber-800">Outstanding balance</p>
+            <p className="text-sm font-medium text-amber-800">{t('outstanding')}</p>
             <p className="text-xl font-semibold text-amber-900 mt-0.5">£{outstanding.toFixed(2)}</p>
           </div>
           <span className="text-2xl">🧾</span>
@@ -79,15 +83,15 @@ export default async function MyInvoicesPage() {
                     </span>
                   </div>
                   <p className="text-xs text-[#6B6B65]">
-                    {new Date(invoice.invoice_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+                    {new Date(invoice.invoice_date).toLocaleDateString(dateLang, { day: 'numeric', month: 'long', year: 'numeric' })}
                     {invoice.due_date && invoice.status !== 'paid' && (
-                      <> · Due {new Date(invoice.due_date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</>
+                      <> · {t('due_date', { date: new Date(invoice.due_date).toLocaleDateString(dateLang, { day: 'numeric', month: 'short' }) })}</>
                     )}
                   </p>
                 </div>
                 <div className="text-right">
                   <p className="text-base font-semibold text-[#1C1C1A]">£{Number(invoice.total).toFixed(2)}</p>
-                  <p className="text-xs text-[#6B6B65] group-hover:text-[#2D4A3E] transition-colors">View →</p>
+                  <p className="text-xs text-[#6B6B65] group-hover:text-[#2D4A3E] transition-colors">{t('view')}</p>
                 </div>
               </Link>
             ))}
@@ -96,7 +100,7 @@ export default async function MyInvoicesPage() {
       ) : (
         <div className="bg-white rounded-2xl p-16 text-center">
           <div className="w-12 h-12 bg-[#FAF7F2] rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl">🧾</div>
-          <p className="text-sm text-[#6B6B65] italic">No invoices yet.</p>
+          <p className="text-sm text-[#6B6B65] italic">{t('empty')}</p>
         </div>
       )}
     </PortalShell>

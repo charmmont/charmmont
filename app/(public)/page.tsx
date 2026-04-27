@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 
 export const metadata: Metadata = {
   title: 'Deepbloom — Root Deep, Bloom Safe',
@@ -182,7 +183,9 @@ function BotanicalBg() {
 
 // ── Page ──────────────────────────────────────────────────────────────────
 
-export default function HomePage() {
+export default async function HomePage() {
+  const t = await getTranslations('Home')
+
   return (
     <div style={{ position: 'relative', overflow: 'hidden', background: 'var(--color-bg)' }}>
       <BotanicalBg />
@@ -192,12 +195,12 @@ export default function HomePage() {
         <div style={{ maxWidth: 1200, margin: '0 auto', width: '100%', display: 'flex', justifyContent: 'center' }}>
           <div style={{ maxWidth: 700, textAlign: 'center', animation: 'fadeUp 0.9s ease both' }}>
             <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(38px, 5vw, 62px)', fontWeight: 900, color: 'var(--color-text-primary)', lineHeight: 1.08, letterSpacing: '-0.03em', marginBottom: 28 }}>
-              The space where the real work of{' '}
-              <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>becoming yourself</em>{' '}
-              begins.
+              {t('hero_h1_pre')}{' '}
+              <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>{t('hero_h1_em')}</em>{' '}
+              {t('hero_h1_post')}
             </h1>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 17, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88, marginBottom: 40 }}>
-              Deepbloom is a therapeutic coaching practice for people ready to go beneath the surface.
+              {t('hero_sub')}
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
               <Link
@@ -210,7 +213,7 @@ export default function HomePage() {
                   textDecoration: 'none', boxShadow: '0 5px 22px rgba(45,74,62,0.28)', display: 'inline-block',
                 }}
               >
-                Book a Free Call
+                {t('book_free_call')}
               </Link>
               <Link
                 href="/work-with-me"
@@ -221,7 +224,7 @@ export default function HomePage() {
                   fontSize: 14, fontWeight: 400, textDecoration: 'none', display: 'inline-block',
                 }}
               >
-                Learn more
+                {t('learn_more')}
               </Link>
             </div>
           </div>
@@ -236,15 +239,13 @@ export default function HomePage() {
       {/* ── You don't need to have it figured out ── */}
       <section className="pub-section-x" style={{ padding: '80px 60px 0', position: 'relative', zIndex: 5 }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          {/* Heading block — centered */}
           <div style={{ textAlign: 'center', maxWidth: 720, margin: '0 auto 52px' }}>
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(30px, 4vw, 52px)', fontWeight: 900, color: 'var(--color-text-primary)', lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: 20 }}>
-              You don&apos;t need to have it figured out to{' '}
-              <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>begin.</em>
+              {t('s2_h2_pre')}{' '}
+              <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>{t('s2_h2_em')}</em>
             </h2>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 16, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88 }}>
-              Beneath the noise, the habits, the beliefs that shaped you before you could choose them —
-              there&apos;s someone waiting to bloom. Deepbloom creates the space to find them.
+              {t('s2_body')}
             </p>
           </div>
 
@@ -260,20 +261,20 @@ export default function HomePage() {
                   </svg>
                 </div>
                 <span style={{ fontFamily: 'var(--font-body)', fontSize: 10.5, fontWeight: 500, color: 'var(--color-text-secondary)', letterSpacing: '0.04em', padding: '4px 10px', borderRadius: 'var(--radius-full)', border: '1px solid var(--color-border)' }}>
-                  Start here
+                  {t('card1_tag')}
                 </span>
               </div>
               <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 800, color: 'var(--color-text-primary)', letterSpacing: '-0.02em', marginBottom: 4 }}>
-                The First Root
+                {t('card1_title')}
               </h3>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 10, fontWeight: 500, letterSpacing: '0.10em', textTransform: 'uppercase', color: 'var(--color-text-secondary)', marginBottom: 16 }}>
-                Free Discovery Call
+                {t('card1_label')}
               </p>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.78, marginBottom: 24, flex: 1 }}>
-                A 30-minute conversation — no commitment, no agenda. Just an honest talk about where you are and what&apos;s possible.
+                {t('card1_desc')}
               </p>
               <Link href="/first-root" className="hover:text-[var(--color-sage)] transition-colors" style={{ fontFamily: 'var(--font-body)', fontSize: 13, fontWeight: 500, color: 'var(--color-pine)', textDecoration: 'none' }}>
-                Book now →
+                {t('card1_cta')}
               </Link>
             </div>
 
@@ -288,20 +289,20 @@ export default function HomePage() {
                   </svg>
                 </div>
                 <span style={{ fontFamily: 'var(--font-body)', fontSize: 10.5, fontWeight: 500, color: 'var(--color-text-secondary)', letterSpacing: '0.04em', padding: '4px 10px', borderRadius: 'var(--radius-full)', border: '1px solid var(--color-border)' }}>
-                  Most chosen
+                  {t('card2_tag')}
                 </span>
               </div>
               <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 800, color: 'var(--color-text-primary)', letterSpacing: '-0.02em', marginBottom: 4 }}>
-                The Becoming
+                {t('card2_title')}
               </h3>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 10, fontWeight: 500, letterSpacing: '0.10em', textTransform: 'uppercase', color: 'var(--color-text-secondary)', marginBottom: 16 }}>
-                Core 1:1 Programme
+                {t('card2_label')}
               </p>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.78, marginBottom: 24, flex: 1 }}>
-                Deep, unhurried coaching that goes where it needs to go — into the patterns, the beliefs, the story you&apos;ve been living.
+                {t('card2_desc')}
               </p>
               <Link href="/work-with-me" className="hover:text-[var(--color-sage)] transition-colors" style={{ fontFamily: 'var(--font-body)', fontSize: 13, fontWeight: 500, color: 'var(--color-pine)', textDecoration: 'none' }}>
-                Learn more →
+                {t('card2_cta')}
               </Link>
             </div>
           </div>
@@ -314,20 +315,18 @@ export default function HomePage() {
           <div className="grid md:grid-cols-2" style={{ gap: 56, alignItems: 'center' }}>
             <div>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 800, color: 'var(--color-text-primary)', lineHeight: 1.22, letterSpacing: '-0.025em', marginBottom: 20 }}>
-                Therapeutic coaching that goes where it{' '}
-                <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>needs to go.</em>
+                {t('s3_h2_pre')}{' '}
+                <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>{t('s3_h2_em')}</em>
               </h2>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88, marginBottom: 28 }}>
-                Deepbloom is not about surface-level fixes or performance. It&apos;s about depth —
-                honest, unhurried work that reaches the root of old patterns and beliefs, so you
-                can finally grow into who you&apos;re becoming. No jargon. No judgement. Just real.
+                {t('s3_body')}
               </p>
               <Link href="/work-with-me" className="hover:text-[var(--color-sage)] transition-colors" style={{ fontFamily: 'var(--font-body)', fontSize: 13, fontWeight: 500, color: 'var(--color-pine)', textDecoration: 'none' }}>
-                Learn how we work →
+                {t('s3_cta')}
               </Link>
             </div>
             <div style={{ background: 'var(--color-bg)', borderRadius: 'var(--radius-xl)', height: 300, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--color-border)' }}>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--color-text-secondary)', fontStyle: 'italic' }}>Photography coming soon</p>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--color-text-secondary)', fontStyle: 'italic' }}>{t('s3_photo')}</p>
             </div>
           </div>
         </div>
@@ -338,22 +337,20 @@ export default function HomePage() {
         <div className="card-inner" style={{ maxWidth: 1200, margin: '0 auto', background: 'var(--color-bg-card)', borderRadius: 'var(--radius-2xl)', padding: '48px 52px', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)' }}>
           <div className="grid md:grid-cols-2" style={{ gap: 56, alignItems: 'center' }}>
             <div style={{ background: 'var(--color-bg)', borderRadius: 'var(--radius-xl)', height: 300, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--color-border)' }}>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--color-text-secondary)', fontStyle: 'italic' }}>Ayelen — Deepbloom</p>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--color-text-secondary)', fontStyle: 'italic' }}>{t('s4_photo')}</p>
             </div>
             <div>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(24px, 3vw, 40px)', fontWeight: 800, color: 'var(--color-text-primary)', lineHeight: 1.22, letterSpacing: '-0.025em', marginBottom: 20 }}>
-                I&apos;ve <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>walked</em> this path.
+                {t('s4_h2_pre')} <em style={{ fontStyle: 'italic', color: 'var(--color-sage)' }}>{t('s4_h2_em')}</em> {t('s4_h2_post')}
               </h2>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88, marginBottom: 16 }}>
-                Transformation isn&apos;t a performance. It happens in the quiet, in the honest
-                conversations, in the moments when someone finally feels safe enough to tell the
-                truth about where they are — and dare to imagine where they could go.
+                {t('s4_body1')}
               </p>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'var(--color-text-secondary)', lineHeight: 1.88, marginBottom: 28 }}>
-                My name is Ayelen. This practice is built from everything I know about that journey.
+                {t('s4_body2')}
               </p>
               <Link href="/about" className="hover:text-[var(--color-sage)] transition-colors" style={{ fontFamily: 'var(--font-body)', fontSize: 13, fontWeight: 500, color: 'var(--color-pine)', textDecoration: 'none' }}>
-                Read my story →
+                {t('s4_cta')}
               </Link>
             </div>
           </div>
@@ -368,7 +365,6 @@ export default function HomePage() {
             padding: '56px 64px', textAlign: 'center',
             position: 'relative', overflow: 'hidden',
           }}>
-            {/* Botanical accent inside CTA */}
             <svg aria-hidden="true" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', opacity: 0.1 }} viewBox="0 0 900 280" preserveAspectRatio="xMidYMid slice">
               <path d="M-40 280 Q120 200 200 160 Q280 120 270 60" stroke="#fff" strokeWidth="1.3" fill="none" strokeLinecap="round" />
               <path d="M940 280 Q780 200 700 160 Q620 120 630 60" stroke="#fff" strokeWidth="1.3" fill="none" strokeLinecap="round" />
@@ -378,17 +374,17 @@ export default function HomePage() {
             </svg>
             <div style={{ position: 'relative', zIndex: 2 }}>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(26px, 3.5vw, 44px)', fontWeight: 800, color: 'var(--color-text-inverse)', letterSpacing: '-0.025em', lineHeight: 1.08, marginBottom: 16 }}>
-                Ready to begin?
+                {t('cta_h2')}
               </h2>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, fontWeight: 300, color: 'rgba(250,247,242,0.5)', lineHeight: 1.78, maxWidth: 420, margin: '0 auto 34px' }}>
-                The First Root is a free 30-minute conversation. No commitment. Just a beginning.
+                {t('cta_body')}
               </p>
               <Link
                 href="/first-root"
                 className="hover:-translate-y-0.5 transition-transform"
                 style={{ display: 'inline-block', padding: '13px 36px', borderRadius: 'var(--radius-full)', background: 'var(--color-bg)', color: 'var(--color-pine)', fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 600, textDecoration: 'none', boxShadow: '0 8px 28px rgba(0,0,0,0.18)' }}
               >
-                Book your free call
+                {t('cta_button')}
               </Link>
             </div>
           </div>

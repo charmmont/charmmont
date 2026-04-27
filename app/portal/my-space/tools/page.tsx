@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import PortalShell from '@/components/PortalShell'
 import ToolResponder from './ToolResponder'
 import type { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 
 export const metadata: Metadata = { title: 'My Tools' }
 
@@ -24,20 +25,22 @@ export default async function MyToolsPage() {
     .eq('client_id', clientRecord?.id)
     .order('assigned_at', { ascending: false })
 
+  const t = await getTranslations('MyTools')
+
   return (
     <PortalShell role="client" name={profile?.full_name ?? user.email ?? ''}>
       <Link
         href="/portal/my-space"
         className="text-sm text-[#6B6B65] hover:text-[#2D4A3E] transition-colors inline-flex items-center gap-2 mb-8"
       >
-        ← My Space
+        {t('back')}
       </Link>
 
       <h1
         className="text-2xl font-semibold text-[#1C1C1A] mb-8"
-        style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}
+        style={{ fontFamily: 'var(--font-display), Georgia, serif' }}
       >
-        My Tools
+        {t('title')}
       </h1>
 
       {assignments && assignments.length > 0 ? (
@@ -52,7 +55,7 @@ export default async function MyToolsPage() {
         </div>
       ) : (
         <div className="bg-white rounded-2xl p-16 text-center text-[#6B6B65] text-sm italic">
-          No tools assigned yet. Your practitioner will send tools for you to complete between sessions.
+          {t('empty')}
         </div>
       )}
     </PortalShell>

@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
+import LanguageSwitcher from './LanguageSwitcher'
 
 function LogoMark({ size = 28 }: { size?: number }) {
   return (
@@ -33,6 +35,8 @@ function LogoMark({ size = 28 }: { size?: number }) {
 }
 
 export default function Navigation() {
+  const t = useTranslations('Nav')
+  const tc = useTranslations('Common')
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
@@ -48,9 +52,9 @@ export default function Navigation() {
   }, [menuOpen])
 
   const links = [
-    { href: '/about', label: 'About' },
-    { href: '/work-with-me', label: 'Work With Me' },
-    { href: '/the-understory', label: 'The Understory' },
+    { href: '/about', label: t('about') },
+    { href: '/work-with-me', label: t('work_with_me') },
+    { href: '/the-understory', label: t('the_understory') },
   ]
 
   return (
@@ -97,7 +101,7 @@ export default function Navigation() {
               textTransform: 'uppercase',
               marginTop: 2,
             }}>
-              Root deep, bloom safe
+              {tc('tagline')}
             </div>
           </div>
         </Link>
@@ -122,6 +126,7 @@ export default function Navigation() {
               {label}
             </Link>
           ))}
+          <LanguageSwitcher />
           <Link
             href="/first-root"
             style={{
@@ -147,7 +152,7 @@ export default function Navigation() {
               e.currentTarget.style.boxShadow = '0 5px 22px rgba(45, 74, 62, 0.28)'
             }}
           >
-            Book a Free Call
+            {t('book_free_call')}
           </Link>
         </div>
 
@@ -155,7 +160,7 @@ export default function Navigation() {
         <button
           className="md:hidden"
           onClick={() => setMenuOpen(true)}
-          aria-label="Open menu"
+          aria-label={t('open_menu')}
           style={{
             background: 'none',
             border: 'none',
@@ -198,7 +203,7 @@ export default function Navigation() {
             </Link>
             <button
               onClick={() => setMenuOpen(false)}
-              aria-label="Close menu"
+              aria-label={t('close_menu')}
               style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 8, color: 'var(--color-pine)' }}
             >
               <svg width={20} height={20} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -225,6 +230,7 @@ export default function Navigation() {
                 {label}
               </Link>
             ))}
+            <LanguageSwitcher style={{ marginTop: -16 }} />
             <Link
               href="/first-root"
               onClick={() => setMenuOpen(false)}
@@ -241,7 +247,7 @@ export default function Navigation() {
                 textDecoration: 'none',
               }}
             >
-              Book a Free Call
+              {t('book_free_call')}
             </Link>
           </div>
         </div>
